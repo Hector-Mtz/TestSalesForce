@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('ruleta_sede')->nullable()->constrained('ruleta_sedes');
             $table->integer('asignaciones');
             $table->foreignId('creado_por')->nullable()->constrained('users');
-            $table->foreignId('asesor')->nullable()->constrained('asesores');
+            $table->foreignId('asesor')->nullable()->constrained('users');
             $table->dateTime('ultima_asignacion');
             $table->timestamps();
         });
