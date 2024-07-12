@@ -1,5 +1,19 @@
 <script setup>
+import { ref} from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+//Modales
+import ModalNewProspecto from './Modals/ModalNewProspecto.vue'
+
+let showModalNewProspecto = ref(false);
+const openModalNewProspecto = () =>
+{
+  showModalNewProspecto.value = true;
+}
+const closeModalNewProspecto = () => 
+{
+    showModalNewProspecto.value = false
+}
+
 </script>
 <template>
     <AppLayout title="Prospectos">
@@ -8,7 +22,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                 <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                     Prospectos
                 </h2>
-                <button class="px-2 py-1 border rounded-lg">
+                <button @click="openModalNewProspecto" class="px-4 py-1 border rounded-lg">
                     Nuevo
                 </button>
             </div>
@@ -66,6 +80,9 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                    </tbody>
                 </table>
             </div>
+        </div>
+        <div>
+            <ModalNewProspecto :show="showModalNewProspecto" @close="closeModalNewProspecto" />
         </div>
     </AppLayout>
 </template>
