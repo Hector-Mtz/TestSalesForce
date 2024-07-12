@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProspectoController;
+use App\Http\Controllers\RolesPermissionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,4 +23,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    //ruta leads
+    Route::get('/prospectos',[ProspectoController::class,'index'])->name('prospectos');
+    //ruta roles y permisos
+    Route::get('/roles_permisos',[RolesPermissionController::class,'index'])->name('roles_permisos');
 });

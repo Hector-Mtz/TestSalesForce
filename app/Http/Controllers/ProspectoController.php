@@ -4,15 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Prospecto;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProspectoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        return Inertia::render('Prospectos/Index', 
+        [
+
+        ]);
     }
 
     /**

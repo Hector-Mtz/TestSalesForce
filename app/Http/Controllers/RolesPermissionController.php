@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\roles_permission;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RolesPermissionController extends Controller
 {
@@ -13,6 +14,10 @@ class RolesPermissionController extends Controller
     public function index()
     {
         //
+        return Inertia::render('RolesPermisos/Index', 
+        [
+
+        ]);
     }
 
     /**

@@ -19,5 +19,30 @@ class RolesSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        DB::table('roles')->insert([
+            'nombre' => "Vendedor base",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::table('roles')->insert([
+            'nombre' => "Coordinador",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::table('roles')->insert([
+            'nombre' => "Gerente",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::table('roles')->insert([
+            'nombre' => "Analista Limon",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::table('roles')->insert([
+            'nombre' => "Maderas Rewards",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

@@ -54,7 +54,8 @@ var xRenderer = am5xy.AxisRendererX.new(root, {
 var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
   categoryField: "year",
   renderer: xRenderer,
-  tooltip: am5.Tooltip.new(root, {})
+  tooltip: am5.Tooltip.new(root, {}),
+  
 }));
 
 xRenderer.grid.template.setAll({
@@ -71,7 +72,8 @@ var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
   calculateTotals: true,
   renderer: am5xy.AxisRendererY.new(root, {
     strokeOpacity: 0.1
-  })
+  }),
+  
 }));
 
 
@@ -93,7 +95,8 @@ function makeSeries(name, fieldName) {
     yAxis: yAxis,
     valueYField: fieldName,
     valueYShow: "valueYTotalPercent",
-    categoryXField: "year"
+    categoryXField: "year",
+    stroke: am5.color(0xFFFFFF)
   }));
 
   series.columns.template.setAll({
