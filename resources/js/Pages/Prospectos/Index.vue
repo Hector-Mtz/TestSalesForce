@@ -2,7 +2,15 @@
 import { ref} from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 //Modales
-import ModalNewProspecto from './Modals/ModalNewProspecto.vue'
+import ModalNewProspecto from './Modals/ModalNewProspecto.vue';
+
+const props = defineProps({
+    sedes:Object,
+    asignaciones:Object,
+    producto_interes:Object,
+    campana_canal:Object,
+    origenes:Object
+   });  
 
 let showModalNewProspecto = ref(false);
 const openModalNewProspecto = () =>
@@ -82,7 +90,13 @@ const closeModalNewProspecto = () =>
             </div>
         </div>
         <div>
-            <ModalNewProspecto :show="showModalNewProspecto" @close="closeModalNewProspecto" />
+            <ModalNewProspecto :show="showModalNewProspecto"
+             :asignaciones="asignaciones"
+             :campana_canal="campana_canal"
+             :origenes="origenes"
+             :producto_interes="producto_interes"
+             :sedes="sedes"
+             @close="closeModalNewProspecto" />
         </div>
     </AppLayout>
 </template>

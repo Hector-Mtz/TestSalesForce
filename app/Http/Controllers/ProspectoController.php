@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asignacione;
+use App\Models\CampanaCanal;
+use App\Models\Origene;
+use App\Models\ProductoDeInteres;
 use App\Models\Prospecto;
+use App\Models\Sede;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,9 +19,18 @@ class ProspectoController extends Controller
     public function index(Request $request)
     {
         //
+        $sedes = Sede::all();
+        $asignaciones = Asignacione::all();
+        $producto_interes = ProductoDeInteres::all();
+        $campana_canal = CampanaCanal::all();
+        $origenes = Origene::all();
         return Inertia::render('Prospectos/Index', 
         [
-
+           'sedes' => $sedes,
+           'asignaciones' => $asignaciones,
+           'producto_interes' => $producto_interes,
+           'campana_canal' => $campana_canal,
+           'origenes' => $origenes
         ]);
     }
 
