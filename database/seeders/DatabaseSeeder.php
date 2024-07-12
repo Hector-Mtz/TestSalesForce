@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             SedesSedeer::class,
             UserSeeder::class,
+            ProductoInteresSedeer::class,
+            CampañCanalSedeer::class
         ]);
     }
 }
