@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CaregoriasTarea;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,7 +21,11 @@ class DatabaseSeeder extends Seeder
             SedesSedeer::class,
             UserSeeder::class,
             ProductoInteresSedeer::class,
-            CampañCanalSedeer::class
+            CampañCanalSedeer::class,
+            AsignacionesSedeer::class,
+            OrigenesSedeer::class,
+            CaregoriasTareasSedeer::class,
+            TipoProspectosSedeer::class
         ]);
     }
 }
