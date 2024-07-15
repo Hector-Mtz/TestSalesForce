@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProspectoController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolesPermissionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,4 +33,12 @@ Route::middleware([
     Route::get('/roles_permisos',[RolesPermissionController::class,'index'])->name('roles_permisos');
     //ruta para obtener roles por permisos
     Route::get('/getPermisosByRol',[PermissionController::class, 'getPermisosByRol'])->name('getPermisosByRol');
+    //Creacion de nuevo rol
+    Route::post('/saveRol',[RoleController::class,'store'])->name('saveRol');
+    //Creacion de nuevo permiso
+    Route::post('/savePermission',[PermissionController::class,'store'])->name('savePermission');
+    //Ruta para setear permisos por rol
+    Route::get('/role_permissions',[RolesPermissionController::class,'setPermission'])->name('roles.permissions');
+    //Ruta para crear nuevos usuarios
+    Route::post('/saveUser',[UserController::class,'store'])->name('saveUser');
 });

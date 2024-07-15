@@ -41,6 +41,9 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         //
+        permission::updateOrCreate([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**
