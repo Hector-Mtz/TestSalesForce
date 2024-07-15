@@ -19,6 +19,7 @@
         "vue": "^3.3.13"
     },
     "dependencies": {
-        "@amcharts/amcharts5": "^5.9.13"
+        "@amcharts/amcharts5": "^5.9.13",
+        "lodash": "^4.17.21"
     }
 }

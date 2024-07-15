@@ -1,9 +1,23 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+//Componentes
+import Permisions from './Partials/Permissions.vue';
+import Roles from './Partials/Roles.vue';
+import { ref } from 'vue';
 
 const props = defineProps({
     usuarios:Object,
+    roles:Object,
+    permisos:Object
    });  
+
+const rol = ref(null);
+
+const selectRol = (id) => 
+{ 
+  //console.log(id)
+  rol.value = id
+}
 </script>
 <template>
     <AppLayout title="Roles y permisos">
@@ -51,16 +65,21 @@ const props = defineProps({
                        <td class="text-center">
                         {{ usuario.email }}
                        </td>
+                       <td class="text-center">
+                        {{ usuario.rol }}
+                       </td>
                     </tr>
                   </tbody>
                </table>
             </div>
-            <div class="grid grid-rows-2 gap-4">
+            <div class="grid grid-rows-2 gap-4 ">
                 <div  class="p-2 bg-white rounded-lg shadow-sm">
                     <h1 class="text-xl font-semibold">Roles</h1>
+                    <Roles :roles="roles" @selectRol="selectRol"  />
                 </div>
                 <div  class="p-2 bg-white rounded-lg shadow-sm">
                     <h1 class="text-xl font-semibold">Permisos</h1>
+                    <Permissions :permisos="permisos" :rol="rol" />
                 </div>
             </div>
          </div>

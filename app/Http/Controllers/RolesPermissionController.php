@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\permission;
 use App\Models\role;
 use App\Models\roles_permission;
 use App\Models\User;
@@ -16,15 +17,21 @@ class RolesPermissionController extends Controller
     public function index()
     {
         //
-        $usuarios = User::select('users.*')
+        $usuarios = User::select('users.*','roles.nombre as rol')
+        ->join('roles', 'users.role_id','roles.id')
         ->paginate(10);
 
         $roles = role::select('roles.*')
-        ->paginate(10);
+        ->get();
+
+        $permisos = permission::select('permissions.*')
+        ->get();
 
         return Inertia::render('RolesPermisos/Index', 
         [
-           'usuarios' => $usuarios
+           'usuarios' => $usuarios,
+           'roles' => $roles,
+           'permisos' => $permisos
         ]);
     }
 
