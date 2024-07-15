@@ -19,7 +19,7 @@ const selectFila = (fila) =>
     <div class="w-full">
         <table class="w-full">
             <thead class="">
-                <tr class="border-b-2 border-[#697FEA]">
+                <tr class="border-b-2 border-[#091a3e]">
                     <th class="font-semibold">Nombre</th>
                 </tr>
             </thead>

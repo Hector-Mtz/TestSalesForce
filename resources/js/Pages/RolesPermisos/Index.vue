@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 //Componentes
-import Permisions from './Partials/Permissions.vue';
+import Permissions from './Partials/Permissions.vue';
 import Roles from './Partials/Roles.vue';
 import { ref } from 'vue';
 
@@ -32,7 +32,7 @@ const selectRol = (id) =>
             <div class="p-2 bg-white rounded-lg shadow-sm">
                <h1 class="text-xl font-semibold">Usuarios</h1>
                <table class="w-full my-2">
-                  <thead class="border-b">
+                  <thead class="border-b-2 border-[#091a3e]">
                     <tr>
                         <th class="py-1">
                             Nombre
@@ -74,7 +74,12 @@ const selectRol = (id) =>
             </div>
             <div class="grid grid-rows-2 gap-4 ">
                 <div  class="p-2 bg-white rounded-lg shadow-sm">
-                    <h1 class="text-xl font-semibold">Roles</h1>
+                    <div class="flex flex-row justify-around my-1">
+                        <h1 class="text-xl font-semibold">Roles</h1>
+                        <button>
+                            Nuevo rol
+                        </button>
+                    </div>
                     <Roles :roles="roles" @selectRol="selectRol"  />
                 </div>
                 <div  class="p-2 bg-white rounded-lg shadow-sm">
