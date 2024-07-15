@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
 //graficas 
 import Grafica1 from './Partials/Grafica1.vue'
+import Grafica2 from './Partials/Grafica2.vue'
 </script>
 
 <template>
@@ -37,6 +38,9 @@ import Grafica1 from './Partials/Grafica1.vue'
         <div class="flex flex-row p-8">
             <div class="w-1/4 ">
                 <Grafica1 />
+            </div>
+            <div class="w-1/4 ">
+                <Grafica2 />
             </div>
         </div>
     </AppLayout>
