@@ -30,7 +30,10 @@ class DatabaseSeeder extends Seeder
             MontoEngancheSeeder::class,
             FormaDeContactoSeeder::class,
             BusquedaTerrenoSeeder::class,
-            HorarioDeContactoSeeder::class
+            HorarioDeContactoSeeder::class,
+            InversionAlMesSeeder::class,
+            TiempoInversionSeeder::class,
+            IdiomasSeeder::class
         ]);
     }
 }
