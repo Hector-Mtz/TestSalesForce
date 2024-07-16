@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BusquedaTerreno;
 use App\Models\CaregoriasTarea;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,7 +26,11 @@ class DatabaseSeeder extends Seeder
             AsignacionesSedeer::class,
             OrigenesSedeer::class,
             CaregoriasTareasSedeer::class,
-            TipoProspectosSedeer::class
+            TipoProspectosSedeer::class,
+            MontoEngancheSeeder::class,
+            FormaDeContactoSeeder::class,
+            BusquedaTerrenoSeeder::class,
+            HorarioDeContactoSeeder::class
         ]);
     }
 }
