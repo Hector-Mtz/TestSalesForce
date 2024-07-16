@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('monto_enganches', function (Blueprint $table) {
             $table->id();
+            $table->string('cantidad');
+            $table->boolean('activo')->default(1);
             $table->timestamps();
         });
     }

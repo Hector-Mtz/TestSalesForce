@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
             BusquedaTerrenoSeeder::class,
             HorarioDeContactoSeeder::class,
             InversionAlMesSeeder::class,
-            TiempoInversionSeeder::class,
             IdiomasSeeder::class
         ]);
     }

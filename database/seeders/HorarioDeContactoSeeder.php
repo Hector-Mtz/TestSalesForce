@@ -15,17 +15,17 @@ class HorarioDeContactoSeeder extends Seeder
     {
         //
         DB::table('horario_contactos')->insert([
-            'nombre' => "Mañana",
+            'horario' => "Mañana",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         DB::table('horario_contactos')->insert([
-            'nombre' => "Tarde",
+            'horario' => "Tarde",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
         DB::table('horario_contactos')->insert([
-            'nombre' => "Noche",
+            'horario' => "Noche",
             'created_at' => now(),
             'updated_at' => now(),
         ]);

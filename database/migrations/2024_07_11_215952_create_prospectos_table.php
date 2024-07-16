@@ -32,7 +32,7 @@ return new class extends Migration
             $table->foreignId('horario_contacto')->nullable()->constrained('horario_contactos');
             $table->foreignId('busqueda_terreno')->nullable()->constrained('busqueda_terrenos');
             $table->foreignId('inversion_al_mes')->nullable()->constrained('inversion_al_mes');
-            $table->foreignId('tiempo_inversion')->nullable()->constrained('tiempo_inversions');
+            $table->string('tiempo_inversion')->nullable();
             $table->foreignId('idioma')->nullable()->constrained('idiomas');
             $table->boolean('Estado de integración')->default(0);
             $table->string('Id Dragón')->nullable();

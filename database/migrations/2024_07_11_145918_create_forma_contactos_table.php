@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('forma_contactos', function (Blueprint $table) {
             $table->id();
+            $table->string('forma');
+            $table->boolean('activo')->default(1);
             $table->timestamps();
         });
     }

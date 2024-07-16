@@ -15,25 +15,25 @@ class FormaDeContactoSeeder extends Seeder
     {
         //
         DB::table('forma_contactos')->insert([
-            'nombre' => "Llamada",
+            'forma' => "Llamada",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('forma_contactos')->insert([
-            'nombre' => "iMessage",
+            'forma' => "iMessage",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('forma_contactos')->insert([
-            'nombre' => "Email",
+            'forma' => "Email",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('forma_contactos')->insert([
-            'nombre' => "WhatsApp",
+            'forma' => "WhatsApp",
             'created_at' => now(),
             'updated_at' => now(),
         ]);

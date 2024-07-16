@@ -15,50 +15,50 @@ class MontoEngancheSeeder extends Seeder
     {
         //
         DB::table('monto_enganches')->insert([
-            'nombre' => "$ 50,001 o más",
+            'cantidad' => "$ 50,001 o más",
             'created_at' => now(),
             'updated_at' => now(),
         ]); 
 
         DB::table('monto_enganches')->insert([
-            'nombre' => "$ 5,000 - $ 15,000",
+            'cantidad' => "$ 5,000 - $ 15,000",
             'created_at' => now(),
             'updated_at' => now(),
         ]); 
 
         
         DB::table('monto_enganches')->insert([
-            'nombre' => "$ 15,001 - $ 30,000",
+            'cantidad' => "$ 15,001 - $ 30,000",
             'created_at' => now(),
             'updated_at' => now(),
         ]); 
 
         DB::table('monto_enganches')->insert([
-            'nombre' => "$ 30,000 - $ 50,000",
+            'cantidad' => "$ 30,000 - $ 50,000",
             'created_at' => now(),
             'updated_at' => now(),
         ]); 
 
         DB::table('monto_enganches')->insert([
-            'nombre' => "300 USD - 900 USD",
+            'cantidad' => "300 USD - 900 USD",
             'created_at' => now(),
             'updated_at' => now(),
         ]); 
 
         DB::table('monto_enganches')->insert([
-            'nombre' => "900 USD - 1,700 USD",
+            'cantidad' => "900 USD - 1,700 USD",
             'created_at' => now(),
             'updated_at' => now(),
         ]); 
 
         DB::table('monto_enganches')->insert([
-            'nombre' => "1,700 USD - 3,000 USD",
+            'cantidad' => "1,700 USD - 3,000 USD",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('monto_enganches')->insert([
-            'nombre' => "3,000 USD o más",
+            'cantidad' => "3,000 USD o más",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
