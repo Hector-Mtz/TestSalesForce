@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('telefono')->nullable();
             $table->boolean('activo')->default(1);
+            $table->string('mensaje')->nullable();
             $table->foreignId('propietario')->nullable()->constrained('users');
             $table->foreignId('vendedor anterior')->nullable()->constrained('users');
             $table->foreignId('asignacion')->nullable()->constrained('asignaciones');

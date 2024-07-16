@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asignacione;
+use App\Models\BusquedaTerreno;
 use App\Models\CampanaCanal;
+use App\Models\FormaContacto;
+use App\Models\HorarioContacto;
+use App\Models\Idioma;
+use App\Models\InversionAlMe;
+use App\Models\MontoEnganche;
 use App\Models\Origene;
 use App\Models\ProductoDeInteres;
 use App\Models\Prospecto;
@@ -24,13 +30,26 @@ class ProspectoController extends Controller
         $producto_interes = ProductoDeInteres::all();
         $campana_canal = CampanaCanal::all();
         $origenes = Origene::all();
+        $busqueda_terreno = BusquedaTerreno::all();
+        $inversiones_al_mes = InversionAlMe::all();
+        $idiomas = Idioma::all();
+        $montos_eganche = MontoEnganche::all();
+        $formas_contacto = FormaContacto::all();
+        $horarios=HorarioContacto::all();
+
         return Inertia::render('Prospectos/Index', 
         [
            'sedes' => $sedes,
            'asignaciones' => $asignaciones,
            'producto_interes' => $producto_interes,
            'campana_canal' => $campana_canal,
-           'origenes' => $origenes
+           'origenes' => $origenes,
+           'busqueda_terreno' => $busqueda_terreno,
+           'inversiones_al_mes' => $inversiones_al_mes,
+           'idiomas' => $idiomas,
+           'montos_eganche' => $montos_eganche,
+           'formas_contacto' => $formas_contacto,
+           'horarios' => $horarios
         ]);
     }
 

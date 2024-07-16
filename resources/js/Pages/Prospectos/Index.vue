@@ -9,7 +9,13 @@ const props = defineProps({
     asignaciones:Object,
     producto_interes:Object,
     campana_canal:Object,
-    origenes:Object
+    origenes:Object,
+    busqueda_terreno:Object,
+    inversiones_al_mes:Object,
+    idiomas:Object,
+    montos_eganche:Object,
+    formas_contacto:Object,
+    horarios:Object
    });  
 
 let showModalNewProspecto = ref(false);
@@ -96,6 +102,12 @@ const closeModalNewProspecto = () =>
              :origenes="origenes"
              :producto_interes="producto_interes"
              :sedes="sedes"
+             :busqueda_terreno="busqueda_terreno"
+             :inversiones_al_mes="inversiones_al_mes"
+             :idiomas="idiomas"
+             :montos_eganche="montos_eganche"
+             :formas_contacto="formas_contacto"
+             :horarios="horarios"
              @close="closeModalNewProspecto" />
         </div>
     </AppLayout>
