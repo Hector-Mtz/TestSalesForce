@@ -46,4 +46,6 @@ Route::middleware([
     Route::post('/saveProspecto',[ProspectoController::class, 'store'])->name('saveProspecto');
     //Ruta para ver el apartado de ruletas
     Route::get('/ruletas',[RuletaGeneralController::class,'index'])->name('ruletas');
+    //creacion de ruletas
+    Route::post('/saveRuleta',[RuletaGeneralController::class,'store'])->name('saveRuleta');
 });

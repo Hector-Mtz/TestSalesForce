@@ -42,6 +42,16 @@ class RuletaGeneralController extends Controller
     public function store(Request $request)
     {
         //
+        switch ($request['tipo_ruleta']) 
+        {
+            case 'ruleta_sede':
+                
+                break;
+            case 'ruleta_padre':
+                break;
+            case 'ruleta_asesores':
+            break;
+        }
     }
 
     /**
