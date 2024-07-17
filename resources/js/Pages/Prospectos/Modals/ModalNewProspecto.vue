@@ -84,7 +84,14 @@ const saveProspecto = () =>
    showSpin.value = true;
    try 
    {
-      formNewProspecto.post();
+      formNewProspecto.post(route('saveProspecto'),{
+         preserveScroll:true,
+         preserveState:true,
+         onSuccess: () =>{
+            close();
+            formNewProspecto.reset();
+         }
+      });
    } 
    catch (error) 
    {
@@ -173,6 +180,9 @@ const saveProspecto = () =>
                                   {{sede.nombre}}
                                </option>
                             </Select>
+                            <p class="font-semibold text-red-500">
+                              {{ formNewProspecto.errors.sede }}
+                            </p>
                          </div>
                          <div class="my-2">
                            <InputLabel class="text-sm" value="Monto de enganche" />
@@ -216,10 +226,16 @@ const saveProspecto = () =>
                             <InputLabel class="text-sm" value="Nombre" />
                             <input v-model="formNewProspecto.nombre" type="text" placeholder="Nombre" class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                          </div>
+                         <p class="font-semibold text-red-500">
+                           {{ formNewProspecto.errors.nombre }}
+                         </p>
                          <div class="my-2">
                             <InputLabel class="text-sm" value="Apellidos" />
                             <input v-model="formNewProspecto.apellidos" type="text" placeholder="Apellidos" class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                          </div>
+                         <p class="font-semibold text-red-500">
+                           {{ formNewProspecto.errors.apellidos }}
+                         </p>
                     </div><!--columna 1-->
                     <div class="w-1/2 mx-2"> <!--columna 2-->
                         <div class="my-2">
@@ -238,6 +254,9 @@ const saveProspecto = () =>
                             <InputLabel class="text-sm" value="Teléfono" />
                             <input v-model="formNewProspecto.telefono" type="tel" placeholder="Teléfono" class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                          </div>
+                         <p class="font-semibold text-red-500">
+                           {{ formNewProspecto.errors.telefono }}
+                         </p>
                     </div><!--columna 2-->
                 </div>
              </div>

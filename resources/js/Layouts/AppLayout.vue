@@ -57,6 +57,9 @@ const logout = () => {
                                 <NavLink :href="route('roles_permisos')" :active="route().current('roles_permisos')">
                                     Roles y permisos
                                 </NavLink>
+                                <NavLink :href="route('ruletas')" :active="route().current('ruletas')">
+                                    Ruletas
+                                </NavLink>
                             </div>
                         </div>
 

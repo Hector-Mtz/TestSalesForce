@@ -67,6 +67,14 @@ class ProspectoController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'sede' => 'required | min:1',
+            'nombre' => 'required',
+            'apellidos' => 'required',
+            'telefono' => 'required'
+        ]);
+
+        
     }
 
     /**

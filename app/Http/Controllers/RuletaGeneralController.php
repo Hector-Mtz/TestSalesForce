@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RuletaGeneral;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RuletaGeneralController extends Controller
 {
@@ -13,6 +14,10 @@ class RuletaGeneralController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Ruletas/Index', 
+        [
+
+        ]);
     }
 
     /**

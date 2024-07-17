@@ -4,6 +4,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProspectoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolesPermissionController;
+use App\Http\Controllers\RuletaGeneralController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,4 +42,8 @@ Route::middleware([
     Route::get('/role_permissions',[RolesPermissionController::class,'setPermission'])->name('roles.permissions');
     //Ruta para crear nuevos usuarios
     Route::post('/saveUser',[UserController::class,'store'])->name('saveUser');
+    //Ruta para guardar nuevo prospecto desde el modal de nuevo prospecto
+    Route::post('/saveProspecto',[ProspectoController::class, 'store'])->name('saveProspecto');
+    //Ruta para ver el apartado de ruletas
+    Route::get('/ruletas',[RuletaGeneralController::class,'index'])->name('ruletas');
 });
