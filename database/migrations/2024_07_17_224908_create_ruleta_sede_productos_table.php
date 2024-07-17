@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ruleta_sede_productos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ruleta_sede_id')->constrained('ruleta_sedes'); 
-            $table->foreignId('producto_id')->constrained('productos_de_interes'); 
+            $table->foreignId('producto_id')->constrained('producto_de_interes'); 
             $table->timestamps();
         });
     }

@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->boolean('activo')->default(1);
-            $table->foreignId('sede')->nullable()->constrained('sedes');
+            //$table->foreignId('sede')->nullable()->constrained('sedes');
             $table->foreignId('ruleta_general')->nullable()->constrained('ruleta_generals');
-            $table->foreignId('producto_interes')->nullable()->constrained('producto_de_interes');
+            //$table->foreignId('producto_interes')->nullable()->constrained('producto_de_interes');
             $table->foreignId('creado_por')->nullable()->constrained('users');
+            $table->foreignId('tipo_asignacion')->nullable()->constrained('asignaciones');
             $table->integer('asignaciones');
             $table->timestamps();
         });

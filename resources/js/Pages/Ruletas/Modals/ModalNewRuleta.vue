@@ -40,7 +40,7 @@ const formNewRuleta = useForm({
        sedes:[],
        producto_interes:[],
        asignacion:'',
-       creador:''
+       creador:page.props.auth.user.id,
     });
 
 onUpdated(() => 
@@ -50,13 +50,13 @@ onUpdated(() =>
   for (let index = 0; index < props.sedes.length; index++) 
   {
     const sede = props.sedes[index];
-    formNewRuleta.sedes.push({sede:sede.nombre, inluir:false});
+    formNewRuleta.sedes.push({id:sede.id,sede:sede.nombre, inluir:false});
   }
 
   for (let index2 = 0; index2 < props.producto_interes.length; index2++) 
   {
     const producto = props.producto_interes[index2];
-    formNewRuleta.producto_interes.push({producto:producto.nombre, incluir:false});
+    formNewRuleta.producto_interes.push({id:producto.id,producto:producto.nombre, incluir:false});
   }
 })
 
@@ -112,6 +112,9 @@ const saveRuleta = () =>
                     <div class="my-2">
                         <InputLabel class="text-sm" value="Nombre de la ruleta" />
                         <input v-model="formNewRuleta.nombre" type="text"  class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
+                        <p class="text-red-500">
+                            {{ formNewRuleta.errors.nombre }}
+                        </p>
                      </div>
                      <div class="my-2">
                         <InputLabel class="text-sm" value="Sede" />
