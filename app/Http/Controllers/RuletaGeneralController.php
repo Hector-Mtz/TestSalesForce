@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asignacione;
+use App\Models\ProductoDeInteres;
 use App\Models\RuletaGeneral;
+use App\Models\Sede;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,9 +17,14 @@ class RuletaGeneralController extends Controller
     public function index()
     {
         //
+        $sedes = Sede::all();
+        $asignaciones = Asignacione::all();
+        $producto_interes = ProductoDeInteres::all();
         return Inertia::render('Ruletas/Index', 
         [
-
+            'sedes' => $sedes,
+            'asignaciones' => $asignaciones,
+            'producto_interes' => $producto_interes,
         ]);
     }
 
