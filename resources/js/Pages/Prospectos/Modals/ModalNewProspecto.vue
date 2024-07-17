@@ -84,7 +84,7 @@ const saveProspecto = () =>
    showSpin.value = true;
    try 
    {
-      
+      formNewProspecto.post();
    } 
    catch (error) 
    {
