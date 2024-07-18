@@ -137,13 +137,14 @@ class RuletaGeneralController extends Controller
             'sede' => $request['sede']
         ]);
 
+
         for ($i=0; $i < count($request['ruletas_hijo']) ; $i++) 
         { 
            $ruleta_hijo = $request['ruletas_hijo'][$i];
            if($ruleta_hijo['incluir'] == true)
            {
               RuletaSede::where('id','=',$ruleta_hijo['id'])
-              ->update(['ruleta_general' => $ruleta_padre['id']]);
+              ->update(['ruleta_general' => $ruleta_padre]);
            }
            else
            {
