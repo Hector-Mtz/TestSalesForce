@@ -41,6 +41,7 @@ const formNewRuleta = useForm({
        producto_interes:[],
        asignacion:'',
        creador:page.props.auth.user.id,
+       sede:''
     });
 
 onUpdated(() => 
@@ -148,6 +149,29 @@ const saveRuleta = () =>
                             </option>
                         </Select>
                      </div>
+                 </div>
+            </div>
+
+            <div v-if="showForm && formNewRuleta.tipo_ruleta == 'ruleta_padre'">
+                <div class="px-4 py-1 my-2 bg-gray-400">
+                    <h3 class="text-white">Información</h3>
+                 </div>
+                 <div class="px-4 py-2">
+                    <div class="my-2">
+                        <InputLabel class="text-sm" value="Nombre de la ruleta" />
+                        <input v-model="formNewRuleta.nombre" type="text"  class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
+                        <p class="text-red-500">
+                            {{ formNewRuleta.errors.nombre }}
+                        </p>
+                    </div>
+                    <div class="my-2"> 
+                        <InputLabel class="text-sm" value="Sede" />
+                        <Select v-model="formNewRuleta.sede" class="w-full">
+                           <option v-for="sede in sedes" :key="sede.id">
+                              {{sede.nombre}}
+                           </option>
+                        </Select>
+                    </div>
                  </div>
             </div>
          </template>
