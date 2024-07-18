@@ -23,11 +23,15 @@ class RuletaGeneralController extends Controller
         $sedes = Sede::all();
         $asignaciones = Asignacione::all();
         $producto_interes = ProductoDeInteres::all();
+
+        $ruletas_padre = RuletaGeneral::select('ruleta_generals.*');
         return Inertia::render('Ruletas/Index', 
         [
             'sedes' => $sedes,
             'asignaciones' => $asignaciones,
             'producto_interes' => $producto_interes,
+
+            'ruletas_padre' => fn() => $ruletas_padre->paginate(15)
         ]);
     }
 
@@ -84,7 +88,8 @@ class RuletaGeneralController extends Controller
             case 'ruleta_padre':
                 $new_ruleta_padre = RuletaGeneral::updateOrCreate([
                     'nombre' => $request['nombre'],
-                    'sede' => $request['sede']
+                    'sede' => $request['sede'],
+                    'creado_por' => $request['creador']
                 ]);
                 break;
             case 'ruleta_asesores':

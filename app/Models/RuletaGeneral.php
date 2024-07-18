@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class RuletaGeneral extends Model
 {
     use HasFactory;
+
+    protected $fillable = 
+    [
+        'nombre',
+        'sede',
+        'creado_por',
+        'activo'
+    ];
 }

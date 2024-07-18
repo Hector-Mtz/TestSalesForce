@@ -167,7 +167,7 @@ const saveRuleta = () =>
                     <div class="my-2"> 
                         <InputLabel class="text-sm" value="Sede" />
                         <Select v-model="formNewRuleta.sede" class="w-full">
-                           <option v-for="sede in sedes" :key="sede.id">
+                           <option v-for="sede in sedes" :key="sede.id" :value="sede.id">
                               {{sede.nombre}}
                            </option>
                         </Select>

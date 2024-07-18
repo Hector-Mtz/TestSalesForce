@@ -34,8 +34,22 @@ const closeModalNewRuleta = () =>
                 </button>
             </div>
         </template>
-        <div>
-            
+        <div class="flex flex-row gap-4 p-8">
+            <div class="w-1/2 p-2 bg-white rounded-lg shadow-lg">
+              <h1 class="text-xl font-bold">Ruletas padre</h1>
+              <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre de ruleta</th>
+                        </tr>
+                    </thead>
+                </table>
+              </div>
+            </div>
+            <div class="w-1/2 p-2 bg-white rounded-lg shadow-lg">
+                <h1 class="text-xl font-bold">Ruletas por sede</h1>
+            </div>
         </div>
         <ModalNewRuleta :show="showModalNewRuleta" 
         :sedes="sedes"
