@@ -129,9 +129,28 @@ class RuletaGeneralController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, RuletaGeneral $ruletaGeneral)
+    public function update(Request $request)
     {
-        //
+        //actualizamos primero la ruleta para despues asignarla a las ruletas hijo
+        $ruleta_padre = RuletaGeneral::where('id','=',$request['ruleta_padre'])
+        ->update([
+            'sede' => $request['sede']
+        ]);
+
+        for ($i=0; $i < count($request['ruletas_hijo']) ; $i++) 
+        { 
+           $ruleta_hijo = $request['ruletas_hijo'][$i];
+           if($ruleta_hijo['incluir'] == true)
+           {
+              RuletaSede::where('id','=',$ruleta_hijo['id'])
+              ->update(['ruleta_general' => $ruleta_padre['id']]);
+           }
+           else
+           {
+             RuletaSede::where('id','=',$ruleta_hijo['id'])
+             ->update(['ruleta_general' => NULL]);
+           }
+        }
     }
 
     /**

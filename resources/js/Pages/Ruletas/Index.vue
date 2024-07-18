@@ -147,7 +147,7 @@ const closeModalRuletPadre = () =>
         @close="closeModalNewRuleta" />
 
         <ModalRuletaPadre :show="watchModalRuletaPadre" @close="closeModalRuletPadre" 
-        :ruleta_padre_act="ruleta_padre_act" />
+        :ruleta_padre_act="ruleta_padre_act" :sedes="sedes" :ruletas_sede="ruletas_sede.data" />
         
     </AppLayout>
 </template>

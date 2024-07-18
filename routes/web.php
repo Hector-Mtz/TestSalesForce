@@ -48,4 +48,6 @@ Route::middleware([
     Route::get('/ruletas',[RuletaGeneralController::class,'index'])->name('ruletas');
     //creacion de ruletas
     Route::post('/saveRuleta',[RuletaGeneralController::class,'store'])->name('saveRuleta');
+    //edicion de ruleta padre
+    Route::post('/updateRuletaPadre',[RuletaGeneralController::class,'update'])->name('updateRuletaPadre');
 });
