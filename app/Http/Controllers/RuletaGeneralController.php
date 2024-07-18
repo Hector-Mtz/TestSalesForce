@@ -82,6 +82,10 @@ class RuletaGeneralController extends Controller
                 
                 break;
             case 'ruleta_padre':
+                $new_ruleta_padre = RuletaGeneral::updateOrCreate([
+                    'nombre' => $request['nombre'],
+                    'sede' => $request['sede']
+                ]);
                 break;
             case 'ruleta_asesores':
             break;
