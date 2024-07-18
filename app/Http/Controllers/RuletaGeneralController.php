@@ -25,13 +25,20 @@ class RuletaGeneralController extends Controller
         $producto_interes = ProductoDeInteres::all();
 
         $ruletas_padre = RuletaGeneral::select('ruleta_generals.*');
+
+        $ruletas_sede = RuletaSede::select('ruleta_sedes.*','asignaciones.nombre as asignacion','ruleta_generals.nombre as ruleta_padre')
+        ->join('asignaciones','ruleta_sedes.tipo_asignacion','asignaciones.id')
+        ->leftjoin('ruleta_generals','ruleta_sedes.ruleta_general','ruleta_generals.id');
+
         return Inertia::render('Ruletas/Index', 
         [
             'sedes' => $sedes,
             'asignaciones' => $asignaciones,
             'producto_interes' => $producto_interes,
 
-            'ruletas_padre' => fn() => $ruletas_padre->paginate(15)
+            'ruletas_padre' => fn() => $ruletas_padre->paginate(15),
+            'ruletas_sede' => fn() => $ruletas_sede->paginate(15)
+
         ]);
     }
 
