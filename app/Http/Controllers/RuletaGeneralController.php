@@ -24,9 +24,13 @@ class RuletaGeneralController extends Controller
         $asignaciones = Asignacione::all();
         $producto_interes = ProductoDeInteres::all();
 
-        $ruletas_padre = RuletaGeneral::select('ruleta_generals.*');
+        $ruletas_padre = RuletaGeneral::select('ruleta_generals.*',
+        'sedes.nombre as sede_name', 'users.name as usuario_nombre')
+        ->join('sedes','ruleta_generals.sede','sedes.id')
+        ->join('users','ruleta_generals.creado_por','users.id');
 
-        $ruletas_sede = RuletaSede::select('ruleta_sedes.*','asignaciones.nombre as asignacion','ruleta_generals.nombre as ruleta_padre')
+        $ruletas_sede = RuletaSede::select('ruleta_sedes.*',
+        'asignaciones.nombre as asignacion','ruleta_generals.nombre as ruleta_padre')
         ->join('asignaciones','ruleta_sedes.tipo_asignacion','asignaciones.id')
         ->leftjoin('ruleta_generals','ruleta_sedes.ruleta_general','ruleta_generals.id');
 

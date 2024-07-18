@@ -3,6 +3,7 @@ import { ref} from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 //importar modales
 import ModalNewRuleta from './Modals/ModalNewRuleta.vue';
+import ModalRuletaPadre from './Modals/ModalRuletaPadre.vue'
 //paginacion
 import PaginationAxios from '@/Components/PaginationAxios.vue'
 
@@ -32,6 +33,40 @@ const changePagRuletaPadre = () =>
 {
 
 }
+
+const changePagRuletaSede = () => 
+{
+    
+}
+
+//Funciones modales ruletas
+let ruleta_padre_act = ref({
+    id:'',
+    nombre:'',
+    activo:'',
+    sede:'',
+    creado_por:'',
+    sede_name:'',
+    usuario_nombre:''
+});
+let watchModalRuletaPadre = ref(false);
+const openModalRuletaPadre = (ruletaPadreAct) => 
+{
+   ruleta_padre_act.value = ruletaPadreAct;
+   watchModalRuletaPadre.value = true;
+}
+
+const closeModalRuletPadre = () => 
+{
+    watchModalRuletaPadre.value = false;
+    ruleta_padre_act.value = {id:'',
+    nombre:'',
+    activo:'',
+    sede:'',
+    creado_por:'',
+    sede_name:'',
+    usuario_nombre:''};
+}
 </script>
 <template>
     <AppLayout title="Prospectos">
@@ -58,7 +93,7 @@ const changePagRuletaPadre = () =>
                     <tbody>
                       <tr v-for="ruleta_padre in ruletas_padre.data" :key="ruleta_padre.id">
                         <td class="py-2 text-center">
-                            <button class="font-bold text-blue-600">
+                            <button @click="openModalRuletaPadre(ruleta_padre)" class="font-bold text-blue-600">
                                 {{ruleta_padre.nombre}}
                             </button>
                         </td>
@@ -101,6 +136,7 @@ const changePagRuletaPadre = () =>
                             </tr>
                         </tbody>
                     </table>
+                    <PaginationAxios :pagination="ruletas_sede" @loadPage="changePagRuletaSede" />
                 </div>
             </div>
         </div>
@@ -109,5 +145,9 @@ const changePagRuletaPadre = () =>
         :asignaciones="asignaciones"
         :producto_interes="producto_interes"
         @close="closeModalNewRuleta" />
+
+        <ModalRuletaPadre :show="watchModalRuletaPadre" @close="closeModalRuletPadre" 
+        :ruleta_padre_act="ruleta_padre_act" />
+        
     </AppLayout>
 </template>
