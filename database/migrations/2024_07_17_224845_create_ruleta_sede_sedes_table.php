@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ruleta_sede_id')->constrained('ruleta_sedes'); 
             $table->foreignId('sede_id')->constrained('sedes'); 
+            $table->boolean('activo')->default(1);
             $table->timestamps();
         });
     }

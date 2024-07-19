@@ -46,7 +46,7 @@ onUpdated(() =>
     formEditRuleta.sedes.push({id:sede.id,sede:sede.nombre, inluir:false});
   }
 
-  if(props.ruleta_sede_actual.sedes.length > 0)
+  if(props.ruleta_sede_actual.sedes)
   {
     for (let index = 0; index < formEditRuleta.sedes.length; index++) 
     {
@@ -54,7 +54,7 @@ onUpdated(() =>
       for (let index2 = 0; index2 < props.ruleta_sede_actual.sedes.length; index2++) 
       {
         const sedeT = props.ruleta_sede_actual.sedes[index2];
-        if(sedeT.id == sedeForm.id)
+        if(sedeT.sede_id == sedeForm.id)
         {
            sedeForm.inluir = true;
         }
@@ -68,7 +68,7 @@ onUpdated(() =>
     formEditRuleta.productos_interes.push({id:producto.id,producto:producto.nombre, incluir:false});
   }
 
-  if(props.ruleta_sede_actual.productos.length > 0)
+  if(props.ruleta_sede_actual.productos)
   {
     for (let index = 0; index < formEditRuleta.productos_interes.length; index++) 
     {
@@ -76,7 +76,7 @@ onUpdated(() =>
       for (let index2 = 0; index2 < props.ruleta_sede_actual.productos.length; index2++) 
       {
         const prodT = props.ruleta_sede_actual.productos[index2];
-        if(prodT.id == prodForm.id)
+        if(prodT.producto_id == prodForm.id)
         {
           prodForm.incluir = true;
         }

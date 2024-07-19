@@ -13,5 +13,6 @@ class RuletaSedeProductos extends Model
     [
         'ruleta_sede_id',
         'producto_id',
+        'activo'
     ];
 }

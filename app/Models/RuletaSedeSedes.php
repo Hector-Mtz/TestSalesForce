@@ -13,5 +13,6 @@ class RuletaSedeSedes extends Model
     [
         'ruleta_sede_id',
         'sede_id',
+        'activo'
     ];
 }

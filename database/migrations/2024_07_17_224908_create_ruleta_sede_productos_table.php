@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ruleta_sede_id')->constrained('ruleta_sedes'); 
             $table->foreignId('producto_id')->constrained('producto_de_interes'); 
+            $table->boolean('activo')->default(1);
             $table->timestamps();
         });
     }
