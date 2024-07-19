@@ -3,7 +3,8 @@ import { ref} from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 //importar modales
 import ModalNewRuleta from './Modals/ModalNewRuleta.vue';
-import ModalRuletaPadre from './Modals/ModalRuletaPadre.vue'
+import ModalRuletaPadre from './Modals/ModalRuletaPadre.vue';
+import ModalRuletaSede from './Modals/ModalRuletaSede.vue';
 //paginacion
 import PaginationAxios from '@/Components/PaginationAxios.vue'
 
@@ -67,6 +68,28 @@ const closeModalRuletPadre = () =>
     sede_name:'',
     usuario_nombre:''};
 }
+
+let watchModalSede = ref(false);
+let ruleta_sede_actual = ref({
+    id:'',
+    nombre:'',
+    activo:'',
+    ruleta_general:'',
+    creado_por:'',
+    tipo_asignacion:'',
+    asignaciones:0,
+    asignacion:''
+});
+const openModalSede = (ruletaSede) => 
+{
+  watchModalSede.value = true;
+  ruleta_sede_actual.value = ruletaSede;
+}
+
+const closeModalSede = () =>
+{
+    watchModalSede.value = false;
+}
 </script>
 <template>
     <AppLayout title="Prospectos">
@@ -123,7 +146,7 @@ const closeModalRuletPadre = () =>
                         <tbody>
                             <tr v-for="ruleta_sed in ruletas_sede.data" :key="ruleta_sed.id" >
                                 <td class="text-center">
-                                    <button class="font-bold text-blue-600">
+                                    <button @click="openModalSede(ruleta_sed)" class="font-bold text-blue-600">
                                         {{ ruleta_sed.nombre }}
                                     </button>
                                 </td>
@@ -149,5 +172,9 @@ const closeModalRuletPadre = () =>
         <ModalRuletaPadre :show="watchModalRuletaPadre" @close="closeModalRuletPadre" 
         :ruleta_padre_act="ruleta_padre_act" :sedes="sedes" :ruletas_sede="ruletas_sede.data" />
         
+        <ModalRuletaSede :show="watchModalSede" @close="closeModalSede"
+         :ruleta_sede_actual="ruleta_sede_actual"
+         :sedes="sedes" />
+
     </AppLayout>
 </template>

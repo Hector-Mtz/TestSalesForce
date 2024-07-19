@@ -16,4 +16,9 @@ class RuletaGeneral extends Model
         'creado_por',
         'activo'
     ];
+    
+    public function ruletas_hijo()
+    {
+        return $this->hasMany(RuletaSede::class,'ruleta_general');
+    }
 }

@@ -27,7 +27,8 @@ class RuletaGeneralController extends Controller
         $ruletas_padre = RuletaGeneral::select('ruleta_generals.*',
         'sedes.nombre as sede_name', 'users.name as usuario_nombre')
         ->join('sedes','ruleta_generals.sede','sedes.id')
-        ->join('users','ruleta_generals.creado_por','users.id');
+        ->join('users','ruleta_generals.creado_por','users.id')
+        ->with('ruletas_hijo');
 
         $ruletas_sede = RuletaSede::select('ruleta_sedes.*',
         'asignaciones.nombre as asignacion','ruleta_generals.nombre as ruleta_padre')
