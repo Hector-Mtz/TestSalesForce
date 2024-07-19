@@ -50,9 +50,31 @@ class RuletaSedeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, RuletaSede $ruletaSede)
+    public function update(Request $request)
     {
-        //
+        //primero actualizamos la ruleta
+        $ruleta = RuletaSede::where('id','=',$request['id'])
+        ->update([
+            'nombre' => $request['nombre'],
+            'tipo_asignacion' => $request['asignacion']
+        ]);
+        
+        //checkeamos las sedes
+        if(count($request['sedes']) > 0)
+        {
+           for ($i=0; $i < count($request['sedes']) ; $i++) 
+           { 
+             $sede = $request['sedes'][$i];
+             if($sede['inluir'] == true)
+             {
+                
+             }
+             else
+             {
+                
+             }
+           }
+        }
     }
 
     /**

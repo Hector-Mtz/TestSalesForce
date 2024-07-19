@@ -5,6 +5,7 @@ use App\Http\Controllers\ProspectoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\RuletaGeneralController;
+use App\Http\Controllers\RuletaSedeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -50,4 +51,6 @@ Route::middleware([
     Route::post('/saveRuleta',[RuletaGeneralController::class,'store'])->name('saveRuleta');
     //edicion de ruleta padre
     Route::post('/updateRuletaPadre',[RuletaGeneralController::class,'update'])->name('updateRuletaPadre');
+    //edicion de ruleta_sede
+    Route::post('/updateRuletaSede',[RuletaSedeController::class,'update'])->name('updateRuletaSede');
 });

@@ -175,6 +175,7 @@ const closeModalSede = () =>
         <ModalRuletaSede :show="watchModalSede" @close="closeModalSede"
          :ruleta_sede_actual="ruleta_sede_actual"
          :sedes="sedes" 
+         :asignaciones="asignaciones"
          :producto_interes="producto_interes"
          />
 

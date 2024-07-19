@@ -3,6 +3,7 @@ import DialogModal from '@/Components/DialogModal.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { ref, watch, onMounted, onUpdated  } from 'vue';
 import SpinProgress from '@/Components/SpinProgress.vue';
+import Select from '@/Components/Select.vue';
 
 const props = defineProps({
        show: {
@@ -11,7 +12,8 @@ const props = defineProps({
        },
        ruleta_sede_actual:Object,
        sedes:Object,
-       producto_interes:Object
+       producto_interes:Object,
+       asignaciones:Object
    });
 const emit = defineEmits(["close"])
 let showSpin=ref(false);
@@ -23,14 +25,18 @@ const close = () =>
 }
 //Formulario
 const formEditRuleta = useForm({
+   id:-1,
+   nombre:'',
    sedes:[],
    productos_interes:[],
-   nombre:''
+   asignacion:''
 });
 
 onUpdated(() => 
 {
   formEditRuleta.nombre = props.ruleta_sede_actual.nombre
+  formEditRuleta.id = props.ruleta_sede_actual.id
+  formEditRuleta.asignacion = props.ruleta_sede_actual.tipo_asignacion
   formEditRuleta.sedes = [];
   formEditRuleta.productos_interes = [];
 
@@ -84,6 +90,13 @@ onUpdated(() =>
 const saveEditRuleta = () => 
 {
   showSpin.value = true;
+  formEditRuleta.post(route('updateRuletaSede'),{
+    preserveScroll:true,
+    preserveState:true,
+    onSuccess:()=>{
+      close();
+    }
+  });
 }
 
 </script>
@@ -100,7 +113,7 @@ const saveEditRuleta = () =>
            </div>
          </template>
          <template #content>
-            <div class="flex flex-row p-4">
+            <div class="flex flex-row p-4 gap-x-4">
                 <div class="w-1/2">
                   <div class="my-2">
                      <h2 class="font-bold">Ruleta padre</h2>
@@ -110,9 +123,16 @@ const saveEditRuleta = () =>
                      <h2 class="font-bold">Creador de la ruleta</h2>
                      <p>{{ruleta_sede_actual.usuario_nombre}}</p>
                   </div>
-                  <div>
+                  <div class="my-2">
                     <h2 class="font-bold">Fecha de creación</h2>
                     <p v-if="ruleta_sede_actual.created_at">{{ruleta_sede_actual.created_at.substring(0,10)}}</p>
+                  </div>
+                  <div class="my-2">
+                    <Select v-model="formEditRuleta.asignacion" class="w-full">
+                      <option v-for="asignacion in asignaciones" :key="asignacion.id" :value="asignacion.id">
+                          {{asignacion.nombre}}
+                      </option>
+                    </Select>
                   </div>
                 </div>
                 <div class="w-1/2">
