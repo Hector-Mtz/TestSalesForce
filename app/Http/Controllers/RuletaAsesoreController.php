@@ -29,6 +29,8 @@ class RuletaAsesoreController extends Controller
     public function store(Request $request)
     {
         //
+
+        return $request;
     }
 
     /**

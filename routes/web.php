@@ -4,6 +4,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProspectoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolesPermissionController;
+use App\Http\Controllers\RuletaAsesoreController;
 use App\Http\Controllers\RuletaGeneralController;
 use App\Http\Controllers\RuletaSedeController;
 use App\Http\Controllers\UserController;
@@ -55,4 +56,6 @@ Route::middleware([
     Route::post('/updateRuletaSede',[RuletaSedeController::class,'update'])->name('updateRuletaSede');
     //obtencion de usuarios
     Route::get('/usersList',[UserController::class,'index'])->name('users.list');
+    //agregar nuevo asesor a una ruleta
+    Route::post('/saveRuletaAsesor',[RuletaAsesoreController::class,'store'])->name('saveRuletaAsesor');
 });

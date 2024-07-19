@@ -14,14 +14,17 @@ const props = defineProps({
    });
 const emit = defineEmits(["close"])
 let showSpin=ref(false);
+const page = usePage();
 const close = () => 
 {
   emit('close');
-
+  formNewAsesor.reset();
 }
 //Formulario
-const formEditRuleta = useForm({
-
+const formNewAsesor = useForm({
+   asesor:'',
+   ruleta_sede:'',
+   creado_por:page.props.auth.user.id,
 });
 
 let listusers = ref([]);
@@ -43,9 +46,27 @@ const getListUsers = async () => {
 
 onUpdated(() => 
 {
-    getListUsers()
+    formNewAsesor.ruleta_sede = props.ruleta_sede_actual.id;
+    getListUsers();
 })
 
+const saveNewAsesor = () => 
+{
+    try 
+    {
+      formNewAsesor.post(route('saveRuletaAsesor'),{
+        preserveScroll:true,
+        preserveState:true,
+        onSuccess:() =>{
+            formNewAsesor.asesor = '';
+        }
+      });
+    } 
+    catch (error) 
+    {
+        
+    }
+}
 
 </script>
 <template>
@@ -64,19 +85,25 @@ onUpdated(() =>
             <div class="p-4">
                 <div>
                     <h2 class="font-bold">Nuevo aseor</h2>
-                    <ListDataInput list="list_users"  :options="listusers" class="flex-1" />
+                    <ListDataInput list="list_users" v-model="formNewAsesor.asesor"  :options="listusers" class="flex-1" />
                 </div>
-                <table class="w-full">
+                {{ formNewAsesor }}
+                <table class="w-full my-4">
                     <thead>
                         <tr>
                             <th>Nombre</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
          </template>
          <template #footer>
-            <button  @click="saveEditRuleta" class="bg-[#5562a3] p-2 px-6 rounded-br-lg rounded-tl-lg text-white font-bold text-xl flex flex-row gap-x-4 items-center">
+            <button  @click="saveNewAsesor" class="bg-[#5562a3] p-2 px-6 rounded-br-lg rounded-tl-lg text-white font-bold text-xl flex flex-row gap-x-4 items-center">
                <p>Guardar</p>
                <SpinProgress :inprogress="showSpin" />
            </button>
