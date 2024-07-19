@@ -260,13 +260,13 @@ const saveProspecto = () =>
                     </div><!--columna 2-->
                 </div>
              </div>
-
+            <!--
              <div>
                <div class="px-4 py-1 my-2 bg-gray-400">
                   <h3 class="text-white">Información de marketing</h3>
                </div>
                <div class="flex flex-row px-4 justify-items-center">
-                <div class="w-1/2 px-4 mx-2"> <!--columna 1-->
+                <div class="w-1/2 px-4 mx-2"> 
                   <div class="my-2">
                      <InputLabel class="text-sm" value="UTM Source" />
                      <input v-model="formNewProspecto.UTM_Source" type="text"  class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
@@ -304,7 +304,7 @@ const saveProspecto = () =>
                      <input v-model="formNewProspecto.Browser" type="text"  class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                   </div>
                 </div>
-                <div class="w-1/2 mx-2"> <!--columna 2-->
+                <div class="w-1/2 mx-2"> 
                   <div class="my-2">
                      <InputLabel class="text-sm" value="UTM Campaign" />
                      <input v-model="formNewProspecto.UTM_Campaign" type="text"  class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
@@ -340,6 +340,7 @@ const saveProspecto = () =>
                 </div>
                </div>
              </div>
+            -->
          </template>
          <template #footer>
             <button @click="saveProspecto" class="bg-[#5562a3] p-2 px-6 rounded-br-lg rounded-tl-lg text-white font-bold text-xl flex flex-row gap-x-4 items-center">

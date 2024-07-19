@@ -9,6 +9,12 @@ class UserController extends Controller
 {
     // 
 
+    public function index(Request $request)
+    {
+       return User::select('users.*')
+       ->get();
+    }
+
     public function store(Request $request)
     {
         User::updateOrCreate([

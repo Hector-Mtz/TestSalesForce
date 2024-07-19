@@ -53,4 +53,6 @@ Route::middleware([
     Route::post('/updateRuletaPadre',[RuletaGeneralController::class,'update'])->name('updateRuletaPadre');
     //edicion de ruleta_sede
     Route::post('/updateRuletaSede',[RuletaSedeController::class,'update'])->name('updateRuletaSede');
+    //obtencion de usuarios
+    Route::get('/usersList',[UserController::class,'index'])->name('users.list');
 });

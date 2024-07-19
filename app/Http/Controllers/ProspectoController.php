@@ -75,6 +75,13 @@ class ProspectoController extends Controller
         ]);
 
         
+
+        $this->runRuleta($request);
+    }
+
+    public function runRuleta ($prospecto)
+    {
+       
     }
 
     /**

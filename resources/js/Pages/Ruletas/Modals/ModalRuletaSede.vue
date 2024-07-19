@@ -4,6 +4,8 @@ import { useForm, usePage } from '@inertiajs/vue3';
 import { ref, watch, onMounted, onUpdated  } from 'vue';
 import SpinProgress from '@/Components/SpinProgress.vue';
 import Select from '@/Components/Select.vue';
+//Modales
+import ModalAddAsesorToRuleta from './ModalAddAsesorToRuleta.vue';
 
 const props = defineProps({
        show: {
@@ -99,6 +101,17 @@ const saveEditRuleta = () =>
   });
 }
 
+let showViewAsesores = ref(false);
+const openModalAsesor = () => 
+{
+  showViewAsesores.value = true;
+}
+
+const closeModalAsesor = () => 
+{
+  showViewAsesores.value = false
+}
+
 </script>
 <template>
     <DialogModal   :max-width="'3xl'"  :show="show" @close="close()">
@@ -134,6 +147,11 @@ const saveEditRuleta = () =>
                       </option>
                     </Select>
                   </div>
+                  <div class="flex flex-row items-center justify-center mt-8">
+                    <button @click="openModalAsesor" class="bg-[#5562a3] p-2 px-6 rounded-lg  text-white font-bold text-md flex flex-row gap-x-4 items-center">
+                       Agregar asesor a ruleta
+                    </button>
+                 </div>   
                 </div>
                 <div class="w-1/2">
                   <div class="my-2">
@@ -150,7 +168,7 @@ const saveEditRuleta = () =>
                         </p>
                     </div>
                     </div>
-                  </div>   
+                  </div>
                   <div class="my-2">
                     <h2 class="font-bold">Productos de interés</h2>
                     <div class="h-16 p-2 mt-2 overflow-auto bg-gray-100 rounded-lg shadow-md">
@@ -164,6 +182,7 @@ const saveEditRuleta = () =>
                   </div>         
                 </div>
             </div>
+            
          </template>
          <template #footer>
             <button  @click="saveEditRuleta" class="bg-[#5562a3] p-2 px-6 rounded-br-lg rounded-tl-lg text-white font-bold text-xl flex flex-row gap-x-4 items-center">
@@ -172,4 +191,5 @@ const saveEditRuleta = () =>
            </button>
          </template>
       </DialogModal>
+      <ModalAddAsesorToRuleta :ruleta_sede_actual="ruleta_sede_actual" :show="showViewAsesores" @close="closeModalAsesor"  />
 </template>
