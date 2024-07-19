@@ -54,7 +54,7 @@ onUpdated(() =>
       for (let index2 = 0; index2 < props.ruleta_sede_actual.sedes.length; index2++) 
       {
         const sedeT = props.ruleta_sede_actual.sedes[index2];
-        if(sedeT.sede_id == sedeForm.id)
+        if(sedeT.sede_id == sedeForm.id && sedeT.activo == true)
         {
            sedeForm.inluir = true;
         }
@@ -76,7 +76,7 @@ onUpdated(() =>
       for (let index2 = 0; index2 < props.ruleta_sede_actual.productos.length; index2++) 
       {
         const prodT = props.ruleta_sede_actual.productos[index2];
-        if(prodT.producto_id == prodForm.id)
+        if(prodT.producto_id == prodForm.id && prodT.activo == true)
         {
           prodForm.incluir = true;
         }

@@ -54,7 +54,6 @@ class RuletaSedeController extends Controller
      */
     public function update(Request $request)
     {
-        return $request;
         //primero actualizamos la ruleta
         $ruleta = RuletaSede::where('id','=',$request['id'])
         ->update([
@@ -70,20 +69,19 @@ class RuletaSedeController extends Controller
              $sede = $request['sedes'][$i];
              if($sede['inluir'] == true)
              {
-                RuletaSedeSedes::updateOrCreare(
+                RuletaSedeSedes::updateOrCreate(
                     ['ruleta_sede_id' => $ruleta,
                      'sede_id' => $sede['id'],
-                     'activo' => 1
-                    ]
+                   ],['activo' => 1]
                 );
              }
              else
              {
-                RuletaSedeSedes::updateOrCreare(
+                RuletaSedeSedes::updateOrCreate(
                     ['ruleta_sede_id' => $ruleta,
                      'sede_id' => $sede['id'],
-                     'activo' => 0
-                    ]
+                ],
+                ['activo' => 0]
                 );
              }
            }
@@ -99,17 +97,15 @@ class RuletaSedeController extends Controller
             {
               RuletaSedeProductos::updateOrCreate([
                 'ruleta_sede_id' => $ruleta,
-                'sede_id' => $sede['id'],
-                'activo' => 1
-              ]);
+                'producto_id' => $producto['id']
+              ],['activo' => 1]);
             }
             else
             {
               RuletaSedeProductos::updateOrCreate([
                     'ruleta_sede_id' => $ruleta,
-                    'sede_id' => $sede['id'],
-                    'activo' => 0
-                  ]);
+                    'producto_id' => $producto['id']
+              ],['activo' => 0]);
             }
           }
         }
