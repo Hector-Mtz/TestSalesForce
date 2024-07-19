@@ -31,9 +31,13 @@ class RuletaGeneralController extends Controller
         ->with('ruletas_hijo');
 
         $ruletas_sede = RuletaSede::select('ruleta_sedes.*',
-        'asignaciones.nombre as asignacion','ruleta_generals.nombre as ruleta_padre')
+        'asignaciones.nombre as asignacion','ruleta_generals.nombre as ruleta_padre',
+        'users.name as usuario_nombre'
+        )
         ->join('asignaciones','ruleta_sedes.tipo_asignacion','asignaciones.id')
-        ->leftjoin('ruleta_generals','ruleta_sedes.ruleta_general','ruleta_generals.id');
+        ->join('users','ruleta_sedes.creado_por','users.id')
+        ->leftjoin('ruleta_generals','ruleta_sedes.ruleta_general','ruleta_generals.id')
+        ->with('sedes','productos');
 
         return Inertia::render('Ruletas/Index', 
         [

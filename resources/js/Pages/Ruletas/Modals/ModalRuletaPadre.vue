@@ -38,10 +38,26 @@ onUpdated(() =>
    formEditRuleta.sede = props.ruleta_padre_act.sede;
    formEditRuleta.ruleta_padre = props.ruleta_padre_act.id;
 
-   for (let index = 0; index < props.ruletas_sede.length; index++) 
+ for (let index = 0; index < props.ruletas_sede.length; index++) 
   {
     const ruleta_sede = props.ruletas_sede[index];
     formEditRuleta.ruletas_hijo.push({id:ruleta_sede.id, nombre:ruleta_sede.nombre, incluir:false});
+  }
+  //comprobamos si la ruleta hijo existe
+  if(props.ruleta_padre_act.ruletas_hijo)
+  {
+    for (let index = 0; index < props.ruleta_padre_act.ruletas_hijo.length; index++) 
+    {
+      const ruleta_hijo = props.ruleta_padre_act.ruletas_hijo[index];
+      for (let index2 = 0; index2 < formEditRuleta.ruletas_hijo.length; index2++) 
+      {
+        const ruleta_hijo_form = formEditRuleta.ruletas_hijo[index2];
+        if(ruleta_hijo_form.id == ruleta_hijo.id)
+        {
+          ruleta_hijo_form.incluir = true
+        }
+      }
+    }
   }
 })
 

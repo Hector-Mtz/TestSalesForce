@@ -174,7 +174,9 @@ const closeModalSede = () =>
         
         <ModalRuletaSede :show="watchModalSede" @close="closeModalSede"
          :ruleta_sede_actual="ruleta_sede_actual"
-         :sedes="sedes" />
+         :sedes="sedes" 
+         :producto_interes="producto_interes"
+         />
 
     </AppLayout>
 </template>

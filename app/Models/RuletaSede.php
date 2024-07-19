@@ -18,4 +18,14 @@ class RuletaSede extends Model
         'tipo_asignacion',
         'ruleta_padre'
     ];
+
+    public function sedes()
+    {
+        return $this->hasMany(RuletaSedeSedes::class,'ruleta_sede_id');
+    }
+
+    public function productos()
+    {
+        return $this->hasMany(RuletaSedeProductos::class,'ruleta_sede_id');
+    }
 }
