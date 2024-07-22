@@ -59,6 +59,7 @@ const saveNewAsesor = () =>
         preserveState:true,
         onSuccess:() =>{
             formNewAsesor.asesor = '';
+            close();
         }
       });
     } 
@@ -84,10 +85,10 @@ const saveNewAsesor = () =>
          <template #content>
             <div class="p-4">
                 <div>
-                    <h2 class="font-bold">Nuevo aseor</h2>
+                    <h2 class="font-bold">Nuevo asesor</h2>
                     <ListDataInput list="list_users" v-model="formNewAsesor.asesor"  :options="listusers" class="flex-1" />
+                    <p class="my-2 font-bold text-red-500">{{formNewAsesor.errors.asesor}}</p>
                 </div>
-                {{ formNewAsesor }}
                 <table class="w-full my-4">
                     <thead>
                         <tr>

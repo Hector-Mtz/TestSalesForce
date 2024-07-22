@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class RuletaAsesore extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'ruleta_sede',
+        'asignaciones',
+        'creado_por',
+        'asesor',
+        'ultima_asignacion',
+        'activo'
+    ];
 }

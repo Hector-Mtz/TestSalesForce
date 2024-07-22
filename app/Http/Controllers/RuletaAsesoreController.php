@@ -29,8 +29,18 @@ class RuletaAsesoreController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'asesor' => 'required | min:1',
+        ]);
+       
+        RuletaAsesore::updateOrCreate(
+            ['ruleta_sede' => $request['ruleta_sede']],
+            ['creado_por' => $request['creado_por'],
+             'asignaciones' => 0,
+             'asesor' => $request['asesor']]
+        );
 
-        return $request;
+        redirect()->back();
     }
 
     /**

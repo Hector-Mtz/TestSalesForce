@@ -101,6 +101,7 @@ const saveEditRuleta = () =>
   });
 }
 
+let asesoresByRuleta = ref([]);
 let showViewAsesores = ref(false);
 const openModalAsesor = () => 
 {
@@ -111,6 +112,8 @@ const closeModalAsesor = () =>
 {
   showViewAsesores.value = false
 }
+
+
 
 </script>
 <template>
