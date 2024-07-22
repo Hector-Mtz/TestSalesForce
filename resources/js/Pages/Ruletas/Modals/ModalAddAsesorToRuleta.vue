@@ -10,7 +10,8 @@ const props = defineProps({
            type: Boolean,
            default: false,
        },
-       ruleta_sede_actual:Object
+       ruleta_sede_actual:Object,
+       asesores:Object
    });
 const emit = defineEmits(["close"])
 let showSpin=ref(false);
@@ -95,9 +96,11 @@ const saveNewAsesor = () =>
                             <th>Nombre</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
+                    <tbody v-if="asesores.data.length > 0">
+                        <tr v-for="asesor in asesores.data" :key="asesor.id">
+                            <td class="text-center">
+                                {{ asesor.nombre_user }} {{ asesor.ap_paterno }} {{ asesor.ap_materno }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>

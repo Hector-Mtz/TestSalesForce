@@ -6,6 +6,7 @@ import SpinProgress from '@/Components/SpinProgress.vue';
 import Select from '@/Components/Select.vue';
 //Modales
 import ModalAddAsesorToRuleta from './ModalAddAsesorToRuleta.vue';
+import axios from 'axios';
 
 const props = defineProps({
        show: {
@@ -103,9 +104,25 @@ const saveEditRuleta = () =>
 
 let asesoresByRuleta = ref([]);
 let showViewAsesores = ref(false);
-const openModalAsesor = () => 
+const openModalAsesor = async () => 
 {
-  showViewAsesores.value = true;
+  try 
+  { 
+     await axios.get(route('checkAsesores'),{
+      params:{ruleta_id:props.ruleta_sede_actual.id}
+     })
+     .then(response => 
+     {
+       asesoresByRuleta.value = response.data;
+       showViewAsesores.value = true;
+     })
+     .catch(err =>{
+      console.log(err)
+     });
+  } 
+  catch (error) {
+    
+  }
 }
 
 const closeModalAsesor = () => 
@@ -194,5 +211,7 @@ const closeModalAsesor = () =>
            </button>
          </template>
       </DialogModal>
-      <ModalAddAsesorToRuleta :ruleta_sede_actual="ruleta_sede_actual" :show="showViewAsesores" @close="closeModalAsesor"  />
+      <ModalAddAsesorToRuleta :ruleta_sede_actual="ruleta_sede_actual" 
+      :asesores="asesoresByRuleta"
+      :show="showViewAsesores" @close="closeModalAsesor"  />
 </template>

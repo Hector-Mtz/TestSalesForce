@@ -58,4 +58,6 @@ Route::middleware([
     Route::get('/usersList',[UserController::class,'index'])->name('users.list');
     //agregar nuevo asesor a una ruleta
     Route::post('/saveRuletaAsesor',[RuletaAsesoreController::class,'store'])->name('saveRuletaAsesor');
+    //Ruta para revisar los asesores de una ruleta especifica
+    Route::get('/checkAsesores',[RuletaAsesoreController::class,'index'])->name('checkAsesores');
 });

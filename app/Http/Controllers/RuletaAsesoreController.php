@@ -10,9 +10,15 @@ class RuletaAsesoreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+       return RuletaAsesore::select('ruleta_asesores.*',
+       'users.name as nombre_user', 'users.ap_paterno as ap_paterno', 'users.ap_materno as ap_materno'
+       )
+       ->join('users','ruleta_asesores.asesor','users.id')
+       ->where('ruleta_asesores.ruleta_sede','=',$request['ruleta_id'])
+       ->paginate(10);
     }
 
     /**
