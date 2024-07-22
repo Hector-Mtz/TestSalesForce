@@ -74,14 +74,52 @@ class ProspectoController extends Controller
             'telefono' => 'required'
         ]);
 
-        
-
-        $this->runRuleta($request);
+        //primero generamos el lead para despues mandarlo a ruleta para su asignacio
+        $newProspecto = Prospecto::create
+        ([
+           'nombre' => $request['nombre'],
+           'apellidos' => $request['apellidos'],
+           'email' => $request['email'],
+           'telefono' => $request['telefono'],
+           'mensaje' => $request['mensaje'],
+           'propietario' => $request['propietario_del_prospecto'],
+           'asignacion' => $request['asignacion'],
+           'sede' => $request['sede'],
+           'tipo_prospecto' => 1, //prospecto
+           //falta el status
+           'producto_de_interes' => $request['producto_interes'],
+           'campana_canal' => $request['campana_canal'],
+           'origen' => $request['origen'],
+           'monto_enganche' => $request['monto_enganche'],
+           'forma_contacto' => $request['forma_de_contacto'],
+           'horario_contacto' => $request['horario_contacto'],
+           'busqueda_terreno' => $request['busca_terreno_para'],
+           'inversion_al_mes' => $request['inversion_al_mes'],
+           'tiempo_inversion' => $request['tiempo_inversion'],
+           'idioma' => $request['idioma'],
+           'UTM Source' => $request['UTM_Source'],
+           'UTM Content' =>$request['UTM_Content'],
+           'UTM Medium' => $request['UTM_Medium'],
+           'UTM Campaign' => $request['UTM Term'],
+           'First Click' => $request['First_Click_Channel'],
+           'First Click Campaign' => $request['First_Click_Campaign'],
+           'GCLID' => $request['GCLID'],
+           'IP Adress' => $request['Ip_adrees'],
+           'Device' => $request['Device'],
+           'Operating System' => $request['Operating_System'],
+           'Browser' => $request['Browser'],
+           'First Click Content' => $request['First_Click_Content'],
+           'First Click Landing Page' => $request['First_Click_Landing_Page'],
+           'Time Zone' => $request['Time_Zone'],
+           'City' => $request['City'],
+           'Country' => $request['Country'],
+           'State' => $request['State']
+        ]);
     }
 
     public function runRuleta ($prospecto)
     {
-       
+        return 'hola';
     }
 
     /**
