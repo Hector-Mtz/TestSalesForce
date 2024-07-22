@@ -8,6 +8,7 @@ use App\Http\Controllers\RuletaAsesoreController;
 use App\Http\Controllers\RuletaGeneralController;
 use App\Http\Controllers\RuletaSedeController;
 use App\Http\Controllers\UserController;
+use App\Models\Prospecto;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,8 +27,12 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+    Route::get('/dashboard', function () 
+    {
+        $prospectos = Prospecto::all();
+        return Inertia::render('Dashboard',[
+            'prospectos' => $prospectos
+        ]);
     })->name('dashboard');
 
     //ruta leads

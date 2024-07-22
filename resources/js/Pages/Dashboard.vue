@@ -2,8 +2,12 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
 //graficas 
-import Grafica1 from './Partials/Grafica1.vue'
-import Grafica2 from './Partials/Grafica2.vue'
+import Grafica1 from './Partials/Grafica1.vue';
+import Grafica2 from './Partials/Grafica2.vue';
+
+const props = defineProps({
+ prospectos:Object
+});  
 </script>
 
 <template>
@@ -21,7 +25,7 @@ import Grafica2 from './Partials/Grafica2.vue'
                     <h1 class="text-2xl font-bold">Reportes</h1>
                     <div class="bg-[#091a3e] rounded-lg p-2">
                         <h1 class="font-bold text-white">Prospectos totales</h1>
-                        <h2 class="my-4 text-5xl font-bold text-center text-white">0</h2>
+                        <h2 class="my-4 text-5xl font-bold text-center text-white">{{prospectos.length}}</h2>
                     </div>
                 </div>
                 <div class="col-start-2 col-end-3 row-start-1 row-end-2">
