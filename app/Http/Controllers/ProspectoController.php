@@ -193,7 +193,9 @@ class ProspectoController extends Controller
                     return $asesor; 
                 }
                 break;
-            
+            case 2: //producto
+                
+                break;
             default: //nacional
                 # code...
                 break;
