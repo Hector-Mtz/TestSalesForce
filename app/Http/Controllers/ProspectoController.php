@@ -13,6 +13,9 @@ use App\Models\MontoEnganche;
 use App\Models\Origene;
 use App\Models\ProductoDeInteres;
 use App\Models\Prospecto;
+use App\Models\RuletaAsesore;
+use App\Models\RuletaSede;
+use App\Models\RuletaSedeSedes;
 use App\Models\Sede;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -124,7 +127,35 @@ class ProspectoController extends Controller
 
     public function runRuleta ($prospecto)
     {
-        
+        //primero buscamos que tipo de asignacion es el prospecto
+        switch ($prospecto['asignacion']) 
+        {
+            case 1: //sede
+                if($prospecto['sede' !== null])
+                {
+
+                    //consultamos los asesores por esa sede
+                    $asesores = [];
+                    //necesitamos obtener la ruleta_sede por medio de la sede del prospecto
+                    $busqueda = RuletaSedeSedes::select('ruleta_sede_sedes.*')
+                    ->where('ruleta_sede_sedes.sede_id','=',$prospecto['sede'])
+                    ->first();
+
+                    $asesores = RuletaAsesore::select(
+                        'ruleta_asesores.id',
+                        'ruelta_asesores.asesor',
+                        'ruleta_asesores.asignaciones'
+                    )
+                    ->where('ruleta_asesores.ruleta_sede')
+                    ->get();
+                }
+
+                break;
+            
+            default: //nacional
+                # code...
+                break;
+        }
     }
 
     /**
