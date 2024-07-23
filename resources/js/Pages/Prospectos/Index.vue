@@ -5,6 +5,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import ModalNewProspecto from './Modals/ModalNewProspecto.vue';
 
 const props = defineProps({
+    prospectos:Object,
     sedes:Object,
     asignaciones:Object,
     producto_interes:Object,
@@ -88,8 +89,33 @@ const closeModalNewProspecto = () =>
                      </tr>
                    </thead>
                    <tbody>
-                    <tr>
-                        
+                    <tr v-for="prospecto in prospectos.data" :key="prospecto.id">
+                        <td class="py-2 text-center">
+                            {{ prospecto.id }}
+                        </td>
+                        <td>
+
+                        </td>
+                        <td class="py-2 text-center">
+                           {{ prospecto.created_at.substring(0,10) }}
+                        </td>
+                        <td class="py-2 text-center">
+                           <a class="text-blue-500">
+                            {{ prospecto.nombre + ' ' + prospecto.apellidos}}
+                           </a>
+                        </td>
+                        <td class="py-2 text-center">
+                            {{ prospecto.telefono }}
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td class="py-2 text-center">
+                            {{ prospecto.email }}
+                        </td>
                     </tr>
                    </tbody>
                 </table>

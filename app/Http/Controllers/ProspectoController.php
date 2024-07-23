@@ -37,8 +37,11 @@ class ProspectoController extends Controller
         $formas_contacto = FormaContacto::all();
         $horarios=HorarioContacto::all();
 
+        $prospectos = Prospecto::select('prospectos.*');
+
         return Inertia::render('Prospectos/Index', 
         [
+           'prospectos' => fn() => $prospectos->paginate(15),
            'sedes' => $sedes,
            'asignaciones' => $asignaciones,
            'producto_interes' => $producto_interes,
@@ -115,11 +118,13 @@ class ProspectoController extends Controller
            'Country' => $request['Country'],
            'State' => $request['State']
         ]);
+
+        $this->runRuleta($newProspecto);
     }
 
     public function runRuleta ($prospecto)
     {
-        return 'hola';
+        
     }
 
     /**

@@ -8,6 +8,9 @@ import Grafica2 from './Partials/Grafica2.vue';
 const props = defineProps({
  prospectos:Object
 });  
+
+
+
 </script>
 
 <template>
