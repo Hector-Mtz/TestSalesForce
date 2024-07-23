@@ -122,40 +122,66 @@ class ProspectoController extends Controller
            'State' => $request['State']
         ]);
 
-        $this->runRuleta($newProspecto);
+      return $this->runRuleta($newProspecto);
     }
 
-    public function runRuleta ($prospecto)
+    public function runRuleta($prospecto)
     {
+        //hay que chequear antes la duplicidad
+
+       //primero obtenemos el asesor para setear, 
+       $asesor = $this->getAsesores($prospecto);
+
+       if($asesor !== null)
+       {
+          //actualizamos el propietario
+          Prospecto::where('id','=',$prospecto['id'])
+          ->update([
+            'vendedor_anterior' => $prospecto['propietario'],
+            'propietario' => $asesor['asesor']
+          ]);
+       }
+    }
+
+    public function getAsesores ($prospecto)
+    {
+        date_default_timezone_set('America/Mexico_City');
+        $fecha_server = date("Y-m-d H:i:s");
         //primero buscamos que tipo de asignacion es el prospecto
         switch ($prospecto['asignacion']) 
         {
             case 1: //sede
-                if($prospecto['sede' !== null])
+                if($prospecto['sede'] !== null)//consultamos los asesores por esa sede
                 {
-
-                    //consultamos los asesores por esa sede
-                    $asesores = [];
                     //necesitamos obtener la ruleta_sede por medio de la sede del prospecto
-                    $busqueda = RuletaSedeSedes::select('ruleta_sede_sedes.*')
+                    $ruleta_sede_sede = RuletaSedeSedes::select('ruleta_sede_sedes.*')
                     ->where('ruleta_sede_sedes.sede_id','=',$prospecto['sede'])
                     ->first();
 
-                    $asesores = RuletaAsesore::select(
+                    $asesor =  RuletaAsesore::select(
                         'ruleta_asesores.id',
-                        'ruelta_asesores.asesor',
+                        'ruleta_asesores.asesor',
                         'ruleta_asesores.asignaciones'
                     )
-                    ->where('ruleta_asesores.ruleta_sede')
-                    ->get();
-                }
+                    ->where('ruleta_asesores.ruleta_sede','=',$ruleta_sede_sede['ruleta_sede_id'])
+                    ->orderBy('ultima_asignacion')
+                    ->first();
 
+                    RuletaAsesore::where('ruleta_asesores.id','=',$asesor['id'])
+                    ->update([
+                        'asignaciones' => $asesor['asignaciones']+1,
+                        'ultima_asignacion' => $fecha_server
+                    ]);
+
+                    return $asesor; 
+                }
                 break;
             
             default: //nacional
                 # code...
                 break;
         }
+
     }
 
     /**
