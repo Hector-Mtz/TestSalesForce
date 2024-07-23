@@ -3,6 +3,8 @@ import { ref} from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 //Modales
 import ModalNewProspecto from './Modals/ModalNewProspecto.vue';
+//Componentes
+import PaginationInertia from '@/Components/PaginationInertia.vue';
 
 const props = defineProps({
     prospectos:Object,
@@ -43,8 +45,8 @@ const closeModalNewProspecto = () =>
             </div>
         </template>
         <div class="p-8">
-            <div class="py-2 bg-white rounded-lg">
-                <table class="w-full">
+            <div class="p-2 py-4 bg-white rounded-lg">
+                <table class="w-full ">
                    <thead>
                      <tr class="border-b-4 border-[#091a3e] ">
                         <th>
@@ -72,9 +74,6 @@ const closeModalNewProspecto = () =>
                             Email
                         </th>
                         <th>
-                          Producto de interés
-                        </th>
-                        <th>
                             Campaña / Canal
                         </th>
                         <th>
@@ -93,8 +92,8 @@ const closeModalNewProspecto = () =>
                         <td class="py-2 text-center">
                             {{ prospecto.id }}
                         </td>
-                        <td>
-
+                        <td class="py-2 text-center">
+                           {{ prospecto.asignacion_name }}
                         </td>
                         <td class="py-2 text-center">
                            {{ prospecto.created_at.substring(0,10) }}
@@ -107,18 +106,31 @@ const closeModalNewProspecto = () =>
                         <td class="py-2 text-center">
                             {{ prospecto.telefono }}
                         </td>
-                        <td>
-
+                        <td class="py-2 text-center">
+                           {{ prospecto.sede_name }}
                         </td>
-                        <td>
-
+                        <td class="py-2 text-center">
+                          {{ prospecto.productoInteres }}
                         </td>
                         <td class="py-2 text-center">
                             {{ prospecto.email }}
                         </td>
+                        <td class="py-2 text-center">
+                            {{ prospecto.campanaCanal }}
+                        </td>
+                        <td class="py-2 text-center">
+                            {{ prospecto.userName + ' ' +prospecto.userApP + ' ' + prospecto.userApM }}
+                        </td>
+                        <td class="py-2 text-center">
+                           {{ prospecto.statusP }}
+                        </td>
+                        <td class="py-2 text-center">
+                           {{ prospecto.tipoProspecto }} 
+                        </td>
                     </tr>
                    </tbody>
                 </table>
+                <PaginationInertia :pagination="prospectos" />
             </div>
         </div>
         <div>

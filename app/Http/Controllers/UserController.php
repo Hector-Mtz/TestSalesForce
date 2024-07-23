@@ -12,6 +12,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
        return User::select('users.*')
+       ->where('users.role_id','=',2) //unicamente vendedores base
        ->get();
     }
 
