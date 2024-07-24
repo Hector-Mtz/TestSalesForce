@@ -312,9 +312,10 @@ class ProspectoController extends Controller
                      'asignaciones' => $ruleta_sede['asignaciones'] +1,
                      'ultima_asignacion' => $fecha_server
                    ]);
+                   return $asesor; 
                 break;
             default: //nacional
-                 $this->ruletaNacional();
+                return $this->ruletaNacional();
                 break;
         }
 
