@@ -147,14 +147,14 @@ class ProspectoController extends Controller
     public function runRuleta($prospecto)
     {
         //hay que chequear antes la duplicidad
-       return $prospectos = Prospecto::select('prospectos.*')
+        $prospectos = Prospecto::select('prospectos.*')
         ->where('prospectos.id','!=',$prospecto['id'])
         ->where(function ($query) use ($prospecto)
         {
             $query->where('prospectos.telefono','LIKE', substr($prospecto['telefono'],0,10))
             ->orWhere('prospectos.email','=', $prospecto['email']);
         })
-        ->orderBy()
+        ->orderBy('created_at', 'ASC')
         ->get();
 
         if(count($prospectos) > 0)
@@ -162,6 +162,14 @@ class ProspectoController extends Controller
            for ($i=0; $i < count($prospectos); $i++) 
            { 
              $prospectoTemporal = $prospectos[$i];
+             if($prospectoTemporal['propietario'] !== 1) //sino es admin
+             {
+                Prospecto::where('id','=',$prospecto['id'])
+                ->update(['propietario' => $prospectoTemporal['propietario'],
+                          'vendedor_anterior' => $prospecto['propietario']
+                         ]);
+               break;
+             }
            }
         }
         else
