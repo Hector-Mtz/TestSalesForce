@@ -314,7 +314,7 @@ class ProspectoController extends Controller
                    ]);
                 break;
             default: //nacional
-                return $this->ruletaNacional();
+                 $this->ruletaNacional();
                 break;
         }
 
