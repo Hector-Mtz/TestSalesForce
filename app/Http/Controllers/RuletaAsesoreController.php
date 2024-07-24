@@ -40,10 +40,10 @@ class RuletaAsesoreController extends Controller
         ]);
        
         RuletaAsesore::updateOrCreate(
-            ['ruleta_sede' => $request['ruleta_sede']],
+            ['ruleta_sede' => $request['ruleta_sede'],'asesor' => $request['asesor']],
             ['creado_por' => $request['creado_por'],
              'asignaciones' => 0,
-             'asesor' => $request['asesor']]
+            ]
         );
 
         redirect()->back();

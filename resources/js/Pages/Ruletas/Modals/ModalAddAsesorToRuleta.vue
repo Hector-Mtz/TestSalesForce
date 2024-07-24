@@ -49,7 +49,8 @@ onUpdated(() =>
 {
     formNewAsesor.ruleta_sede = props.ruleta_sede_actual.id;
     getListUsers();
-})
+});
+
 
 const saveNewAsesor = () => 
 {
@@ -59,7 +60,8 @@ const saveNewAsesor = () =>
         preserveScroll:true,
         preserveState:true,
         onSuccess:() =>{
-            formNewAsesor.asesor = '';
+            listusers.value = [];
+            formNewAsesor.reset();
             close();
         }
       });

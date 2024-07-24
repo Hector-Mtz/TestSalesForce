@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('creado_por')->nullable()->constrained('users');
             $table->foreignId('tipo_asignacion')->nullable()->constrained('asignaciones');
             $table->integer('asignaciones');
+            $table->dateTime('ultima_asignacion')->nullable();
             $table->timestamps();
         });
     }

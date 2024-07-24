@@ -16,7 +16,8 @@ class RuletaSede extends Model
         'creado_por',
         'asignaciones',
         'tipo_asignacion',
-        'ruleta_padre'
+        'ruleta_padre',
+        'ultima_asignacion'
     ];
 
     public function sedes()

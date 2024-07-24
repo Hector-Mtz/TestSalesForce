@@ -24,7 +24,7 @@ const props = defineProps({
     },
     'nameOption': {
         type: String,
-        default: 'name'
+        default: "name"
     },
     'value': {
         default: ''
@@ -50,8 +50,9 @@ const changeText = (text) => {
 const error = computed(() => {
     if (valueText.value !== "" || props.modelValue != "") {
         if (valueText.value !== "") {
-            const selectOpcion = props.options.find(opcion => {
-                return (opcion[props.nameOption] + "").toUpperCase() == (valueText.value + "").toUpperCase()
+            const selectOpcion = props.options.find(opcion => 
+            {
+                return ((opcion.name+" "+opcion.ap_paterno+" "+opcion.ap_materno) + "").toUpperCase() == (valueText.value + "").toUpperCase()
             });
             if (selectOpcion !== undefined) {
                 emit('update:modelValue', selectOpcion[props.keyOption]);
@@ -100,7 +101,7 @@ defineExpose({ focus: () => inputlist.value.focus() });
             :disabled="disabled">
         <datalist :id="list">
             <option v-for="opcion in props.options" :key="opcion[props.keyOption]">
-                {{ opcion[props.nameOption] }}
+                {{ opcion.name +' '+opcion.ap_paterno+' ' + opcion.ap_materno }}
             </option>
         </datalist>
     </div>
