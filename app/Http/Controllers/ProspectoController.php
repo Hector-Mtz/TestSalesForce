@@ -185,6 +185,16 @@ class ProspectoController extends Controller
                'propietario' => $asesor['asesor']
              ]);
           }
+          else
+          {
+            $asesor=$this->ruletaNacional();
+            //actualizamos el propietario
+            Prospecto::where('id','=',$prospecto['id'])
+            ->update([
+              'vendedor_anterior' => $prospecto['propietario'],
+              'propietario' => $asesor['asesor']
+            ]);
+          }
         }
     }
 
@@ -198,6 +208,7 @@ class ProspectoController extends Controller
             case 1: //sede
                 if($prospecto['sede'] !== null)//consultamos los asesores por esa sede
                 {
+                    $asesor = null;
                     //necesitamos obtener la ruleta_sede por medio de la sede del prospecto
                     $ruleta_sede_sede = RuletaSedeSedes::select('ruleta_sede_sedes.*')
                     ->where('ruleta_sede_sedes.sede_id','=',$prospecto['sede'])
@@ -239,7 +250,7 @@ class ProspectoController extends Controller
                  ->where('ruleta_sede_productos.producto_id','=',$prospecto['producto_de_interes'])
                  ->orderBy('ultima_asignacion','ASC')
                  ->first();
-
+                 $asesor = null;
                  $asesor =  RuletaAsesore::select(
                     'ruleta_asesores.id',
                     'ruleta_asesores.asesor',
@@ -280,7 +291,7 @@ class ProspectoController extends Controller
                   ->where('ruleta_sedes.ruleta_general','=',$ruleta_padre['id'])
                   ->orderBy('ultima_asignacion')
                   ->first();
-
+                  $asesor = null;
                   $asesor =  RuletaAsesore::select(
                     'ruleta_asesores.id',
                     'ruleta_asesores.asesor',
@@ -303,37 +314,40 @@ class ProspectoController extends Controller
                    ]);
                 break;
             default: //nacional
-                  //tomamos todas las sedes y las acomodamos por ultima_asignacion
-                  $siguienteRuletaParaAsignar = RuletaSede::select('ruleta_sedes.*')
-                  ->orderBy('ruleta_sedes.ultima_asignacion','ASC')
-                  ->first();
-
-                  $asesor =  RuletaAsesore::select(
-                    'ruleta_asesores.id',
-                    'ruleta_asesores.asesor',
-                    'ruleta_asesores.asignaciones'
-                  )
-                  ->where('ruleta_asesores.ruleta_sede','=',$siguienteRuletaParaAsignar['id'])
-                  ->orderBy('ultima_asignacion','ASC')
-                  ->first();
-
-                  RuletaAsesore::where('ruleta_asesores.id','=',$asesor['id'])
-                  ->update([
-                      'asignaciones' => $asesor['asignaciones']+1,
-                      'ultima_asignacion' => $fecha_server
-                  ]);
-
-                  RuletaSede::where('ruleta_sedes.id','=',$siguienteRuletaParaAsignar['id'])
-                  ->update([
-                    'asignaciones' => $siguienteRuletaParaAsignar['asignaciones'] +1,
-                    'ultima_asignacion' => $fecha_server
-                  ]);
-
-                  return $asesor; 
-
+                return $this->ruletaNacional();
                 break;
         }
 
+    }
+
+    public function ruletaNacional()
+    {
+        date_default_timezone_set('America/Mexico_City');
+        $fecha_server = date("Y-m-d H:i:s");
+         //tomamos todas las sedes y las acomodamos por ultima_asignacion
+         $siguienteRuletaParaAsignar = RuletaSede::select('ruleta_sedes.*')
+         ->orderBy('ruleta_sedes.ultima_asignacion','ASC')
+         ->first();
+         $asesor =  RuletaAsesore::select(
+           'ruleta_asesores.id',
+           'ruleta_asesores.asesor',
+           'ruleta_asesores.asignaciones'
+         )
+         ->where('ruleta_asesores.ruleta_sede','=',$siguienteRuletaParaAsignar['id'])
+         ->orderBy('ultima_asignacion','ASC')
+         ->first();
+         RuletaAsesore::where('ruleta_asesores.id','=',$asesor['id'])
+         ->update([
+             'asignaciones' => $asesor['asignaciones']+1,
+             'ultima_asignacion' => $fecha_server
+         ]);
+         RuletaSede::where('ruleta_sedes.id','=',$siguienteRuletaParaAsignar['id'])
+         ->update([
+           'asignaciones' => $siguienteRuletaParaAsignar['asignaciones'] +1,
+           'ultima_asignacion' => $fecha_server
+         ]);
+
+         return $asesor; 
     }
 
     /**
