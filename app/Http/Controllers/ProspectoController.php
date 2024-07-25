@@ -19,6 +19,7 @@ use App\Models\RuletaSede;
 use App\Models\RuletaSedeProductos;
 use App\Models\RuletaSedeSedes;
 use App\Models\Sede;
+use App\Models\StatusProgress;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -80,9 +81,36 @@ class ProspectoController extends Controller
 
     public function viewProspecto (Prospecto $prospecto)
     {
+        $sedes = Sede::all();
+        $asignaciones = Asignacione::all();
+        $producto_interes = ProductoDeInteres::all();
+        $campana_canal = CampanaCanal::all();
+        $origenes = Origene::all();
+        $busqueda_terreno = BusquedaTerreno::all();
+        $inversiones_al_mes = InversionAlMe::all();
+        $idiomas = Idioma::all();
+        $montos_eganche = MontoEnganche::all();
+        $formas_contacto = FormaContacto::all();
+        $horarios=HorarioContacto::all();
+        $status_progress = StatusProgress::select('status_progress.*')
+        ->where('status_progress.tipo_prospecto_status','=',$prospecto['tipo_prospecto'])
+        ->get();
         return Inertia::render('Prospectos/Individual/Index', 
         [
-            'prospecto' => $prospecto
+            'prospecto' => $prospecto,
+            'status_progress' => $status_progress,
+
+            'sedes' => $sedes,
+            'asignaciones' => $asignaciones,
+            'producto_interes' => $producto_interes,
+            'campana_canal' => $campana_canal,
+            'origenes' => $origenes,
+            'busqueda_terreno' => $busqueda_terreno,
+            'inversiones_al_mes' => $inversiones_al_mes,
+            'idiomas' => $idiomas,
+            'montos_eganche' => $montos_eganche,
+            'formas_contacto' => $formas_contacto,
+            'horarios' => $horarios
         ]);
     }
 
