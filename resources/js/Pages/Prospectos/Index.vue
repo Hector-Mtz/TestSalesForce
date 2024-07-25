@@ -99,7 +99,7 @@ const closeModalNewProspecto = () =>
                            {{ prospecto.created_at.substring(0,10) }}
                         </td>
                         <td class="py-2 text-center">
-                           <a class="text-blue-500">
+                           <a :href="'/viewProspecto/'+prospecto.id" class="text-blue-500">
                             {{ prospecto.nombre + ' ' + prospecto.apellidos}}
                            </a>
                         </td>

@@ -78,6 +78,14 @@ class ProspectoController extends Controller
         ]);
     }
 
+    public function viewProspecto (Prospecto $prospecto)
+    {
+        return Inertia::render('Prospectos/Individual/Index', 
+        [
+            'prospecto' => $prospecto
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

@@ -65,4 +65,6 @@ Route::middleware([
     Route::post('/saveRuletaAsesor',[RuletaAsesoreController::class,'store'])->name('saveRuletaAsesor');
     //Ruta para revisar los asesores de una ruleta especifica
     Route::get('/checkAsesores',[RuletaAsesoreController::class,'index'])->name('checkAsesores');
+    //Ruta para ver la informacion detallada del prospecto
+    Route::get('/viewProspecto/{prospecto}',[ProspectoController::class,'viewProspecto'])->name('viewProspecto');
 });
