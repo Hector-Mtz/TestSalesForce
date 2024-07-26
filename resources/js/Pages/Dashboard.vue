@@ -4,12 +4,28 @@ import Welcome from '@/Components/Welcome.vue';
 //graficas 
 import Grafica1 from './Partials/Grafica1.vue';
 import Grafica2 from './Partials/Grafica2.vue';
+import { reactive, computed } from 'vue'
 
 const props = defineProps({
- prospectos:Object
+ prospectos:Object,
+ prospectosGraph:Object
 });  
 
+const prospectosCalculados = computed(() => 
+{
+  
+});
 
+
+let cantidadesProspectos = [];
+
+for (let index = 0; index < props.prospectosGraph.length; index++) 
+{
+  if(props.prospectosGraph[index] == props.prospectosGraph[0]) //primero seteamos el primer objeto
+  {
+    
+  }
+}
 
 </script>
 
@@ -20,7 +36,7 @@ const props = defineProps({
                 Dashboard
             </h2>
         </template>
-
+        {{ prospectosGraph }}
         <div class="flex flex-row p-8 ">
             <div class="grid w-3/4 grid-cols-3 col-start-1 col-end-3">
                 <!--Primera fila-->

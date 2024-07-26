@@ -10,6 +10,7 @@ use App\Http\Controllers\RuletaSedeController;
 use App\Http\Controllers\UserController;
 use App\Models\Prospecto;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,9 +30,24 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', function () 
     {
-        $prospectos = Prospecto::all();
+        $prospectos = Prospecto::select('prospectos.*')
+        ->where('prospectos.tipo_prospecto','=',1)
+        ->get();
+
+        $prospectosGraph = DB::table('prospectos')
+        ->selectRaw(
+            'COUNT(prospectos.id) as contador,
+             prospectos.created_at,
+             prospectos.status,
+             LEFT(prospectos.created_at,10) AS FechaString',
+            )
+        ->where('prospectos.tipo_prospecto','=',1)
+        ->groupBy('FechaString','prospectos.status')
+        ->get();
+
         return Inertia::render('Dashboard',[
-            'prospectos' => $prospectos
+            'prospectos' => $prospectos,
+            'prospectosGraph' => $prospectosGraph
         ]);
     })->name('dashboard');
 

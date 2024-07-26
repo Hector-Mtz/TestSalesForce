@@ -43,6 +43,12 @@ var data = [{
   "nuevo": 2.5,
   "junk": 2.5,
   "contactado": 2.1,
+},
+{
+  "year": "13",
+  "nuevo": 2.5,
+  "junk": 2.5,
+  "contactado": 2.1,
 }]
 
 
