@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendNotification;
 use App\Models\Asignacione;
 use App\Models\BusquedaTerreno;
 use App\Models\CampanaCanal;
@@ -20,7 +21,9 @@ use App\Models\RuletaSedeProductos;
 use App\Models\RuletaSedeSedes;
 use App\Models\Sede;
 use App\Models\StatusProgress;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class ProspectoController extends Controller
@@ -122,6 +125,19 @@ class ProspectoController extends Controller
         //
     }
 
+    public function sendMail () //funcion de prueba
+    {
+          $user = User::select('users.*')
+          ->where('id','=',2)
+          ->first();
+
+          $lead = Prospecto::select('prospectos.*')
+          ->first();
+
+          Mail::to('programador.mktd1@ciudadmaderas.com')
+          ->send(new SendNotification($user, $lead));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -220,6 +236,12 @@ class ProspectoController extends Controller
                'vendedor_anterior' => $prospecto['propietario'],
                'propietario' => $asesor['asesor']
              ]);
+
+             $emailAsesor = User::select('users.*')
+             ->where('id','=',$asesor['asesor'])
+             ->first();
+
+             Mail::to($emailAsesor['email'])->send(new SendNotification($emailAsesor, $prospecto ));
           }
           else
           {
@@ -230,6 +252,12 @@ class ProspectoController extends Controller
               'vendedor_anterior' => $prospecto['propietario'],
               'propietario' => $asesor['asesor']
             ]);
+
+            $emailAsesor = User::select('users.*')
+            ->where('id','=',$asesor['asesor'])
+            ->first();
+
+            Mail::to($emailAsesor['email'])->send(new SendNotification($emailAsesor, $prospecto));
           }
         }
     }

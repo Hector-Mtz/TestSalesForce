@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Prospecto;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,9 +18,10 @@ class SendNotification extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public User $asesor, public Prospecto $prospecto)
     {
         //
+       
     }
 
     /**
@@ -27,19 +30,18 @@ class SendNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nueva notificación de prospecto',
+            subject: 'Nueva notificación de prospecto en LeadManagerMaderas',
         );
     }
 
     /**
      * Get the message content definition.
      */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
+
+     public function build()
+     {
+        return $this->view('emails.notification');
+     }
 
     /**
      * Get the attachments for the message.
