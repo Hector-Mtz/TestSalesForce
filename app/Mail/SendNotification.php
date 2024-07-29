@@ -27,7 +27,7 @@ class SendNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Send Notification',
+            subject: 'Nueva notificación de prospecto',
         );
     }
 
