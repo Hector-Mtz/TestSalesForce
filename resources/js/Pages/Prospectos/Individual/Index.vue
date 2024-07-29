@@ -27,6 +27,7 @@ const page = usePage();
 let showSpin=ref(false);
 //Formulario
 const formEditProspecto = useForm({
+       id:props.prospecto.id,
        producto_interes:props.prospecto.producto_de_interes,
        busca_terreno_para:props.prospecto.busqueda_terreno,
        campana_canal:props.prospecto.campana_canal,
@@ -93,6 +94,26 @@ onMounted(() =>
     getListUsers();
 });
 
+
+const saveEditForm = () => 
+{
+   try 
+   {
+      formEditProspecto.post(route('editLead'));   
+   } 
+   catch (error) 
+   {
+      
+   }
+}
+
+let statusSelect = ref(props.prospecto.status);
+const changeStatus = () => 
+{
+   console.log(statusSelect.value);
+   
+}
+
 </script>
 <template>
     <AppLayout title="Prospecto">
@@ -107,20 +128,33 @@ onMounted(() =>
             </div>
         </template>
         <div class="p-8">
-            <div class="flex flex-row justify-center w-full py-4 my-2 bg-white rounded-lg"> <!--Linea del tiempo-->
-               <div  v-for="statue in status_progress" :key="statue.id">
-                  <div v-if="statue.id !== prospecto.status" class="px-4 py-2 text-center bg-gray-200 arrowText arrowRight" >
-                    {{statue.nombre}}
+            <div class="flex flex-row items-center justify-center w-full py-4 my-2 bg-white rounded-lg "> <!--Linea del tiempo-->
+               <div class="flex flex-row justify-center ">
+                  <div v-for="statue in status_progress" :key="statue.id" @click="()=>{statusSelect = statue.id}">
+                     <div  v-if="statue.id !== prospecto.status"  class="px-4 py-2 text-center bg-gray-200 arrowText arrowRight" >
+                       <div class="italic font-extrabold text-blue-600 underline-offset-8" v-if="statue.id == statusSelect">
+                         {{ statue.nombre }}
+                       </div>
+                       <div v-else>
+                        {{ statue.nombre }}
+                       </div>
+                     </div>
+                     <div v-else class="px-4 py-2 text-center text-white bg arrowText arrowRight2">
+                       {{statue.nombre}}
+                     </div>
                   </div>
-                  <div v-else class="px-4 py-2 text-center text-white bg arrowText arrowRight2">
-                    {{statue.nombre}}
-                  </div>
+               </div>
+               <div class="mx-16">
+                  <button class="px-6 py-2 text-white bg-blue-600 rounded-lg " @click="changeStatus">
+                     Marcar como estado actual
+                  </button>
                </div>
             </div>
             <div class="flex flex-row">
                 <div class="w-3/4 mx-2 bg-white rounded-lg">
                     <div class="p-4">
                         <h1 class="text-xl font-semibold">Detalles</h1>
+                        {{ formEditProspecto }}
                         <h1 class="my-2 font-bold">Información de la venta</h1>
                         <div class="flex flex-row my-2 gap-x-6">
      <!--Columna 1-->  <div class="w-1/2 mx-2">
@@ -330,7 +364,7 @@ onMounted(() =>
                         </div>
                     </div>
                     <div class="flex flex-row justify-end">
-                       <button class="bg-[#5562a3] p-2 px-6 rounded-br-lg rounded-tl-lg text-white font-bold text-xl flex flex-row gap-x-4 items-center">
+                       <button @click="saveEditForm" class="bg-[#5562a3] p-2 px-6 rounded-br-lg rounded-tl-lg text-white font-bold text-xl flex flex-row gap-x-4 items-center">
                           Guardar
                        </button>
                        <SpinProgress :inprogress="showSpin" />

@@ -406,9 +406,10 @@ class ProspectoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Prospecto $prospecto)
+    public function update(Request $request)
     {
         //
+        return $request;
     }
 
     /**

@@ -23,7 +23,17 @@ for (let index = 0; index < props.prospectosGraph.length; index++)
 {
   if(props.prospectosGraph[index] == props.prospectosGraph[0]) //primero seteamos el primer objeto
   {
-    
+     let newObj = {
+        fecha:'',
+        nuevo:0,
+        junk:0,
+        contactado:0
+     }
+     
+  }
+  else
+  {
+
   }
 }
 

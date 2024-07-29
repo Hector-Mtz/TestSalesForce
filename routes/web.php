@@ -83,4 +83,8 @@ Route::middleware([
     Route::get('/checkAsesores',[RuletaAsesoreController::class,'index'])->name('checkAsesores');
     //Ruta para ver la informacion detallada del prospecto
     Route::get('/viewProspecto/{prospecto}',[ProspectoController::class,'viewProspecto'])->name('viewProspecto');
+    //Ruta para guardar campos del lead que se editara
+    Route::post('/editLead',[ProspectoController::class,'update'])->name('editLead');
+    //Ruta para editar el status del lead
+    Route::post('/editStatus',[ProspectoController::class,'editStatus'])->name('editStatus');
 });
