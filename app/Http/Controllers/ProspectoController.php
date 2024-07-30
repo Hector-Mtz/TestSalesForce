@@ -415,6 +415,15 @@ class ProspectoController extends Controller
          return $asesor; 
     }
 
+    public function editStatus (Request $request)
+    {
+       Prospecto::where('id','=',$request['id'])
+       ->update([
+        'status' => $request['status']
+       ]);
+
+       redirect()->back();
+    }
     /**
      * Display the specified resource.
      */

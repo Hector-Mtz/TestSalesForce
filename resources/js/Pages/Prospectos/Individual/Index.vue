@@ -107,11 +107,18 @@ const saveEditForm = () =>
    }
 }
 
-let statusSelect = ref(props.prospecto.status);
+const formEditStatusProspecto = useForm({
+   id:props.prospecto.id,
+   status:props.prospecto.status
+});
+
 const changeStatus = () => 
 {
-   console.log(statusSelect.value);
-   
+   formEditStatusProspecto.post(route('editStatus'),
+{
+   preserveScroll:true,
+   preserveState:true,
+});
 }
 
 </script>
@@ -130,9 +137,9 @@ const changeStatus = () =>
         <div class="p-8">
             <div class="flex flex-row items-center justify-center w-full py-4 my-2 bg-white rounded-lg "> <!--Linea del tiempo-->
                <div class="flex flex-row justify-center ">
-                  <div v-for="statue in status_progress" :key="statue.id" @click="()=>{statusSelect = statue.id}">
-                     <div  v-if="statue.id !== prospecto.status"  class="px-4 py-2 text-center bg-gray-200 arrowText arrowRight" >
-                       <div class="italic font-extrabold text-blue-600 underline-offset-8" v-if="statue.id == statusSelect">
+                  <div v-for="statue in status_progress" :key="statue.id" @click="()=>{formEditStatusProspecto.status = statue.id}">
+                     <div  v-if="statue.id !== formEditStatusProspecto.status"  class="px-4 py-2 text-center bg-gray-200 arrowText arrowRight" >
+                       <div class="italic font-extrabold text-blue-600 underline-offset-8" v-if="statue.id == formEditStatusProspecto.status">
                          {{ statue.nombre }}
                        </div>
                        <div v-else>
