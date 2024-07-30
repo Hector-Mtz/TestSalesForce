@@ -5,9 +5,11 @@ import SpinProgress from '@/Components/SpinProgress.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { onMounted, ref, watch } from 'vue';
 import ListDataInput from '@/Components/ListDataInput.vue';
+import OptionButtons from './Partials/OptionButtons.vue'
 //libs
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import OptionButtonsVue from './Partials/OptionButtons.vue';
 
 
 const props = defineProps({
@@ -399,10 +401,14 @@ const changeStatus = () =>
                     </div>
                  </div>
                  <div class="w-1/4 p-4 mx-2 bg-white rounded-lg">
-                    Tareas
+                   <h2 class="text-xl font-semibold">Tareas</h2>
+                   <div class="my-3">
+                       
+                   </div>
                  </div>
             </div>
         </div>
+        <OptionButtons />
     </AppLayout>
 </template>
 <style>
