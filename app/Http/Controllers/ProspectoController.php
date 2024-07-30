@@ -446,7 +446,67 @@ class ProspectoController extends Controller
     public function update(Request $request)
     {
         //
-        return $request;
+        Prospecto::where('id','=',$request['id'])
+        ->update([
+          'nombre' => $request['nombre'],
+          'apellidos' => $request['apellidos'],
+          'email' => $request['email'],
+          'telefono' => $request['telefono'],
+          'mensaje' => $request['mensaje'],
+          //'propietario' => $request['propietario_del_prospecto'],
+          'asignacion' => $request['asignacion'],
+          'sede' => $request['sede'],
+          'producto_de_interes' => $request['producto_interes'],
+          'campana_canal' => $request['campana_canal'],
+          'origen' => $request['origen'],
+          'monto_enganche' => $request['monto_enganche'],
+          'forma_contacto' => $request['forma_de_contacto'],
+          'horario_contacto' => $request['horario_contacto'],
+          'busqueda_terreno' => $request['busca_terreno_para'],
+          'inversion_al_mes' => $request['inversion_al_mes'],
+          'tiempo_inversion' => $request['tiempo_inversion'],
+          'idioma' => $request['idioma'],
+          'UTM_Source' => $request['UTM_Source'],
+          'UTM_Content' =>$request['UTM_Content'],
+          'UTM_Medium' => $request['UTM_Medium'],
+          'UTM_Campaign' => $request['UTM Term'],
+          'First_Click' => $request['First_Click_Channel'],
+          'First_Click_Campaign' => $request['First_Click_Campaign'],
+          'GCLID' => $request['GCLID'],
+          'IP_Adress' => $request['Ip_adrees'],
+          'Device' => $request['Device'],
+          'Operating_System' => $request['Operating_System'],
+          'Browser' => $request['Browser'],
+          'First_Click_Content' => $request['First_Click_Content'],
+          'First_Click_Landing_Page' => $request['First_Click_Landing_Page'],
+          'Time_Zone' => $request['Time_Zone'],
+          'City' => $request['City'],
+          'Country' => $request['Country'],
+          'State' => $request['State']
+        ]);
+
+        $prospecto = Prospecto::select('prospectos.*')
+        ->where('id','=',$request['id'])
+        ->first();
+
+        if($request->has('propietario_del_prospecto'))
+        {
+           //se esta cambiando el propietario
+           if($request['propietario_del_prospecto'] !== $prospecto['propietario'] ) 
+           {
+              //verificamos si tiene el permiso adecuado para editar, de no ser asi no hara nada
+              if($request['editor']['role_id'] == 1) //puede editar
+              {
+                 Prospecto::where('id','=',$request['id'])
+                 ->update([
+                  'propietario' => $request['propietario_del_prospecto'],
+                  'vendedor_anterior' => $prospecto['propietario']
+                 ]);
+              }
+           }
+        }
+
+        redirect()->back();
     }
 
     /**

@@ -5,6 +5,9 @@ import SpinProgress from '@/Components/SpinProgress.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { onMounted, ref, watch } from 'vue';
 import ListDataInput from '@/Components/ListDataInput.vue';
+//libs
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 
 const props = defineProps({
@@ -27,6 +30,7 @@ const page = usePage();
 let showSpin=ref(false);
 //Formulario
 const formEditProspecto = useForm({
+       editor:page.props.auth.user,
        id:props.prospecto.id,
        producto_interes:props.prospecto.producto_de_interes,
        busca_terreno_para:props.prospecto.busqueda_terreno,
@@ -99,7 +103,18 @@ const saveEditForm = () =>
 {
    try 
    {
-      formEditProspecto.post(route('editLead'));   
+      formEditProspecto.post(route('editLead'),
+      {
+         preserveScroll:true,
+         preserveState:true,
+         onSuccess:()=>
+         {
+            toast.success('El prospecto se ha actualizado',{
+            "theme": "colored",
+            "type": "success",
+      });
+         }
+      });   
    } 
    catch (error) 
    {
@@ -118,6 +133,13 @@ const changeStatus = () =>
 {
    preserveScroll:true,
    preserveState:true,
+   onSuccess:()=>
+   {
+      toast.success('Status cambiado correctamente',{
+         "theme": "colored",
+         "type": "success",
+      });
+   }
 });
 }
 
@@ -134,7 +156,7 @@ const changeStatus = () =>
                 </div>
             </div>
         </template>
-        <div class="p-8">
+        <div class="p-8 ">
             <div class="flex flex-row items-center justify-center w-full py-4 my-2 bg-white rounded-lg "> <!--Linea del tiempo-->
                <div class="flex flex-row justify-center ">
                   <div v-for="statue in status_progress" :key="statue.id" @click="()=>{formEditStatusProspecto.status = statue.id}">
@@ -161,7 +183,6 @@ const changeStatus = () =>
                 <div class="w-3/4 mx-2 bg-white rounded-lg">
                     <div class="p-4">
                         <h1 class="text-xl font-semibold">Detalles</h1>
-                        {{ formEditProspecto }}
                         <h1 class="my-2 font-bold">Información de la venta</h1>
                         <div class="flex flex-row my-2 gap-x-6">
      <!--Columna 1-->  <div class="w-1/2 mx-2">
@@ -385,6 +406,9 @@ const changeStatus = () =>
     </AppLayout>
 </template>
 <style>
+body{
+	scroll-behavior: smooth;
+}
 /* ARROWS */
 .arrowText {
     position:relative;   

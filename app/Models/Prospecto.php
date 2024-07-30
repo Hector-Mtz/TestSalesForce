@@ -30,6 +30,7 @@ class Prospecto extends Model
         'horario_contacto',
         'busqueda_terreno',
         'inversion_al_mes',
+        'tiempo_inversion',
         'idioma',
         'Estado_de_integración',
         'Id_Dragón',
