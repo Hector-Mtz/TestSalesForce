@@ -72,7 +72,7 @@ const formEditProspecto = useForm({
     });
 
 
-    let listusers = ref([]);
+let listusers = ref([]);
 const getListUsers = async () => {
     try {
 
