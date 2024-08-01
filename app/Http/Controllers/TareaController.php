@@ -31,6 +31,7 @@ class TareaController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('America/Mexico_City');
         Tarea::create(
             [
                 'comentarios' => $request['comentarios'], 

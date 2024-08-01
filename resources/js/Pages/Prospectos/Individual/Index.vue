@@ -12,8 +12,12 @@ import 'vue3-toastify/dist/index.css';
 import OptionButtonsVue from './Partials/OptionButtons.vue';
 
 
+
+
+
 const props = defineProps({
     prospecto:Object,
+    tareas:Object,
     status_progress:Object,
 
     sedes:Object,
@@ -402,8 +406,33 @@ const changeStatus = () =>
                  </div>
                  <div class="w-1/4 p-4 mx-2 bg-white rounded-lg">
                    <h2 class="text-xl font-semibold">Tareas</h2>
-                   <div class="my-3">
-                       
+                   <div class="h-[110rem] my-3 overflow-y-scroll">
+                      <div class="timeline">
+                        <div class="timeline-item" v-for="tarea in tareas" :key="tarea.id">
+                           <div class="timeline-content">
+                               <h3 class="font-bold">{{tarea.categoria}}</h3>
+                               <p v-if="tarea.cat_tareas !== 2"><span class="font-semibold" >Comentarios: </span>{{tarea.comentarios}}</p>
+                               <p v-if="tarea.cat_tareas !== 2 && tarea.cat_tareas !== 3"><span class="font-semibold" >Mensaje WA: </span>{{tarea.mensaje_whats}}</p>
+                               <p v-if="tarea.cat_tareas == 2"> <!--Correo-->
+                                 <span class="font-bold" >De: </span>
+                                 {{ tarea.from_email }}
+                               </p>
+                               <p v-if="tarea.cat_tareas == 2"> <!--Correo-->
+                                 <span class="font-bold" >Para: </span>
+                                 {{ tarea.to_email }}
+                               </p>
+                               <p v-if="tarea.cat_tareas == 2"> <!--Correo-->
+                                 <span class="font-bold" >Asunto: </span>
+                                 {{ tarea.asunto_mail }}
+                               </p>
+                               <p v-if="tarea.cat_tareas == 2"> <!--Correo-->
+                                 <span class="font-bold" >Correo: </span>
+                                 {{ tarea.cuerpo_mail }}
+                               </p>
+                               <span class="date">{{new Date(tarea.created_at)}}</span>
+                           </div>
+                        </div>
+                      </div>       
                    </div>
                  </div>
             </div>
@@ -475,4 +504,62 @@ body{
       right: -16px;
       z-index: 1;
       }
+
+
+/*Estilos timeline*/
+  .timeline {
+     position: relative;
+     max-width: 900px;
+     margin: 0 auto;
+     padding: 20px 0;
+ }
+ 
+ .timeline-item {
+     position: relative;
+     margin: 4px 0;
+     padding-left: 50px;
+ }
+ 
+ .timeline-item::before {
+     content: '';
+     position: absolute;
+     left: 28px;
+     top: 0;
+     height: 100%;
+     border-left: 2px solid #3498db;
+ }
+ 
+ .timeline-item::after {
+     content: '';
+     position: absolute;
+     left: 20px;
+     width: 20px;
+     height: 20px;
+     background-color: #3498db;
+     border-radius: 50%;
+     top: 0;
+ }
+ 
+ .timeline-content {
+     padding: 20px;
+     background: #fff;
+     border-radius: 6px;
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .timeline-content h3 {
+     margin: 0;
+     color: #333;
+ }
+ 
+ .timeline-content p {
+     margin: 10px 0;
+     color: #555;
+ }
+ 
+ .date {
+     display: block;
+     font-size: 0.9em;
+     color: #999;
+ }
 </style>

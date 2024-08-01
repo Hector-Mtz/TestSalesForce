@@ -21,6 +21,7 @@ use App\Models\RuletaSedeProductos;
 use App\Models\RuletaSedeSedes;
 use App\Models\Sede;
 use App\Models\StatusProgress;
+use App\Models\Tarea;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -98,9 +99,14 @@ class ProspectoController extends Controller
         $status_progress = StatusProgress::select('status_progress.*')
         ->where('status_progress.tipo_prospecto_status','=',$prospecto['tipo_prospecto'])
         ->get();
+        $tareas = Tarea::select('tareas.*','caregorias_tareas.nombre as categoria')
+        ->Join('caregorias_tareas','tareas.cat_tareas','caregorias_tareas.id')
+        ->where('tareas.prospecto_id','=',$prospecto['id'])
+        ->get();
         return Inertia::render('Prospectos/Individual/Index', 
         [
             'prospecto' => $prospecto,
+            'tareas' => $tareas,
             'status_progress' => $status_progress,
 
             'sedes' => $sedes,

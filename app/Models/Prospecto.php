@@ -54,4 +54,10 @@ class Prospecto extends Model
         'Country',
         'State',
     ];
+
+
+    public function tareas()
+    {
+        return $this->hasMany(Tarea::class,'prospecto_id');
+    }
 }
