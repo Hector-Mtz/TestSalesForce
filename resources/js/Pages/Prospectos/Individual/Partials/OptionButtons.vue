@@ -59,7 +59,19 @@ const saveTask = () =>
        preserveState:true,
        onSuccess:()=>
        {
-         close();
+         myBottomSheet.value.close();
+         switch (formNewTask.asunto) 
+         {
+          case 1: //WA
+             window.open('https://api.whatsapp.com/send?phone='+props.prospecto.telefono+'&text='+formNewTask.mensaje_wa+'');   
+            break;
+          case 2:
+            break;
+          case 3:
+            break;
+         }
+
+         formNewTask.reset();
        }
    })
 }
@@ -144,7 +156,7 @@ const saveTask = () =>
                 </p>
               </div>
               <div class="my-2" v-if="formNewTask.asunto  !== 2">
-                <p class="font-semibold">Comentarios</p>
+                <p class="font-semibold">Comentarios de la tarea</p>
                 <textarea v-model="formNewTask.comentarios" class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"></textarea>
               </div>
               <div  v-else>
@@ -170,6 +182,10 @@ const saveTask = () =>
                    <p class="font-semibold">Cuerpo del correo:</p>
                    <textarea v-model="formNewTask.cuerpo_mail" class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"></textarea>
                 </div>
+              </div>
+              <div class="my-2" v-if="formNewTask.asunto  == 1">
+                <p class="font-semibold">Mensaje</p>
+                <textarea v-model="formNewTask.mensaje_wa" class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"></textarea>
               </div>
               <div class="float-right my-2">
                   <button @click="saveTask()" class="px-2 py-1 text-xl font-semibold text-white bg-blue-500 rounded-lg">
