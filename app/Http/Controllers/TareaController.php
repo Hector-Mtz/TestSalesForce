@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OptionalMail;
 use App\Models\Tarea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -46,13 +47,16 @@ class TareaController extends Controller
 
        if($request['asunto'] == 2) //si es email, mandara email desde la plataforma
        {
-         $data = [];
+         Mail::to($request['to'])
+         ->send(new OptionalMail($request['cuerpo_mail'], $request['asunto_mail'],$request['from']));
+         /*
           Mail::send('emails/optional-email',$data,function($message) use($request)
           {
               $message->from($request['from'],$request['from']); //correo y nombre de remitente
           
               $message->to($request['to'] ); //correo del receptor ->cc('bar@example.com') para copia es esa funcion
           });
+          */
        }
 
        redirect()->back();
