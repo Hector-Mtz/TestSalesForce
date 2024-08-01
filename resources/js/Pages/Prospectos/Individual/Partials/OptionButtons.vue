@@ -16,6 +16,8 @@ const formNewTask = useForm
     comentarios:'',
     prospecto:props.prospecto.id,
     asesor:props.prospecto.propietario,
+    //datos WA
+     mensaje_wa:'',
     //datos mail
     from:'',
     to:props.prospecto.email,
@@ -49,7 +51,18 @@ const close = () =>
 }
 
 
-
+const saveTask = () => 
+{
+   formNewTask.post(route('saveTask'),
+   {
+       preserveScroll:true,
+       preserveState:true,
+       onSuccess:()=>
+       {
+         close();
+       }
+   })
+}
 
 </script>
 <template>
@@ -159,7 +172,7 @@ const close = () =>
                 </div>
               </div>
               <div class="float-right my-2">
-                  <button class="px-2 py-1 text-xl font-semibold text-white bg-blue-500 rounded-lg">
+                  <button @click="saveTask()" class="px-2 py-1 text-xl font-semibold text-white bg-blue-500 rounded-lg">
                      Guardar
                   </button>
               </div>

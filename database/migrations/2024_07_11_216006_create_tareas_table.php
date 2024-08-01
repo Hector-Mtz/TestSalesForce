@@ -14,6 +14,11 @@ return new class extends Migration
         Schema::create('tareas', function (Blueprint $table) {
             $table->id();
             $table->string('comentarios')->nullable();
+            $table->string('mensaje_whats')->nullable();
+            $table->string('from_email')->nullable();
+            $table->string('to_email')->nullable();
+            $table->string('asunto_mail')->nullable();
+            $table->string('cuerpo_mail')->nullable();
             $table->foreignId('cat_tareas')->nullable()->constrained('caregorias_tareas');
             $table->foreignId('prospecto_id')->nullable()->constrained('prospectos');
             $table->foreignId('asesor')->nullable()->constrained('users');

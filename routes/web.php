@@ -7,6 +7,7 @@ use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\RuletaAsesoreController;
 use App\Http\Controllers\RuletaGeneralController;
 use App\Http\Controllers\RuletaSedeController;
+use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
 use App\Models\Prospecto;
 use Illuminate\Foundation\Application;
@@ -87,4 +88,6 @@ Route::middleware([
     Route::post('/editLead',[ProspectoController::class,'update'])->name('editLead');
     //Ruta para editar el status del lead
     Route::post('/editStatus',[ProspectoController::class,'editStatus'])->name('editStatus');
+    //Ruta para guardar tareas
+    Route::post('/saveTask',[TareaController::class,'store'])->name('saveTask');
 });
