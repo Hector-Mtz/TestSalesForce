@@ -215,7 +215,7 @@ const changeStatus = () =>
                                                  <div class="my-3">
                                                    <h4>¿Cuánto quieres invertir al mes?</h4>
                                                    <Select v-model="formEditProspecto.inversion_al_mes" class="w-full">
-                                                      <option v-for="inverion in inversiones_al_mes" :key="inverion.id">
+                                                      <option v-for="inverion in inversiones_al_mes" :key="inverion.id" :value="inverion.id">
                                                           {{ inverion.nombre }}
                                                       </option>
                                                    </Select>
@@ -408,7 +408,7 @@ const changeStatus = () =>
                  </div>
             </div>
         </div>
-        <OptionButtons />
+        <OptionButtons :prospecto="prospecto" :asesores="listusers" />
     </AppLayout>
 </template>
 <style>
