@@ -90,4 +90,6 @@ Route::middleware([
     Route::post('/editStatus',[ProspectoController::class,'editStatus'])->name('editStatus');
     //Ruta para guardar tareas
     Route::post('/saveTask',[TareaController::class,'store'])->name('saveTask');
+    //Ruta para obtener duplicados en dado caso que haya
+    Route::get('/getDuplicados',[ProspectoController::class,'getDuplicados'])->name('getDuplicados');
 });

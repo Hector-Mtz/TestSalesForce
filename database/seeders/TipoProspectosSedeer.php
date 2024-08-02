@@ -19,12 +19,12 @@ class TipoProspectosSedeer extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        DB::table('caregorias_tareas')->insert([
+        DB::table('tipo_prospectos')->insert([
             'nombre' => "Oportunidad",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        DB::table('caregorias_tareas')->insert([
+        DB::table('tipo_prospectos')->insert([
             'nombre' => "Venta",
             'created_at' => now(),
             'updated_at' => now(),

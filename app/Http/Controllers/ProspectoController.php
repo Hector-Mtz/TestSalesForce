@@ -123,6 +123,29 @@ class ProspectoController extends Controller
         ]);
     }
 
+    public function getDuplicados (Request $request)
+    {
+        $prospecto = Prospecto::select('prospectos.*')
+        ->where('prospectos.id','=',$request['prospecto'])
+        ->first();
+        
+        $duplicados = Prospecto::select('prospectos.*', 'sedes.nombre as sede_name',
+        'producto_de_interes.nombre as producto_name','status_progress.nombre as status_name')
+        ->join('status_progress','prospectos.status','status_progress.id')
+        ->leftJoin('sedes','prospectos.sede','sedes.id')
+        ->leftJoin('producto_de_interes','prospectos.producto_de_interes','producto_de_interes.id')
+        ->where('prospectos.id','!=',$prospecto['id'])
+        ->where(function ($query) use ($prospecto)
+        {
+            $query->where('prospectos.telefono','LIKE', substr($prospecto['telefono'],0,10))
+            ->orWhere('prospectos.email','=', $prospecto['email']);
+        })
+        ->orderBy('created_at', 'ASC')
+        ->get();
+
+        return $duplicados;
+    }
+
     /**
      * Show the form for creating a new resource.
      */

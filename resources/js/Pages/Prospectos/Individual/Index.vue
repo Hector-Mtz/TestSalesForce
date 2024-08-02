@@ -10,10 +10,9 @@ import OptionButtons from './Partials/OptionButtons.vue'
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import OptionButtonsVue from './Partials/OptionButtons.vue';
-
-
-
-
+import axios from 'axios';
+import ButtonToNotifiaction from './Partials/ButtonToNotifiaction.vue';
+import ModalViewDuplicados from './Modals/ModalViewDuplicados.vue'
 
 const props = defineProps({
     prospecto:Object,
@@ -99,11 +98,53 @@ const getListUsers = async () => {
     }
 }
 
+let openModalDup = ref(false);
+let duplicados = ref([]);
 onMounted(() => 
 {
     getListUsers();
+    //consultar los prospectos para buscar duplicados y mostrarlos en modal
+    try 
+    {
+      axios.get(route('getDuplicados'),{
+         params:{
+            prospecto:props.prospecto.id
+         }
+      }).then(response => 
+      {
+         if(response.data.length !== 0) //si hay duplicados desplegamos la alerta
+         {
+            duplicados.value = response.data;
+            toast.warning(ButtonToNotifiaction,{
+             "theme": "colored",
+             "type": "success",
+             dangerouslyHTMLString: true, 
+             "autoClose" : false,
+             position: toast.POSITION.TOP_CENTER, 
+             data:{duplicados:response.data},
+             onClick:()=>
+             {
+               openModalDup.value=true;
+             }
+            });
+         }
+      }).catch(err => 
+      {
+         console.log(err)
+      }
+      ); 
+    } 
+    catch (error) 
+    {
+      
+    }
 });
 
+const closeModalDup = () => 
+{
+   openModalDup.value = false;
+   duplicados.value = [];
+}
 
 const saveEditForm = () => 
 {
@@ -118,7 +159,7 @@ const saveEditForm = () =>
             toast.success('El prospecto se ha actualizado',{
             "theme": "colored",
             "type": "success",
-      });
+         });
          }
       });   
    } 
@@ -438,6 +479,7 @@ const changeStatus = () =>
             </div>
         </div>
         <OptionButtons :prospecto="prospecto" :asesores="listusers" />
+        <ModalViewDuplicados :show="openModalDup" @close="closeModalDup" :duplicados="duplicados" />
     </AppLayout>
 </template>
 <style>
