@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Origene;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class OrigeneController extends Controller
 {
@@ -13,6 +14,7 @@ class OrigeneController extends Controller
     public function index()
     {
         //
+
     }
 
     /**

@@ -54,11 +54,17 @@ const logout = () => {
                                 <NavLink :href="route('prospectos')" :active="route().current('prospectos')">
                                     Prospectos
                                 </NavLink>
+                                <NavLink :href="route('reportes')" :active="route().current('reportes')">
+                                    Reportes
+                                </NavLink>
                                 <NavLink :href="route('roles_permisos')" :active="route().current('roles_permisos')">
                                     Roles y permisos
                                 </NavLink>
                                 <NavLink :href="route('ruletas')" :active="route().current('ruletas')">
                                     Ruletas
+                                </NavLink>
+                                <NavLink :href="route('catalogos')" :active="route().current('catalogos')">
+                                    Catalogos
                                 </NavLink>
                             </div>
                         </div>

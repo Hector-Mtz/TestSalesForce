@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\OrigeneController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProspectoController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\RuletaAsesoreController;
@@ -92,4 +95,8 @@ Route::middleware([
     Route::post('/saveTask',[TareaController::class,'store'])->name('saveTask');
     //Ruta para obtener duplicados en dado caso que haya
     Route::get('/getDuplicados',[ProspectoController::class,'getDuplicados'])->name('getDuplicados');
+    //Ruta para visualizacion de catalogos
+    Route::get('/catalogos',[CatalogoController::class,'index'])->name('catalogos');
+    //Ruta para visualizacion de catalogos
+    Route::get('/reportes',[ReportesController::class,'index'])->name('reportes');
 });
