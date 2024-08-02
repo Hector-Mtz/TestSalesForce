@@ -140,7 +140,7 @@ class ProspectoController extends Controller
             $query->where('prospectos.telefono','LIKE', substr($prospecto['telefono'],0,10))
             ->orWhere('prospectos.email','=', $prospecto['email']);
         })
-        ->orderBy('created_at', 'ASC')
+        ->orderBy('created_at', 'DESC')
         ->get();
 
         return $duplicados;
