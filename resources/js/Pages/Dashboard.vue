@@ -27,7 +27,7 @@ const prospectosCalculados = computed(() =>
          }
          
          newObj.year = props.prospectosGraph[index].FechaString;
-         cantidadesProspectos.push(newObj);
+    
          switch (props.prospectosGraph[index].status) {
             case 1:
                 newObj.Nuevo = props.prospectosGraph[index].contador;
@@ -39,10 +39,53 @@ const prospectosCalculados = computed(() =>
                newObj.Contactadoontactado = props.prospectosGraph[index].contador;
             break;
          }
+         cantidadesProspectos.push(newObj);
       }
       else
       {
-    
+        //recorremos los objetos existentes para comparar fechas y tipo de status
+        let newObj = {
+            year:'',
+            Nuevo:0,
+            Junk:0,
+            Contactado:0,
+         };
+
+         for (let index2 = 0; index2 < cantidadesProspectos.length; index2++) 
+         {
+            const objetoProspecto = cantidadesProspectos[index2];
+            if(objetoProspecto.year == props.prospectosGraph[index].FechaString)
+            {
+               switch (props.prospectosGraph[index].status) 
+               {
+                  case 1:
+                     objetoProspecto.Nuevo += props.prospectosGraph[index].contador;
+                  break;
+                  case 2:
+                    objetoProspecto.Junk += props.prospectosGraph[index].contador;
+                  break;
+                  case 3:
+                    objetoProspecto.Contactadoontactado += props.prospectosGraph[index].contador;
+                  break;
+               }
+            }
+            else
+            {
+              newObj.year = props.prospectosGraph[index].FechaString;
+              switch (props.prospectosGraph[index].status) {
+                 case 1:
+                     newObj.Nuevo = props.prospectosGraph[index].contador;
+                 break;
+                 case 2:
+                    newObj.Junkunk = props.prospectosGraph[index].contador;
+                 break;
+                 case 3:
+                    newObj.Contactadoontactado = props.prospectosGraph[index].contador;
+                 break;
+              }
+              cantidadesProspectos.push(newObj);
+            }
+         }
       }
     }
 
@@ -50,29 +93,6 @@ const prospectosCalculados = computed(() =>
 });
 
 
-let cantidadesProspectos = [];
-
-for (let index = 0; index < props.prospectosGraph.length; index++) 
-{
-  if(props.prospectosGraph[index] == props.prospectosGraph[0]) //primero seteamos el primer objeto
-  {
-     let newObj = {
-        fecha:'',
-        Nuevo:0,
-        Junk:0,
-        Contactado:0
-     }
-     
-     newObj.fecha = props.prospectosGraph[index].FechaString;
-     cantidadesProspectos.push(newObj);
-  }
-  else
-  {
-    //falta ver los demas registros
-  }
-}
-
-console.log(cantidadesProspectos)
 
 </script>
 

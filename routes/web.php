@@ -40,7 +40,7 @@ Route::middleware([
             'COUNT(prospectos.id) as contador,
              prospectos.created_at,
              prospectos.status,
-             LEFT(prospectos.created_at,10) AS FechaString',
+             LEFT(prospectos.created_at,7) AS FechaString',
             )
         ->where('prospectos.tipo_prospecto','=',1)
         ->groupBy('FechaString','prospectos.status')
