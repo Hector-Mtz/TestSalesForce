@@ -29,6 +29,16 @@ class SedeController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required',
+        ]);
+
+        Sede::create(
+            ['nombre' => $request['nombre'],
+             'id_crm' => $request['id_crm']
+            ]
+        );
+        redirect()->back();
     }
 
     /**
@@ -50,9 +60,21 @@ class SedeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sede $sede)
+    public function update(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required',
+            'id' => 'required'
+        ]);
+
+        Sede::where('id','=',$request['id'])
+        ->update([
+            'nombre' => $request['nombre'],
+            'id_crm' => $request['id_crm']
+        ]);
+
+        redirect()->back();
     }
 
     /**

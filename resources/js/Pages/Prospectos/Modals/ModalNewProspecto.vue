@@ -348,5 +348,5 @@ const saveProspecto = () =>
                 <SpinProgress :inprogress="showSpin" />
             </button>
          </template>
-      </DialogModal>
+    </DialogModal>
 </template>

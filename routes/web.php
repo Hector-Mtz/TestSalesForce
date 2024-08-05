@@ -3,6 +3,7 @@
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\OrigeneController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductoDeInteresController;
 use App\Http\Controllers\ProspectoController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\RoleController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\RuletaAsesoreController;
 use App\Http\Controllers\RuletaGeneralController;
 use App\Http\Controllers\RuletaSedeController;
+use App\Http\Controllers\SedeController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
 use App\Models\Prospecto;
@@ -99,4 +101,12 @@ Route::middleware([
     Route::get('/catalogos',[CatalogoController::class,'index'])->name('catalogos');
     //Ruta para visualizacion de catalogos
     Route::get('/reportes',[ReportesController::class,'index'])->name('reportes');
+    //Ruta para guardar una nueva sede
+    Route::post('/saveSede',[SedeController::class,'store'])->name('saveSede');
+    //Ruta para guardar la edicion de la sede
+    Route::post('/saveEditSede',[SedeController::class,'update'])->name('saveEditSede');
+    //Ruta para guardar nuevos productos
+    Route::post('/saveProducto',[ProductoDeInteresController::class,'store'])->name('saveProducto');
+    //Ruta para guardar la edicion del producto
+    Route::post('/saveEditProducto',[ProductoDeInteresController::class,'update'])->name('saveEditProducto');
 });
