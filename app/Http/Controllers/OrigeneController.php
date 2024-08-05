@@ -31,6 +31,13 @@ class OrigeneController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required'
+        ]);
+
+        Origene::create([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**
@@ -52,9 +59,18 @@ class OrigeneController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Origene $origene)
+    public function update(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required',
+            'id' => 'required'
+        ]);
+
+        Origene::where('id','=',$request['id'])
+        ->update([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**

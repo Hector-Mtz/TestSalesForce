@@ -109,4 +109,8 @@ Route::middleware([
     Route::post('/saveProducto',[ProductoDeInteresController::class,'store'])->name('saveProducto');
     //Ruta para guardar la edicion del producto
     Route::post('/saveEditProducto',[ProductoDeInteresController::class,'update'])->name('saveEditProducto');
+    //Ruta para guardar nuevos origenes
+    Route::post('/saveOrigen',[OrigeneController::class, 'store'])->name('saveOrigen');
+    //Ruta para edicion de origenes
+    Route::post('/saveEditOrigen',[OrigeneController::class, 'update'])->name('saveEditOrigen');
 });
