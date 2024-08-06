@@ -8,7 +8,10 @@ import ModalNewProspecto from './Modals/ModalNewProspecto.vue';
 //Componentes
 import PaginationInertia from '@/Components/PaginationInertia.vue';
 import InputSearch from '@/Components/InputSearch.vue';
-import ShortInput from '@/Components/ShortInput.vue'
+import ShortInput from '@/Components/ShortInput.vue';
+
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const props = defineProps({
     filters: Object,
@@ -40,6 +43,8 @@ const params = reactive({
         'campana_canals.nombre': '',
         ...props.filters.searchs
     },
+    date1:'',
+    date2:'',
     fields: props.filters.fields
 });
 
@@ -76,14 +81,26 @@ const closeModalNewProspecto = () =>
     showModalNewProspecto.value = false
 }
 
+const date = ref();
+
 </script>
 <template>
     <AppLayout title="Prospectos">
         <template #header>
             <div class="flex flex-row justify-around">
-                <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Prospectos
-                </h2>
+                <div>
+                    <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        Prospectos
+                    </h2>
+                </div>
+                <div class="flex flex-row justify-around px-8 gap-x-4">
+                    <div class="w-48" >
+                        <VueDatePicker :placeholder="'Fecha inicial'" v-model="params.date1"  :enable-time-picker="false"></VueDatePicker>
+                    </div>
+                    <div class="w-48">
+                        <VueDatePicker :placeholder="'Fecha final'" v-model="params.date2"  :enable-time-picker="false"></VueDatePicker>
+                    </div>
+                </div>
                 <div class="flex flex-row gap-x-10">
                     <InputSearch v-model="params.search" />
                     <button @click="openModalNewProspecto" class="px-4 py-1 text-white bg-blue-600 border rounded-lg">
@@ -368,3 +385,10 @@ const closeModalNewProspecto = () =>
         </div>
     </AppLayout>
 </template>
+<style>
+.dp__input
+{
+    border-radius: 0.5rem;
+    border: solid 1px;
+}
+</style>

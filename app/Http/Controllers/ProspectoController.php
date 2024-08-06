@@ -101,6 +101,12 @@ class ProspectoController extends Controller
                       $prospectos->orderBy($field, $direccion);
                   }
               }
+        if(request()->has('date1') && request()->has('date2'))
+        {
+           $date1 = substr($request['date1'], 0,10);
+           $date2 = substr($request['date2'], 0,10);
+           $prospectos->whereBetween('prospectos.created_at', [$date1, $date2])->get();
+        }
 
         return Inertia::render('Prospectos/Index', 
         [

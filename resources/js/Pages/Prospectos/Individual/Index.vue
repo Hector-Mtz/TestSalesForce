@@ -9,6 +9,9 @@ import OptionButtons from './Partials/OptionButtons.vue'
 //libs
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
 import OptionButtonsVue from './Partials/OptionButtons.vue';
 import axios from 'axios';
 import ButtonToNotifiaction from './Partials/ButtonToNotifiaction.vue';
