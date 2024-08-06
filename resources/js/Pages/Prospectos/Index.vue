@@ -98,66 +98,210 @@ const closeModalNewProspecto = () =>
                    <thead>
                      <tr class="border-b-4 border-[#091a3e] ">
                         <th class="px-2">
-                            <p @click="sort('id')" class="my-1">
-                                ID
-                            </p>
+                            <div @click="sort('id')" class="flex flex-row items-center gap-x-2">
+                                <p  class="my-1">
+                                    ID
+                                </p>
+                                <svg v-if="params.fields && params.fields['prospectos.id'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                  class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                  <path
+                                      d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                </svg>
+                                <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                </svg>
+                            </div>
                         </th>
                         <th class="px-2">
                             <div class="flex flex-col">
-                                Asignación
+                                <div @click="sort('asignaciones.nombre')" class="flex flex-row items-center justify-center gap-x-3">
+                                    <p  class="my-1">Asignación</p>
+                                    <svg v-if="params.fields && params.fields['asignaciones.nombre'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                      class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                      <path
+                                          d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                    </svg>
+                                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                    </svg>
+                                </div>
                                 <ShortInput  type="search" v-model="params.searchs['asignaciones.nombre']" class="my-1" />
                             </div>
                         </th>
-                        <th >
-                            Fecha de creación
+                        <th class="px-2">
+                            <div @click="sort('prospectos.created_at')" class="flex flex-row items-center justify-center gap-x-3">
+                                <p class="my-1">Fecha de creación</p>
+                                <svg v-if="params.fields && params.fields['prospectos.created_at'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                   class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                   <path
+                                       d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                 </svg>
+                                 <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                     fill="currentColor">
+                                     <path
+                                         d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                 </svg>
+                            </div>
                         </th>
                         <th class="px-2">
                             <div class="flex flex-col">
-                                Nombre completo
+                                <div @click="sort('prospectos.nombre')" class="flex flex-row items-center justify-center gap-x-3">                             
+                                   <p class="my-1">Nombre completo</p>
+                                   <svg v-if="params.fields && params.fields['prospectos.nombre'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                      class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                      <path
+                                          d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                    </svg>
+                                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                    </svg>
+                                </div>
                                 <ShortInput  type="search" v-model="params.searchs['prospectos.nombre']" class="my-1" />
                             </div>
                         </th>
                         <th class="px-2">
                             <div class="flex flex-col">
-                                Teléfono
+                                 <div @click="sort('prospectos.telefono')" class="flex flex-row items-center justify-center gap-x-3">
+                                    <p class="my-1">Teléfono</p>
+                                    <svg v-if="params.fields && params.fields['prospectos.telefono'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                       class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                       <path
+                                           d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                     </svg>
+                                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                         fill="currentColor">
+                                         <path
+                                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                     </svg>
+                                 </div>
                                 <ShortInput  type="search" v-model="params.searchs['prospectos.telefono']" class="my-1" />
                             </div>                            
                         </th>
                         <th  class="px-2">
                             <div class="flex flex-col">
-                                Sede
+                                <div @click="sort('sedes.nombre')" class="flex flex-row items-center justify-center gap-x-3">
+                                    <p class="my-1">Sede</p>
+                                    <svg v-if="params.fields && params.fields['sedes.nombre'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                       class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                       <path
+                                           d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                     </svg>
+                                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                         fill="currentColor">
+                                         <path
+                                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                     </svg>
+                                 </div>
                                 <ShortInput  type="search" v-model="params.searchs['sedes.nombre']" class="my-1" />
                             </div>
                         </th>
                         <th class="px-2">
                             <div class="flex flex-col">
-                                Producto de interés
+                                <div @click="sort('producto_de_interes.nombre')" class="flex flex-row items-center justify-center gap-x-3">
+                                    <p class="my-1">Producto de interés</p>
+                                    <svg v-if="params.fields && params.fields['producto_de_interes.nombre'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                       class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                       <path
+                                           d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                     </svg>
+                                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                         fill="currentColor">
+                                         <path
+                                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                     </svg>
+                                 </div>
                                 <ShortInput  type="search" v-model="params.searchs['producto_de_interes.nombre']" class="my-1" />
                             </div>
                         </th>
                         <th class="px-2">
                             <div class="flex flex-col">
-                                Email
+                                <div @click="sort('prospectos.email')" class="flex flex-row items-center justify-center gap-x-3">
+                                    <p class="my-1">Email</p>
+                                    <svg v-if="params.fields && params.fields['prospectos.email'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                       class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                       <path
+                                           d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                     </svg>
+                                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                         fill="currentColor">
+                                         <path
+                                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                     </svg>
+                                 </div>                              
                                 <ShortInput  type="search" v-model="params.searchs['prospectos.email']" class="my-1" />
                             </div>
                         </th>
                         <th class="px-2">
                             <div class="flex flex-col">
-                                Campaña / Canal
+                                <div @click="sort('campana_canals.nombre')" class="flex flex-row items-center justify-center gap-x-3">
+                                    <p class="my-1">Campaña / Canal</p>
+                                    <svg v-if="params.fields && params.fields['campana_canals.nombre'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                       class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                       <path
+                                           d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                     </svg>
+                                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                         fill="currentColor">
+                                         <path
+                                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                     </svg>
+                                 </div>  
                                 <ShortInput  type="search" v-model="params.searchs['campana_canals.nombre']" class="my-1" />
                             </div>
                         </th>
                         <th class="px-2">
                             <div class="flex flex-col">
-                                Nombre completo del propietario
+                                <div @click="sort('users.name')" class="flex flex-row items-center justify-center gap-x-3">
+                                    <p class="my-1">Nombre completo del propietario</p>
+                                    <svg v-if="params.fields && params.fields['users.name'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                       class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                       <path
+                                           d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                     </svg>
+                                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                         fill="currentColor">
+                                         <path
+                                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                     </svg>
+                                 </div> 
                                 <ShortInput  type="search" v-model="params.searchs['users.name']" class="my-1" />
                             </div>
                         </th>
-                        <th>
-                            Paso
+                        <th class="px-2">
+                            <div @click="sort('status_progress.nombre')" class="flex flex-row items-center justify-center gap-x-3">
+                                <p class="my-1">Paso</p>
+                                <svg v-if="params.fields && params.fields['status_progress.nombre'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                   class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                   <path
+                                       d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                 </svg>
+                                 <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                     fill="currentColor">
+                                     <path
+                                         d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                 </svg>
+                             </div> 
                         </th>
-                        <th>
-                            Status
+                        <th class="px-2">
+                            <div @click="sort('tipo_prospectos.nombre')" class="flex flex-row items-center justify-center gap-x-3">
+                                <p class="my-1">Status</p>
+                                <svg v-if="params.fields && params.fields['tipo_prospectos.nombre'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                                   class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                   <path
+                                       d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                                 </svg>
+                                 <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                                     fill="currentColor">
+                                     <path
+                                         d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                 </svg>
+                             </div> 
                         </th>
                      </tr>
                    </thead>
