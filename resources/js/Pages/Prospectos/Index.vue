@@ -1,12 +1,17 @@
 <script setup>
-import { ref} from 'vue';
+import { ref, reactive, watch } from 'vue';
+import { pickBy } from "lodash";
+import { router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 //Modales
 import ModalNewProspecto from './Modals/ModalNewProspecto.vue';
 //Componentes
 import PaginationInertia from '@/Components/PaginationInertia.vue';
+import InputSearch from '@/Components/InputSearch.vue';
+import ShortInput from '@/Components/ShortInput.vue'
 
 const props = defineProps({
+    filters: Object,
     prospectos:Object,
     sedes:Object,
     asignaciones:Object,
@@ -20,6 +25,46 @@ const props = defineProps({
     formas_contacto:Object,
     horarios:Object
    });  
+
+const params = reactive({
+    search: props.filters.search,
+    searchs: {
+        'asignaciones.nombre': '',
+        'sedes.nombre': '',
+        'prospectos.nombre': '',
+        'prospectos.apellidos': '',
+        'prospectos.telefono': '',
+        'prospectos.email': '',
+        'users.name':'',
+        'producto_de_interes.nombre':'',
+        'campana_canals.nombre': '',
+        ...props.filters.searchs
+    },
+    fields: props.filters.fields
+});
+
+watch(params, () => {
+    const clearParams = pickBy({ ...params });
+    router.visit(route("prospectos"), 
+    {
+        data: clearParams,
+        replace: true,
+        preserveScroll: true,
+        preserveState: true,
+    });
+});
+
+const sort = (field) => {
+    if (params.fields === null) {
+        params.fields = {};// para que no falle hasOwnProperty
+    }
+    if (params.fields.hasOwnProperty(field)) {
+        params.fields[field] = params.fields[field] === 'asc' ? 'desc' : 'asc';
+    } else {
+        params.fields[field] = 'asc';
+    }
+
+}
 
 let showModalNewProspecto = ref(false);
 const openModalNewProspecto = () =>
@@ -35,13 +80,16 @@ const closeModalNewProspecto = () =>
 <template>
     <AppLayout title="Prospectos">
         <template #header>
-            <div class="flex flex-row justify-between">
+            <div class="flex flex-row justify-around">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                     Prospectos
                 </h2>
-                <button @click="openModalNewProspecto" class="px-4 py-1 border rounded-lg">
-                    Nuevo
-                </button>
+                <div class="flex flex-row gap-x-10">
+                    <InputSearch v-model="params.search" />
+                    <button @click="openModalNewProspecto" class="px-4 py-1 text-white bg-blue-600 border rounded-lg">
+                        Nuevo
+                    </button>
+                </div>
             </div>
         </template>
         <div class="p-8">
@@ -49,35 +97,61 @@ const closeModalNewProspecto = () =>
                 <table class="w-full ">
                    <thead>
                      <tr class="border-b-4 border-[#091a3e] ">
-                        <th>
-                            ID
+                        <th class="px-2">
+                            <p @click="sort('id')" class="my-1">
+                                ID
+                            </p>
                         </th>
-                        <th>
-                            Asignación
+                        <th class="px-2">
+                            <div class="flex flex-col">
+                                Asignación
+                                <ShortInput  type="search" v-model="params.searchs['asignaciones.nombre']" class="my-1" />
+                            </div>
                         </th>
-                        <th>
+                        <th >
                             Fecha de creación
                         </th>
-                        <th>
-                            Nombre completo
+                        <th class="px-2">
+                            <div class="flex flex-col">
+                                Nombre completo
+                                <ShortInput  type="search" v-model="params.searchs['prospectos.nombre']" class="my-1" />
+                            </div>
                         </th>
-                        <th>
-                            Teléfono
+                        <th class="px-2">
+                            <div class="flex flex-col">
+                                Teléfono
+                                <ShortInput  type="search" v-model="params.searchs['prospectos.telefono']" class="my-1" />
+                            </div>                            
                         </th>
-                        <th>
-                            Sede
+                        <th  class="px-2">
+                            <div class="flex flex-col">
+                                Sede
+                                <ShortInput  type="search" v-model="params.searchs['sedes.nombre']" class="my-1" />
+                            </div>
                         </th>
-                        <th>
-                            Producto de interés
+                        <th class="px-2">
+                            <div class="flex flex-col">
+                                Producto de interés
+                                <ShortInput  type="search" v-model="params.searchs['producto_de_interes.nombre']" class="my-1" />
+                            </div>
                         </th>
-                        <th>
-                            Email
+                        <th class="px-2">
+                            <div class="flex flex-col">
+                                Email
+                                <ShortInput  type="search" v-model="params.searchs['prospectos.email']" class="my-1" />
+                            </div>
                         </th>
-                        <th>
-                            Campaña / Canal
+                        <th class="px-2">
+                            <div class="flex flex-col">
+                                Campaña / Canal
+                                <ShortInput  type="search" v-model="params.searchs['campana_canals.nombre']" class="my-1" />
+                            </div>
                         </th>
-                        <th>
-                            Nombre completo del propietario
+                        <th class="px-2">
+                            <div class="flex flex-col">
+                                Nombre completo del propietario
+                                <ShortInput  type="search" v-model="params.searchs['users.name']" class="my-1" />
+                            </div>
                         </th>
                         <th>
                             Paso

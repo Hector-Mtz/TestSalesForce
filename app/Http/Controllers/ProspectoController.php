@@ -35,6 +35,10 @@ class ProspectoController extends Controller
     public function index(Request $request)
     {
         //
+        request()->validate([
+          'fields' => ['nullable', 'array']
+        ]);
+
         $sedes = Sede::all();
         $asignaciones = Asignacione::all();
         $producto_interes = ProductoDeInteres::all();
@@ -66,8 +70,41 @@ class ProspectoController extends Controller
         ->join('tipo_prospectos','prospectos.tipo_prospecto','tipo_prospectos.id')
         ->leftJoin('status_progress','prospectos.status','status_progress.id');
 
+        if (request()->has('search'))  //busqueda global
+        {
+           $search = '%' . strtr(request('search'), array("'" => "\\'", "%" => "\\%")) . '%';
+           $prospectos->where(function ($query) use ($search) {
+            $query->where(
+                'prospectos.nombre',
+                'LIKE',
+                $search
+            )->orWhere('prospectos.apellidos', 'LIKE',  $search)
+                ->orWhere('prospectos.email', 'LIKE',  $search)
+                ->orWhere('prospectos.telefono', 'LIKE',  $search)
+                ->orWhere('sedes.nombre', 'LIKE',  $search)
+                ->orWhere('producto_de_interes.nombre', 'LIKE',  $search);
+        });
+        }
+
+        //Busquedas por campo
+        if (request()->has('searchs')) {
+                  $prospectos->where(function ($query) {
+                      foreach (request('searchs') as $field => $search) {
+                          $searchLike = '%' . strtr($search, array("'" => "\\'", "%" => "\\%")) . '%';
+                          $query->where($field, 'LIKE', $searchLike);
+                      }
+                  });
+              }
+      //direccion de ordenamiento
+        if (request()->has('fields')) {
+                  foreach (request('fields') as $field => $direccion) {
+                      $prospectos->orderBy($field, $direccion);
+                  }
+              }
+
         return Inertia::render('Prospectos/Index', 
         [
+           'filters' => request()->all(['search', 'fields', 'searchs']),
            'prospectos' => fn() => $prospectos->paginate(20),
            'sedes' => $sedes,
            'asignaciones' => $asignaciones,
