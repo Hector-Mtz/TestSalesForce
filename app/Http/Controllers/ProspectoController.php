@@ -201,7 +201,31 @@ class ProspectoController extends Controller
 
     public function exporProspectos(Request $request)
     {
-        return Excel::download(new ProspectoExport, 'prospectos.xlsx');
+        $prospectos = Prospecto::select('prospectos.*',
+        'asignaciones.nombre as asignacion_name',
+        'sedes.nombre as sede_name',
+        'producto_de_interes.nombre as productoInteres',
+        'campana_canals.nombre as campanaCanal',
+        'users.name as userName',
+        'users.ap_paterno as userApP',
+        'users.ap_materno as userApM',
+        'tipo_prospectos.nombre as tipoProspecto',
+        'status_progress.nombre as statusP'
+        )
+        ->leftJoin('asignaciones','prospectos.asignacion','asignaciones.id')
+        ->join('sedes','prospectos.sede','sedes.id')
+        ->leftJoin('producto_de_interes','prospectos.producto_de_interes','producto_de_interes.id')
+        ->leftJoin('campana_canals','prospectos.campana_canal','campana_canals.id')
+        ->join('users','prospectos.propietario','users.id')
+        ->join('tipo_prospectos','prospectos.tipo_prospecto','tipo_prospectos.id')
+        ->leftJoin('status_progress','prospectos.status','status_progress.id')
+        ->get();
+
+        return gettype($prospectos);
+
+        return Excel::download(new ProspectoExport($prospectos), 'prospectos.xlsx');
+
+      
     }
 
     public function sendMail () //funcion de prueba

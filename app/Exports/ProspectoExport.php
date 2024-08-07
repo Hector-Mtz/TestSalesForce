@@ -4,14 +4,22 @@ namespace App\Exports;
 
 use App\Models\Prospecto;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
 
-class ProspectoExport implements FromCollection
+class ProspectoExport implements FromArray
 {
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function collection()
+    protected $invoices;
+
+    public function __construct(array $invoices)
     {
-        return Prospecto::all();
+        $this->invoices = $invoices;
+    }
+
+    public function array(): array
+    {
+        return $this->invoices;
     }
 }
