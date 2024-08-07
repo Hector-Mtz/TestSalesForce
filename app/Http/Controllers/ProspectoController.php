@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProspectoExport;
 use App\Mail\SendNotification;
 use App\Models\Asignacione;
 use App\Models\BusquedaTerreno;
@@ -26,6 +27,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProspectoController extends Controller
 {
@@ -195,6 +197,11 @@ class ProspectoController extends Controller
     public function create()
     {
         //
+    }
+
+    public function exporProspectos(Request $request)
+    {
+        return Excel::download(new ProspectoExport, 'prospectos.xlsx');
     }
 
     public function sendMail () //funcion de prueba

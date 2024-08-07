@@ -113,4 +113,6 @@ Route::middleware([
     Route::post('/saveOrigen',[OrigeneController::class, 'store'])->name('saveOrigen');
     //Ruta para edicion de origenes
     Route::post('/saveEditOrigen',[OrigeneController::class, 'update'])->name('saveEditOrigen');
+    //Ruta para descargar reportes
+    Route::get('/exporProspectos',[ProspectoController::class,'exporProspectos'])->name('exporProspectos');
 });
