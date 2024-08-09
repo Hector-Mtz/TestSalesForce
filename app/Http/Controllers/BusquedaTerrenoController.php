@@ -50,7 +50,7 @@ class BusquedaTerrenoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BusquedaTerreno $busquedaTerreno)
+    public function update(Request $request)
     {
         //
     }
