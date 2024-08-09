@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\BusquedaTerrenoController;
 use App\Http\Controllers\CampanaCanalController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\IdiomaController;
+use App\Http\Controllers\MontoEngancheController;
 use App\Http\Controllers\OrigeneController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductoDeInteresController;
@@ -145,6 +147,14 @@ Route::middleware([
     Route::post('/saveIdioma', [IdiomaController::class,'store'])->name('saveIdioma');
     //Ruta para guardar edicion de idioma
     Route::post('/saveEditIdioma',[IdiomaController::class,'update'])->name('saveEditIdioma');
+    //Ruta para guardar monto de enganche nuevo
+    Route::post('/saveMontoE',[MontoEngancheController::class,'store'])->name('saveMontoE');
+    //Ruta para edicion de monto de enganche nuevi
+    Route::post('/saveEditMontoE',[MontoEngancheController::class,'update'])->name('saveEditMontoE');
+    //Ruta para guardado de busqueda de terreno
+    Route::post('/saveBusquedaT',[BusquedaTerrenoController::class, 'store'])->name('saveBusquedaT');
+    //Ruta para edicion de busqueda de terreno
+    Route::post('/saveEditBusquedaT',[BusquedaTerrenoController::class,'update'])->name('saveEditBusquedaT');
     //Ruta para descargar reportes
     Route::get('/exporProspectos',[ProspectoController::class,'exporProspectos'])->name('exporProspectos');
 });

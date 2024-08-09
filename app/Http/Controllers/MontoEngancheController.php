@@ -29,6 +29,14 @@ class MontoEngancheController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'cantidad' => 'required'
+        ]);
+
+        MontoEnganche::create([
+            'cantidad' => $request['cantidad']
+        ]);
+
     }
 
     /**
@@ -50,9 +58,18 @@ class MontoEngancheController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MontoEnganche $montoEnganche)
+    public function update(Request $request)
     {
         //
+        $validated = $request->validate([
+            'cantidad' => 'required',
+            'id' => 'required'
+        ]);
+
+        MontoEnganche::where('id','=',$request['id'])
+        ->update([
+            'cantidad' => $request['cantidad']
+        ]);
     }
 
     /**

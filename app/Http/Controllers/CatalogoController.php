@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BusquedaTerreno;
 use App\Models\CampanaCanal;
 use App\Models\Idioma;
+use App\Models\MontoEnganche;
 use App\Models\Origene;
 use App\Models\ProductoDeInteres;
 use App\Models\Sede;
@@ -21,6 +22,7 @@ class CatalogoController extends Controller
         $origenes = Origene::all();
         $campanas_canales = CampanaCanal::all();
         $idiomas = Idioma::all();
+        $montos_enganches = MontoEnganche::all();
         $busqueda_terrenos = BusquedaTerreno::all();
 
         return Inertia::render('Catalogos/Index', 
@@ -30,7 +32,8 @@ class CatalogoController extends Controller
            'origenes' => $origenes,
            'campana_canales' => $campanas_canales,
            'idiomas' => $idiomas,
-           'busqueda_terrenos' => $busqueda_terrenos
+           'busqueda_terrenos' => $busqueda_terrenos,
+           'montos_enganches' => $montos_enganches
         ]);
     }
 
