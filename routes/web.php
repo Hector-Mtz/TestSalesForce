@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CampanaCanalController;
 use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\IdiomaController;
 use App\Http\Controllers\OrigeneController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductoDeInteresController;
@@ -135,6 +137,14 @@ Route::middleware([
     Route::post('/saveOrigen',[OrigeneController::class, 'store'])->name('saveOrigen');
     //Ruta para edicion de origenes
     Route::post('/saveEditOrigen',[OrigeneController::class, 'update'])->name('saveEditOrigen');
+    //Ruta para guardar nuevas campañas canales
+    Route::post('/saveCampCanal',[CampanaCanalController::class,'store'])->name('saveCampCanal');
+    //Ruta para guardar edicion de campana canale
+    Route::post('/saveEditCamp',[CampanaCanalController::class,'update'])->name('saveEditCamp');
+    //Ruta para guardado de idioma
+    Route::post('/saveIdioma', [IdiomaController::class,'store'])->name('saveIdioma');
+    //Ruta para guardar edicion de idioma
+    Route::post('/saveEditIdioma',[IdiomaController::class,'update'])->name('saveEditIdioma');
     //Ruta para descargar reportes
     Route::get('/exporProspectos',[ProspectoController::class,'exporProspectos'])->name('exporProspectos');
 });

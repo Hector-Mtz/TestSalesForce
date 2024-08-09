@@ -29,6 +29,13 @@ class IdiomaController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required'
+        ]);
+
+        Idioma::create([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**
@@ -50,9 +57,18 @@ class IdiomaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Idioma $idioma)
+    public function update(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required',
+            'id' => 'required'
+        ]);
+
+        Idioma::where('id','=',$request['id'])
+        ->update([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**

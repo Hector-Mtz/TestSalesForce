@@ -29,6 +29,13 @@ class CampanaCanalController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required',
+        ]);
+
+        CampanaCanal::create([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**
@@ -50,9 +57,18 @@ class CampanaCanalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CampanaCanal $campanaCanal)
+    public function update(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required',
+            'id' => 'required'
+        ]);
+
+        CampanaCanal::where('id','=',$request['id'])
+        ->update([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**

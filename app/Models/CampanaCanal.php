@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CampanaCanal extends Model
 {
     use HasFactory;
+    protected $fillable = 
+    [
+        'nombre',
+        'activo'
+    ];
 }
