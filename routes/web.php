@@ -14,6 +14,7 @@ use App\Http\Controllers\RuletaSedeController;
 use App\Http\Controllers\SedeController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
+use App\Models\Origene;
 use App\Models\Prospecto;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
@@ -40,6 +41,16 @@ Route::middleware([
         ->where('prospectos.tipo_prospecto','=',1)
         ->get();
 
+        $oportunidades_ganadas = Prospecto::select('prospectos.*')
+        ->where('prospectos.tipo_prospecto','=',3)
+        ->where('prospectos.status','=',9)
+        ->get();
+
+        $oportunidades_perdidas= Prospecto::select('prospectos.*')
+        ->where('prospectos.tipo_prospecto','=',3)
+        ->where('prospectos.status','=',8)
+        ->get();
+
         $prospectosGraph = DB::table('prospectos')
         ->selectRaw(
             'COUNT(prospectos.id) as contador,
@@ -51,9 +62,20 @@ Route::middleware([
         ->groupBy('FechaString','prospectos.status')
         ->get();
 
+        $origenes = Origene::all();
+        $prospectos_por_fuente = Prospecto::selectRaw(
+            'origenes.nombre,COUNT(prospectos.id) as contador')
+        ->leftJoin('origenes','prospectos.origen','origenes.id')
+        ->groupBy('prospectos.origen')
+        ->get();
+
         return Inertia::render('Dashboard',[
             'prospectos' => $prospectos,
-            'prospectosGraph' => $prospectosGraph
+            'prospectosGraph' => $prospectosGraph,
+            'oportunidades_ganadas' => $oportunidades_ganadas,
+            'oportunidades_perdidas' => $oportunidades_perdidas,
+            'origenes' => $origenes,
+            'prospectos_por_fuente' => $prospectos_por_fuente
         ]);
     })->name('dashboard');
 

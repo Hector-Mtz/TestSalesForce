@@ -28,6 +28,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class ProspectoController extends Controller
 {
@@ -107,7 +108,7 @@ class ProspectoController extends Controller
         {
            $date1 = substr($request['date1'], 0,10);
            $date2 = substr($request['date2'], 0,10);
-           $prospectos->whereBetween('prospectos.created_at', [$date1, $date2])->get();
+           $prospectos->whereBetween('prospectos.created_at', [$date1, $date2]);
         }
 
         return Inertia::render('Prospectos/Index', 
@@ -201,16 +202,28 @@ class ProspectoController extends Controller
 
     public function exporProspectos(Request $request)
     {
-        $prospectos = Prospecto::select('prospectos.*',
-        'asignaciones.nombre as asignacion_name',
-        'sedes.nombre as sede_name',
-        'producto_de_interes.nombre as productoInteres',
-        'campana_canals.nombre as campanaCanal',
-        'users.name as userName',
-        'users.ap_paterno as userApP',
-        'users.ap_materno as userApM',
-        'tipo_prospectos.nombre as tipoProspecto',
-        'status_progress.nombre as statusP'
+        $prospectos_result = Prospecto::select(
+        'prospectos.nombre',
+        'prospectos.apellidos',
+        'prospectos.email',
+        'prospectos.telefono',
+        'prospectos.mensaje',
+         DB::raw('CONCAT(users.name, " ", users.ap_paterno," ",users.ap_materno) as propietario'),
+         'asignaciones.nombre as asignacion',
+         'sedes.nombre as sede',
+         'tipo_prospectos.nombre as tipo_pros',
+         'status_progress.nombre as status',
+         'producto_de_interes.nombre as prod',
+         'campana_canals.nombre as camcan',
+         'origenes.nombre as origen',
+         'monto_enganches.cantidad as monto',
+         'forma_contactos.forma',
+         'horario_contactos.horario',
+         'busqueda_terrenos.nombre as busqueda',
+         'inversion_al_mes.nombre as inv',
+         'prospectos.tiempo_inversion',
+         'idiomas.nombre as idioma',
+         'prospectos.created_at as  fecha_creat'
         )
         ->leftJoin('asignaciones','prospectos.asignacion','asignaciones.id')
         ->join('sedes','prospectos.sede','sedes.id')
@@ -219,11 +232,57 @@ class ProspectoController extends Controller
         ->join('users','prospectos.propietario','users.id')
         ->join('tipo_prospectos','prospectos.tipo_prospecto','tipo_prospectos.id')
         ->leftJoin('status_progress','prospectos.status','status_progress.id')
-        ->get();
+        ->leftJoin('origenes','prospectos.origen','origenes.id')
+        ->leftJoin('monto_enganches','prospectos.monto_enganche','monto_enganches.id')
+        ->leftJoin('forma_contactos','prospectos.forma_contacto','forma_contactos.id')
+        ->leftJoin('horario_contactos','prospectos.horario_contacto','horario_contactos.id')
+        ->leftJoin('busqueda_terrenos','prospectos.busqueda_terreno','busqueda_terrenos.id')
+        ->leftJoin('inversion_al_mes','prospectos.inversion_al_mes','inversion_al_mes.id')
+        ->leftJoin('idiomas','prospectos.idioma','idiomas.id');
+  
+        if(( request()->has('date1') && $request['date1'] ) && (request()->has('date2') && $request['date2'] ))
+        {
+           $date1 = substr($request['date1'], 0,10);
+           $date2 = substr($request['date2'], 0,10);
+           $prospectos_result->whereBetween('prospectos.created_at', [$date1, $date2]);
+        }
 
-        return gettype($prospectos);
+        
+        if (request()->has('search'))  //busqueda global
+        {
+           $search = '%' . strtr(request('search'), array("'" => "\\'", "%" => "\\%")) . '%';
+           $prospectos_result->where(function ($query) use ($search) {
+            $query->where(
+                'prospectos.nombre',
+                'LIKE',
+                $search
+            )->orWhere('prospectos.apellidos', 'LIKE',  $search)
+                ->orWhere('prospectos.email', 'LIKE',  $search)
+                ->orWhere('prospectos.telefono', 'LIKE',  $search)
+                ->orWhere('sedes.nombre', 'LIKE',  $search)
+                ->orWhere('producto_de_interes.nombre', 'LIKE',  $search);
+        });
+        }
 
-        return Excel::download(new ProspectoExport($prospectos), 'prospectos.xlsx');
+        //Busquedas por campo
+        if (request()->has('searchs')) {
+                  $prospectos_result->where(function ($query) {
+                      foreach (request('searchs') as $field => $search) {
+                          $searchLike = '%' . strtr($search, array("'" => "\\'", "%" => "\\%")) . '%';
+                          $query->where($field, 'LIKE', $searchLike);
+                      }
+                  });
+              }
+        
+
+        $array = [];
+        for ($i=0; $i < count($prospectos_result->get()) ; $i++) 
+        { 
+            $prospecto = $prospectos_result->get()[$i];
+            array_push($array, $prospecto);
+        }
+
+        return Excel::download(new ProspectoExport($array), 'prospectos.xlsx');
 
       
     }
@@ -520,10 +579,30 @@ class ProspectoController extends Controller
 
     public function editStatus (Request $request)
     {
-       Prospecto::where('id','=',$request['id'])
-       ->update([
-        'status' => $request['status']
-       ]);
+    
+       if($request['status'] == 4) //se convierte a oportunidad
+       {
+          Prospecto::where('id','=',$request['id']) 
+          ->update([
+           'tipo_prospecto' => 2 , //oportunidad
+           'status' => 5
+          ]);
+       }
+       else if($request['status'] == 9) //se convierte a venta
+       {
+          Prospecto::where('id','=',$request['id']) 
+          ->update([
+           'tipo_prospecto' => 3 , //oportunidad
+           'status' => 9
+          ]);
+       }
+       else
+       {
+          Prospecto::where('id','=',$request['id'])
+          ->update([
+           'status' => $request['status']
+          ]);
+       }
 
        redirect()->back();
     }

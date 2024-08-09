@@ -64,6 +64,7 @@ class RuletaGeneralController extends Controller
      */
     public function store(Request $request)
     {
+
         //
         switch ($request['tipo_ruleta']) 
         {
