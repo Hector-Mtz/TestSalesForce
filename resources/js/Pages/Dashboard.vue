@@ -1,10 +1,11 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
+import ButtonCalendar from '@/Components/ButtonCalendar.vue';
 //graficas 
 import Grafica1 from './Partials/Grafica1.vue';
 import Grafica2 from './Partials/Grafica2.vue';
-import { reactive, computed } from 'vue'
+import { reactive, computed, ref } from 'vue'
 
 const props = defineProps({
  prospectos:Object,
@@ -14,6 +15,11 @@ const props = defineProps({
  prospectos_por_fuente:Object,
  origenes:Object
 });  
+
+//Filtros
+const params = reactive({
+    fecha:null,
+});
 
 //data para grafico barraas Etapa de prospectos (DEBE SER AFECTADA POR EL AÑO / MES)
 const prospectosCalculados = computed(() => 
@@ -111,7 +117,7 @@ const prospectosCalculados = computed(() =>
     return cantidadesProspectos;
 });
 
-//data para grafico pastel Prospectos pro fuente
+//data para grafico pastel Prospectos pro fuente (DEBE SER AFECTADA POR EL AÑO / MES)
 const prospectosPorFuenteCalculados = computed(()=>
 {
     let arrayFuentes = [];
@@ -132,7 +138,7 @@ const prospectosPorFuenteCalculados = computed(()=>
       for (let index2 = 0; index2 < props.prospectos_por_fuente.length; index2++) 
       {
         const prospectos = props.prospectos_por_fuente[index2];
-        console.log(prospectos)
+        //console.log(prospectos)
         for (let index3 = 0; index3 < arrayFuentes.length; index3++) 
         {
             const fuente = arrayFuentes[index3];
@@ -147,7 +153,69 @@ const prospectosPorFuenteCalculados = computed(()=>
     return arrayFuentes;
 });
 
+ //Fechas
+let date = ref({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+});
 
+
+const changeDate = (newDate) => {
+    date.value = newDate;
+    let fecha = null;
+    //console.log(newDate.month)
+    switch (newDate.month) 
+    {
+      case 0: //Enero
+            fecha = newDate.year + '-' + "01";
+            params.fecha = fecha;
+         break;
+      case 1: //Febrero
+            fecha = newDate.year + '-' + "02";
+            params.fecha = fecha;
+         break;
+      case 2: //Marzo
+            fecha = newDate.year + '-' + "03";
+            params.fecha = fecha;
+         break;
+      case 3: //Abril
+            fecha = newDate.year + '-' + "04";
+            params.fecha = fecha;
+         break;
+      case 4: //Mayo
+            fecha = newDate.year + '-' + "05";
+            params.fecha = fecha;
+         break;
+      case 5: //Junio
+         fecha = newDate.year + '-' + "06";
+         params.fecha = fecha;
+      break;
+      case 6: //Julio
+         fecha = newDate.year + '-' + "07";
+         params.fecha = fecha;
+      break;
+      case 7: //Agosto
+         fecha = newDate.year + '-' + "08";
+         params.fecha = fecha;
+      break;
+      case 8: //Spetiembre
+         fecha = newDate.year + '-' + "09";
+         params.fecha = fecha;
+      break;
+      case 9: //Octubre
+         fecha = newDate.year + '-' + "10";
+         params.fecha = fecha;
+      break;
+      case 10: //Noviembre
+         fecha = newDate.year + '-' + "11";
+         params.fecha = fecha;
+      break;
+      case 11: //Diciembre
+         fecha = newDate.year + '-' + "12";
+         params.fecha = fecha;
+      break;
+    }
+};
 
 </script>
 
@@ -158,6 +226,9 @@ const prospectosPorFuenteCalculados = computed(()=>
                 Dashboard
             </h2>
         </template>
+        <div class="flex flex-row justify-center my-2">
+            <ButtonCalendar :month="date.month"  :year="date.year"  @change-date="changeDate($event)" />
+        </div>
         <div class="flex flex-row p-8 ">
             <div class="grid w-3/4 grid-cols-3 col-start-1 col-end-3 gap-x-4">
                 <!--Primera fila-->
