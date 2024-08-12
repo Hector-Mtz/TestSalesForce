@@ -54,16 +54,16 @@ const logout = () => {
                                 <NavLink :href="route('prospectos')" :active="route().current('prospectos')">
                                     Prospectos
                                 </NavLink>
-                                <NavLink :href="route('reportes')" :active="route().current('reportes')">
+                                <NavLink v-if="$page.props.auth.user.cans['watch-reportes']" :href="route('reportes')" :active="route().current('reportes')">
                                     Reportes
                                 </NavLink>
-                                <NavLink :href="route('roles_permisos')" :active="route().current('roles_permisos')">
+                                <NavLink v-if="$page.props.auth.user.cans['admin']" :href="route('roles_permisos')" :active="route().current('roles_permisos')">
                                     Roles y permisos
                                 </NavLink>
-                                <NavLink :href="route('ruletas')" :active="route().current('ruletas')">
+                                <NavLink v-if="$page.props.auth.user.cans['watch-ruletas']" :href="route('ruletas')" :active="route().current('ruletas')">
                                     Ruletas
                                 </NavLink>
-                                <NavLink :href="route('catalogos')" :active="route().current('catalogos')">
+                                <NavLink v-if="$page.props.auth.user.cans['watch-catalogos']" :href="route('catalogos')" :active="route().current('catalogos')">
                                     Catalogos
                                 </NavLink>
                             </div>

@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
             HorarioDeContactoSeeder::class,
             InversionAlMesSeeder::class,
             IdiomasSeeder::class,
-            StatusSeeder::class
+            StatusSeeder::class,
+            PermisosSeeder::class
         ]);
     }
 }

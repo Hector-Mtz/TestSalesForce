@@ -46,7 +46,7 @@ const openNewPermissionModal = () =>
 
 const closeNewPermissionModal = () => 
 {
-    newPermission.false = false;
+    newPermission.value = false;
 }
 
 let newUser = ref(false);

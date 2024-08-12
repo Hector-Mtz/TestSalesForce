@@ -28,7 +28,7 @@
         onSuccess : () => 
             {
                 formNewPermiso.reset();
-               close();
+                close();
             },
         preserveScroll:true,
         preserveState:true
