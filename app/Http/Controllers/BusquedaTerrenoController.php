@@ -29,6 +29,13 @@ class BusquedaTerrenoController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required'
+        ]);
+
+        BusquedaTerreno::create([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**
@@ -53,6 +60,15 @@ class BusquedaTerrenoController extends Controller
     public function update(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required',
+            'id' => 'required'
+        ]);
+
+        BusquedaTerreno::where('id','=',$request['id'])
+        ->update([
+            'nombre' => $request['nombre'],
+        ]);
     }
 
     /**

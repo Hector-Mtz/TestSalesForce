@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class InversionAlMe extends Model
 {
     use HasFactory;
+
+    protected $fillable = 
+    [
+        'nombre',
+        'activo'
+    ];
 }

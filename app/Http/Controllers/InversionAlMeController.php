@@ -29,6 +29,13 @@ class InversionAlMeController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required'
+        ]);
+
+        InversionAlMe::create([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**
@@ -50,9 +57,18 @@ class InversionAlMeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, InversionAlMe $inversionAlMe)
+    public function update(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nombre' => 'required',
+            'id' => 'required'
+        ]);
+
+        InversionAlMe::where('id','=',$request['id'])
+        ->update([
+            'nombre' => $request['nombre']
+        ]);
     }
 
     /**

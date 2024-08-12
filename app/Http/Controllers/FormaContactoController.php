@@ -29,6 +29,13 @@ class FormaContactoController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'forma' => 'required',
+        ]);
+
+        FormaContacto::create([
+            'forma' => $request['forma']
+        ]);
     }
 
     /**
@@ -50,9 +57,19 @@ class FormaContactoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FormaContacto $formaContacto)
+    public function update(Request $request)
     {
         //
+        
+        $validated = $request->validate([
+            'forma' => 'required',
+            'id' => 'required'
+        ]);
+
+        FormaContacto::where('id','=',$request['id'])
+        ->update([
+            'forma' => $request['forma']
+        ]);
     }
 
     /**

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class FormaContacto extends Model
 {
     use HasFactory;
+
+    protected $fillable = 
+    [
+        'forma',
+        'activo'
+    ];
 }

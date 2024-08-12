@@ -3,7 +3,9 @@
 use App\Http\Controllers\BusquedaTerrenoController;
 use App\Http\Controllers\CampanaCanalController;
 use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\FormaContactoController;
 use App\Http\Controllers\IdiomaController;
+use App\Http\Controllers\InversionAlMeController;
 use App\Http\Controllers\MontoEngancheController;
 use App\Http\Controllers\OrigeneController;
 use App\Http\Controllers\PermissionController;
@@ -155,6 +157,14 @@ Route::middleware([
     Route::post('/saveBusquedaT',[BusquedaTerrenoController::class, 'store'])->name('saveBusquedaT');
     //Ruta para edicion de busqueda de terreno
     Route::post('/saveEditBusquedaT',[BusquedaTerrenoController::class,'update'])->name('saveEditBusquedaT');
+    //Ruta para guardar inversion al mes
+    Route::post('/saveInversion',[InversionAlMeController::class,'store'])->name('saveInversion');
+    //Ruta para guardar edicion de inversion al mes
+    Route::post('/saveEditInversion',[InversionAlMeController::class,'update'])->name('saveEditInversion');
+    //Ruta para guardar forma de contacto
+    Route::post('/saveFormaContacto',[FormaContactoController::class,'store'])->name('saveFormaContacto');
+    //Ruta para guardar edicion de forma de contacto
+    Route::post('/saveEditFormaContacto',[FormaContactoController::class,'update'])->name('saveEditFormaContacto');
     //Ruta para descargar reportes
     Route::get('/exporProspectos',[ProspectoController::class,'exporProspectos'])->name('exporProspectos');
 });
