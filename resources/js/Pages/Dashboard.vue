@@ -46,10 +46,10 @@ const prospectosCalculados = computed(() =>
                     newObj.Nuevo = props.prospectosGraph[index].contador;
                 break;
                 case 2:
-                   newObj.Junkunk = props.prospectosGraph[index].contador;
+                   newObj.Junk = props.prospectosGraph[index].contador;
                 break;
                 case 3:
-                   newObj.Contactadoontactado = props.prospectosGraph[index].contador;
+                   newObj.Contactado = props.prospectosGraph[index].contador;
                 break;
              }
              cantidadesProspectos.push(newObj);
@@ -78,7 +78,7 @@ const prospectosCalculados = computed(() =>
                     objetoProspecto.Junk += props.prospectosGraph[index].contador;
                   break;
                   case 3:
-                    objetoProspecto.Contactadoontactado += props.prospectosGraph[index].contador;
+                    objetoProspecto.Contactado += props.prospectosGraph[index].contador;
                   break;
                }
             }
@@ -90,10 +90,10 @@ const prospectosCalculados = computed(() =>
                      newObj.Nuevo = props.prospectosGraph[index].contador;
                  break;
                  case 2:
-                    newObj.Junkunk = props.prospectosGraph[index].contador;
+                    newObj.Junk = props.prospectosGraph[index].contador;
                  break;
                  case 3:
-                    newObj.Contactadoontactado = props.prospectosGraph[index].contador;
+                    newObj.Contactado = props.prospectosGraph[index].contador;
                  break;
               }
               cantidadesProspectos.push(newObj);

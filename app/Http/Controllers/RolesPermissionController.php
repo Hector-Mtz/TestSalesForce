@@ -21,6 +21,14 @@ class RolesPermissionController extends Controller
         ->join('roles', 'users.role_id','roles.id')
         ->paginate(10);
 
+        $coordinadores = User::select('users.*')
+        ->where('users.role_id','=',3)
+        ->get();
+
+        $gerentes = User::select('users.*')
+        ->where('users.role_id','=',4)
+        ->get();
+
         $roles = role::select('roles.*')
         ->get();
 
@@ -31,7 +39,9 @@ class RolesPermissionController extends Controller
         [
            'usuarios' => $usuarios,
            'roles' => $roles,
-           'permisos' => $permisos
+           'permisos' => $permisos,
+           'coordinadores' => $coordinadores,
+           'gerentes' => $gerentes
         ]);
     }
 

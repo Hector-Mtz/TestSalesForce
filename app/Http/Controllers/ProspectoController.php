@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\ProspectoExport;
 use App\Mail\SendNotification;
+use App\Mail\SendNotificationSuperior;
 use App\Models\Asignacione;
 use App\Models\BusquedaTerreno;
 use App\Models\CampanaCanal;
@@ -403,7 +404,28 @@ class ProspectoController extends Controller
              ->where('id','=',$asesor['asesor'])
              ->first();
 
+             $emailCoordinador =  User::select('users.*')
+             ->where('users.role_id','=',3)
+             ->where('users.id','=',$emailAsesor['coordinador'])
+             ->first();
+ 
+             $emailGerente = User::select()
+             ->where('users.role_id','=',2)
+             ->where('users.id','=',$emailAsesor['gerente'])
+             ->first();
+
              Mail::to($emailAsesor['email'])->send(new SendNotification($emailAsesor, $prospecto ));
+
+             if($emailCoordinador !== null)
+             {
+                 Mail::to($emailCoordinador['email'])->send(new SendNotificationSuperior($emailCoordinador, $prospecto,$emailAsesor));
+             }
+ 
+             if($emailGerente !== null)
+             {
+                 Mail::to($emailGerente['email'])->send(new SendNotificationSuperior($emailGerente, $prospecto,$emailAsesor));
+             }
+ 
           }
           else
           {
@@ -419,7 +441,28 @@ class ProspectoController extends Controller
             ->where('id','=',$asesor['asesor'])
             ->first();
 
+            $emailCoordinador =  User::select('users.*')
+            ->where('users.role_id','=',3)
+            ->where('users.id','=',$emailAsesor['coordinador'])
+            ->first();
+
+            $emailGerente = User::select()
+            ->where('users.role_id','=',2)
+            ->where('users.id','=',$emailAsesor['gerente'])
+            ->first();
+
+
             Mail::to($emailAsesor['email'])->send(new SendNotification($emailAsesor, $prospecto));
+            if($emailCoordinador !== null)
+            {
+                Mail::to($emailCoordinador['email'])->send(new SendNotificationSuperior($emailCoordinador, $prospecto,$emailAsesor));
+            }
+
+            if($emailGerente !== null)
+            {
+                Mail::to($emailGerente['email'])->send(new SendNotificationSuperior($emailGerente, $prospecto,$emailAsesor));
+            }
+
           }
         }
     }

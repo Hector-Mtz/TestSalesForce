@@ -12,7 +12,9 @@ import ModalNewUser from './Modales/ModalNewUser.vue';
 const props = defineProps({
     usuarios:Object,
     roles:Object,
-    permisos:Object
+    permisos:Object,
+    coordinadores:Object,
+    gerentes:Object
    });  
 
 const rol = ref(null);
@@ -140,6 +142,6 @@ let closeNewuser = () =>
 
          <ModalNewRol :show="newRol" @close="closeNewRolModal" />
          <ModalNewPermission :show="newPermission" @close="closeNewPermissionModal" />
-         <ModalNewUser @close="closeNewuser" :show="newUser" :roles="roles" />
+         <ModalNewUser @close="closeNewuser" :show="newUser" :roles="roles" :coordinadores="coordinadores" :gerentes="gerentes" />
     </AppLayout>
 </template>

@@ -10,7 +10,9 @@ const props = defineProps({
            type: Boolean,
            default: false,
        },
-       roles:Object
+       roles:Object,
+       coordinadores:Object,
+       gerentes:Object
    });
 
    const emit = defineEmits(["close"])
@@ -83,6 +85,24 @@ const props = defineProps({
                     <div class="w-full mx-2">
                         <InputLabel value="Email:" class="my-2" />
                         <TextInput v-model="formNewUser.email" class="w-full" />
+                    </div>
+                </div>
+                <div class="flex flex-row justify-between">
+                    <div class="w-full mx-2">
+                        <InputLabel value="Gerente:" class="my-2" />
+                        <Select v-model="formNewUser.gerente" class="w-full">
+                            <option v-for="gerente in gerentes" :key="gerente.id" :value="gerente.id">
+                                {{ gerente.name }} {{ gerente.ap_paterno }} {{ gerente.ap_materno }}
+                            </option>
+                        </Select>
+                    </div>
+                    <div class="w-full mx-2">
+                        <InputLabel value="Coordinador:" class="my-2" />
+                        <Select v-model="formNewUser.coordinador" class="w-full">
+                            <option v-for="coordinador in coordinadores" :key="coordinador.id" :value="coordinador.id">
+                                {{ coordinador.name }} {{ coordinador.ap_paterno }} {{ coordinador.ap_materno }}
+                            </option>
+                        </Select>
                     </div>
                 </div>
                 <div class="flex flex-row justify-between">
