@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('ap_materno')->nullable();
             $table->string('email')->unique();
             $table->foreignId('role_id')->nullable()->constrained('roles');
-            $table->timestamp('email_verified_at')->nullable();
+            $table->foreignId('gerente')->nullable()->constrained('users');
+            $table->foreignId('coordinador')->nullable()->constrained('users');
+            $table->timestamp('email_verified_at')->nullable(); 
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();

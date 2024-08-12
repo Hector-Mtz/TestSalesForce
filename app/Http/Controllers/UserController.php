@@ -18,12 +18,15 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        User::updateOrCreate([
+        User::updateOrCreate(
+          ['email' => $request['email'],],
+          [
             'name' => $request['nombre'],
             'ap_paterno' => $request['ap_paterno'],
             'ap_materno' => $request['ap_materno'],
-            'email' => $request['email'],
             'role_id' => $request['role_id'],
+            'gerente' => $request['gerente'],
+            'coordinador' => $request['coordinador'],
             'password' => $request['password']
            ]);
     

@@ -26,13 +26,14 @@ const props = defineProps({
        ap_materno:'',
        email:'',
        role_id:-1,
+       gerente:'',
+       coordinador:'',
        password:''
     });
 
    const saveNewUser = () => 
    {
-     if(formNewUser.nombre !== '' && formNewUser.ap_paterno !==''
-        && formNewUser.ap_materno !== '' && formNewUser.email !==''
+     if(formNewUser.nombre !== '' && formNewUser.email !==''
         && formNewUser.role_id !== -1 && formNewUser.password !== ''
      )
      {

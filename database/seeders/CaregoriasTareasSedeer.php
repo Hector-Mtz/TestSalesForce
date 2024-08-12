@@ -34,5 +34,10 @@ class CaregoriasTareasSedeer extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]); 
+        DB::table('caregorias_tareas')->insert([
+            'nombre' => "Otro",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]); 
     }
 }

@@ -29,6 +29,8 @@ class User extends Authenticatable
         'ap_materno',
         'email',
         'role_id',
+        'gerente',
+        'coordinador',
         'password',
     ];
 
