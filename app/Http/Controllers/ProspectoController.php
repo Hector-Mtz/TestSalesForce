@@ -460,7 +460,7 @@ class ProspectoController extends Controller
 
             if($emailGerente !== null)
             {
-                Mail::to($emailGerente['email'])->send(new SendNotificationSuperior($emailGerente, $prospecto,$emailAsesor));
+                Mail::to($emailGerente['email'])->send(new SendNotificationSuperior($emailGerente, $prospecto,$emailAsesor  ));
             }
 
           }

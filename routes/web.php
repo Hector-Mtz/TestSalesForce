@@ -99,6 +99,8 @@ Route::middleware([
     Route::get('/role_permissions',[RolesPermissionController::class,'setPermission'])->name('roles.permissions');
     //Ruta para crear nuevos usuarios
     Route::post('/saveUser',[UserController::class,'store'])->name('saveUser');
+    //Ruta para editar un usuario
+    Route::post('/saveEditUser',[UserController::class,'update'])->name('saveEditUser');
     //Ruta para guardar nuevo prospecto desde el modal de nuevo prospecto
     Route::post('/saveProspecto',[ProspectoController::class, 'store'])->name('saveProspecto');
     //Ruta para ver el apartado de ruletas
