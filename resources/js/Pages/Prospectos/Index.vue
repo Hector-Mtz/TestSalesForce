@@ -1,7 +1,7 @@
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive, watch, onMounted, onUpdated } from 'vue';
 import { pickBy } from "lodash";
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 //Modales
 import ModalNewProspecto from './Modals/ModalNewProspecto.vue';
@@ -13,6 +13,7 @@ import ShortInput from '@/Components/ShortInput.vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
+const page = usePage()
 
 const props = defineProps({
     filters: Object,
@@ -46,7 +47,9 @@ const params = reactive({
     },
     date1:'',
     date2:'',
-    fields: props.filters.fields
+    fields: props.filters.fields,
+    profile_id:'',
+    usuario:''
 });
 
 watch(params, () => {
@@ -84,6 +87,18 @@ const closeModalNewProspecto = () =>
 
 const date = ref();
 
+onMounted(() => 
+{
+   params.usuario = page.props.auth.user.id;
+   params.profile_id = page.props.auth.user.role_id;
+});
+
+onUpdated(() => 
+{
+   params.usuario = page.props.auth.user.id;
+   params.profile_id = page.props.auth.user.role_id;
+});
+
 </script>
 <template>
     <AppLayout title="Prospectos">
@@ -94,7 +109,7 @@ const date = ref();
                         Prospectos
                     </h2>
                 </div>
-                <div class="flex flex-row justify-around px-8 gap-x-4">
+                <div v-if="$page.props.auth.user.role_id == 1" class="flex flex-row justify-around px-8 gap-x-4">
                     <div class="w-48" >
                         <VueDatePicker :placeholder="'Fecha inicial'" v-model="params.date1"  :enable-time-picker="false"></VueDatePicker>
                     </div>
@@ -102,13 +117,13 @@ const date = ref();
                         <VueDatePicker :placeholder="'Fecha final'" v-model="params.date2"  :enable-time-picker="false"></VueDatePicker>
                     </div>
                 </div>
-                <div class="flex flex-row gap-x-10">
+                <div v-if="$page.props.auth.user.role_id == 1" class="flex flex-row gap-x-10">
                     <InputSearch v-model="params.search" />
                     <button @click="openModalNewProspecto" class="px-4 py-1 text-white bg-blue-600 border rounded-lg">
                         Nuevo
                     </button>
                 </div>
-                <div class="flex flex-row items-center">
+                <div v-if="$page.props.auth.user.role_id == 1" class="flex flex-row items-center">
                     <a class="flex flex-row px-2 py-2 text-white bg-green-500 border rounded-lg gap-x-2" :href="route('exporProspectos', params)">
                         Descargar reporte
                         <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

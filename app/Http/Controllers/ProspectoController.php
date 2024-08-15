@@ -74,6 +74,18 @@ class ProspectoController extends Controller
         ->join('tipo_prospectos','prospectos.tipo_prospecto','tipo_prospectos.id')
         ->leftJoin('status_progress','prospectos.status','status_progress.id');
 
+        if(request()->has('profile_id'))
+        {
+           if($request['profile_id'] == 1 && $request['usuario'] == 1)
+           {
+             
+           }
+           else
+           {
+            $prospectos->where('prospectos.propietario','=',$request['usuario']);
+           }
+        }
+
         if (request()->has('search'))  //busqueda global
         {
            $search = '%' . strtr(request('search'), array("'" => "\\'", "%" => "\\%")) . '%';

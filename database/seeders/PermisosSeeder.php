@@ -15,25 +15,25 @@ class PermisosSeeder extends Seeder
     {
         //
 
-        DB::table('permisos')->insert([
+        DB::table('permissions')->insert([
             'nombre' => "watch-reportes",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        DB::table('permisos')->insert([
+        DB::table('permissions')->insert([
             'nombre' => "admin",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        DB::table('permisos')->insert([
+        DB::table('permissions')->insert([
             'nombre' => "watch-ruletas",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        DB::table('permisos')->insert([
+        DB::table('permissions')->insert([
             'nombre' => "watch-catalogos",
             'created_at' => now(),
             'updated_at' => now(),
