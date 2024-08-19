@@ -23,10 +23,12 @@ use App\Http\Controllers\UserController;
 use App\Models\Origene;
 use App\Models\Prospecto;
 use App\Models\Sede;
+use App\Models\StatusProgress;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return Inertia::render('Auth/Login', [
@@ -42,21 +44,18 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () 
+    Route::get('/dashboard', function (Request $request) 
     {
         $prospectos = Prospecto::select('prospectos.*')
-        ->where('prospectos.tipo_prospecto','=',1)
-        ->get();
+        ->where('prospectos.tipo_prospecto','=',1);
 
         $oportunidades_ganadas = Prospecto::select('prospectos.*')
         ->where('prospectos.tipo_prospecto','=',3)
-        ->where('prospectos.status','=',9)
-        ->get();
+        ->where('prospectos.status','=',9);
 
-        $oportunidades_perdidas= Prospecto::select('prospectos.*')
+        $oportunidades_perdidas = Prospecto::select('prospectos.*')
         ->where('prospectos.tipo_prospecto','=',3)
-        ->where('prospectos.status','=',8)
-        ->get();
+        ->where('prospectos.status','=',8);
 
         $prospectosGraph = DB::table('prospectos')
         ->selectRaw(
@@ -66,8 +65,7 @@ Route::middleware([
              LEFT(prospectos.created_at,7) AS FechaString',
             )
         ->where('prospectos.tipo_prospecto','=',1)
-        ->groupBy('FechaString','prospectos.status')
-        ->get();
+        ->groupBy('FechaString','prospectos.status');
 
         $origenes = Origene::all();
 
@@ -95,14 +93,27 @@ Route::middleware([
             ->groupBy('sedes.nombre')
             ->get();
 
+        $status = StatusProgress::select('status_progress.*')
+        ->where('status_progress.tipo_prospecto_status','=',1)
+        ->get();
+
+        if(request()->has('fecha'))
+        {
+            $prospectos->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
+            $oportunidades_ganadas->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
+            $oportunidades_perdidas->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
+            $prospectosGraph->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
+        }
+
         return Inertia::render('Dashboard',[
-            'prospectos' => $prospectos,
-            'prospectosGraph' => $prospectosGraph,
-            'oportunidades_ganadas' => $oportunidades_ganadas,
-            'oportunidades_perdidas' => $oportunidades_perdidas,
+            'prospectos' => fn() => $prospectos->get(),
+            'prospectosGraph' => fn() =>  $prospectosGraph->get(),
+            'oportunidades_ganadas' => fn() =>  $oportunidades_ganadas->get(),
+            'oportunidades_perdidas' => fn() => $oportunidades_perdidas->get(),
             'origenes' => $origenes,
             'prospectos_por_fuente' => $prospectos_por_fuente,
             'sedes' => $sedes,
+            'status' => $status,
             'prospectosPorSede' => $prospectosPorSede,
             'oportunidadesPorSede' => $oportunidadesPorSede
         ]);

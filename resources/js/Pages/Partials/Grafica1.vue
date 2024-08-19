@@ -2,11 +2,21 @@
 import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 const props = defineProps({
  prospectosCalculados:Object,
+ status:Object
 });  
+
+let chart = null;
+
+watch(() => props.prospectosCalculados,(nuevosValores) => 
+    { //el whatcher observa el cambio de la data
+         //lo imprime
+        chart.data = nuevosValores;
+        console.log(chart.data)
+     });
 
 onMounted(() => 
 {
@@ -25,7 +35,7 @@ onMounted(() =>
   
   // Create chart
   // https://www.amcharts.com/docs/v5/charts/xy-chart/
-  var chart = root.container.children.push(am5xy.XYChart.new(root, {
+    chart = root.container.children.push(am5xy.XYChart.new(root, {
     panX: false,
     panY: false,
     wheelX: "panX",
@@ -40,7 +50,7 @@ onMounted(() =>
     orientation: "horizontal"
   }));
   
-  var data = props.prospectosCalculados;
+  chart.data = props.prospectosCalculados;
   /* [{
     "year": "2021",
     "europe": 2.5,
@@ -83,7 +93,7 @@ onMounted(() =>
     location: 1
   })
   
-  xAxis.data.setAll(data);
+  xAxis.data.setAll(chart.data);
   
   var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
     min: 0,
@@ -117,7 +127,8 @@ onMounted(() =>
       tooltipText: "{name}, {categoryX}: {valueY}",
       tooltipY: am5.percent(10)
     });
-    series.data.setAll(data);
+    
+    series.data.setAll(chart.data);
   
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
@@ -138,6 +149,7 @@ onMounted(() =>
     legend.data.push(series);
   }
   
+  /*
   for (let index = 0; index < props.prospectosCalculados.length; index++) 
   {
     const prospecto = props.prospectosCalculados[index];
@@ -148,10 +160,18 @@ onMounted(() =>
           //console.log(clave);
           if(clave !== 'year')
           {
+            console.log(clave)
             makeSeries(clave, clave);
           }
        }
     }
+  }
+  */
+
+  for (let index = 0; index < props.status.length; index++) 
+  {
+    const status = props.status[index];
+    makeSeries(status.nombre, status.nombre);
   }
 
   //makeSeries("Europe", "europe");

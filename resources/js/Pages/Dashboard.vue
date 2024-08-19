@@ -7,7 +7,9 @@ import Grafica1 from './Partials/Grafica1.vue';
 import Grafica2 from './Partials/Grafica2.vue';
 import Grafica3 from './Partials/Grafica3.vue';
 import Grafica4 from './Partials/Grafica4.vue';
-import { reactive, computed, ref } from 'vue'
+import { reactive, computed, ref, onMounted, watch } from 'vue'
+import { pickBy } from "lodash";
+import { router, usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
  prospectos:Object,
@@ -18,7 +20,8 @@ const props = defineProps({
  origenes:Object,
  sedes:Object,
  prospectosPorSede:Object,
- oportunidadesPorSede:Object
+ oportunidadesPorSede:Object,
+ status:Object
 });  
 
 //Filtros
@@ -267,9 +270,74 @@ const prospectosOportinitiesBySede = computed(() =>
   return arraySedes;
 });
 
+onMounted(() => 
+{
+    let fecha = null;
+    switch (date.value.month) 
+    {
+      case 0: //Enero
+            fecha = date.value.year + '-' + "01";
+            params.fecha = fecha;
+         break;
+      case 1: //Febrero
+            fecha = date.value.year + '-' + "02";
+            params.fecha = fecha;
+         break;
+      case 2: //Marzo
+            fecha = date.value.year + '-' + "03";
+            params.fecha = fecha;
+         break;
+      case 3: //Abril
+            fecha = date.value.year+ '-' + "04";
+            params.fecha = fecha;
+         break;
+      case 4: //Mayo
+            fecha = date.value.year + '-' + "05";
+            params.fecha = fecha;
+         break;
+      case 5: //Junio
+         fecha = date.value.year + '-' + "06";
+         params.fecha = fecha;
+      break;
+      case 6: //Julio
+         fecha = date.value.year + '-' + "07";
+         params.fecha = fecha;
+      break;
+      case 7: //Agosto
+         fecha = date.value.year + '-' + "08";
+         params.fecha = fecha;
+      break;
+      case 8: //Spetiembre
+         fecha = date.value.year + '-' + "09";
+         params.fecha = fecha;
+      break;
+      case 9: //Octubre
+         fecha = date.value.year + '-' + "10";
+         params.fecha = fecha;
+      break;
+      case 10: //Noviembre
+         fecha = date.value.year+ '-' + "11";
+         params.fecha = fecha;
+      break;
+      case 11: //Diciembre
+         fecha = date.value.year + '-' + "12";
+         params.fecha = fecha;
+      break;
+    }
+});
 
+
+watch(params, () => {
+    const clearParams = pickBy({ ...params });
+    router.visit(route("dashboard"), 
+    {
+        data: clearParams,
+        replace: true,
+        preserveScroll: true,
+        preserveState: true,
+    });
+});
 </script>
-
 <template>
     <AppLayout title="Dashboard">
         <template #header>
@@ -313,7 +381,7 @@ const prospectosOportinitiesBySede = computed(() =>
         <div class="flex flex-row p-8 gap-x-16">
             <div class="w-1/4 ">
                 <h1 class="my-2 text-xl font-semibold ">Etapa de prospectos</h1>
-                <Grafica1 :prospectosCalculados="prospectosCalculados" />
+                <Grafica1 :prospectosCalculados="prospectosCalculados" :status="status" />
             </div>
             <div class="w-1/4 ">
                 <h1 class="my-2 text-xl font-semibold">Prospectos por fuente</h1>
