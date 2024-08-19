@@ -22,6 +22,7 @@ use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
 use App\Models\Origene;
 use App\Models\Prospecto;
+use App\Models\Sede;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -69,11 +70,30 @@ Route::middleware([
         ->get();
 
         $origenes = Origene::all();
+
         $prospectos_por_fuente = Prospecto::selectRaw(
             'origenes.nombre,COUNT(prospectos.id) as contador')
         ->leftJoin('origenes','prospectos.origen','origenes.id')
         ->groupBy('prospectos.origen')
         ->get();
+
+        $sedes = Sede::all();
+
+        $prospectosPorSede = Prospecto::select(
+        'sedes.nombre as sede_name')
+        ->selectRaw('COUNT(prospectos.id) as contador')
+        ->where('prospectos.tipo_prospecto','=',1)
+        ->leftJoin('sedes','prospectos.sede','sedes.id')
+        ->groupBy('sedes.nombre')
+        ->get();
+
+        $oportunidadesPorSede = Prospecto::select(
+            'sedes.nombre as sede_name')
+            ->selectRaw('COUNT(prospectos.id) as contador')
+            ->where('prospectos.tipo_prospecto','=',2)
+            ->leftJoin('sedes','prospectos.sede','sedes.id')
+            ->groupBy('sedes.nombre')
+            ->get();
 
         return Inertia::render('Dashboard',[
             'prospectos' => $prospectos,
@@ -81,7 +101,10 @@ Route::middleware([
             'oportunidades_ganadas' => $oportunidades_ganadas,
             'oportunidades_perdidas' => $oportunidades_perdidas,
             'origenes' => $origenes,
-            'prospectos_por_fuente' => $prospectos_por_fuente
+            'prospectos_por_fuente' => $prospectos_por_fuente,
+            'sedes' => $sedes,
+            'prospectosPorSede' => $prospectosPorSede,
+            'oportunidadesPorSede' => $oportunidadesPorSede
         ]);
     })->name('dashboard');
 

@@ -5,6 +5,8 @@ import ButtonCalendar from '@/Components/ButtonCalendar.vue';
 //graficas 
 import Grafica1 from './Partials/Grafica1.vue';
 import Grafica2 from './Partials/Grafica2.vue';
+import Grafica3 from './Partials/Grafica3.vue';
+import Grafica4 from './Partials/Grafica4.vue';
 import { reactive, computed, ref } from 'vue'
 
 const props = defineProps({
@@ -13,7 +15,10 @@ const props = defineProps({
  oportunidades_ganadas:Object,
  oportunidades_perdidas:Object,
  prospectos_por_fuente:Object,
- origenes:Object
+ origenes:Object,
+ sedes:Object,
+ prospectosPorSede:Object,
+ oportunidadesPorSede:Object
 });  
 
 //Filtros
@@ -217,6 +222,52 @@ const changeDate = (newDate) => {
     }
 };
 
+const prospectosOportinitiesBySede = computed(() =>
+{
+  let arraySedes = [];
+  for (let index = 0; index < props.sedes.length; index++) 
+  {
+    const sede = props.sedes[index];
+    let objSede = {
+        sede:sede.nombre,
+        prospectos:0,
+        oportunidades:0
+    }
+    arraySedes.push(objSede);
+  }
+
+  //recorrido de leads para asignar
+  for (let index2 = 0; index2 < props.prospectosPorSede.length; index2++) 
+  {
+    const prospecto = props.prospectosPorSede[index2];
+    for (let index3 = 0; index3 < arraySedes.length; index3++) 
+    {
+        const objeto = arraySedes[index3];
+        if(objeto.sede == prospecto.sede_name)
+        {
+           objeto.prospectos = prospecto.contador
+        }
+    }
+  }
+
+  //recorrido de oportunidades para asignar
+  for (let index3 = 0; index3 < props.oportunidadesPorSede.length; index3++) 
+  {
+    const oportunidad = props.oportunidadesPorSede[index3];
+    for (let index4 = 0; index4 < arraySedes.length; index4++) 
+    {
+        const objeto = arraySedes[index4];
+        if(objeto.sede == oportunidad.sede_name)
+        {
+           objeto.oportunidades = oportunidad.contador
+        }
+    }
+  }
+
+  return arraySedes;
+});
+
+
 </script>
 
 <template>
@@ -268,9 +319,16 @@ const changeDate = (newDate) => {
                 <h1 class="my-2 text-xl font-semibold">Prospectos por fuente</h1>
                 <Grafica2 :prospectosPorFuenteCalculados="prospectosPorFuenteCalculados" />
             </div>
+            <div class="w-1/4 ">
+                <h1 class="my-2 text-xl font-semibold">Descarte de oportunidades</h1>
+                <Grafica4 />
+            </div>
         </div>
         <div class="flex flex-row p-8 gap-x-16">
-            
+            <div class="w-full">
+                <h1 class="my-2 text-xl font-semibold">Prospectos y oportunidades por sede</h1>
+                <Grafica3 :prospectosOportinitiesBySede="prospectosOportinitiesBySede" />
+            </div>
         </div>
     </AppLayout>
 </template>
