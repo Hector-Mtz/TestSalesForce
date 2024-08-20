@@ -1,88 +1,47 @@
 <script setup>
-import * as am5 from '@amcharts/amcharts5';
-import * as am5xy from '@amcharts/amcharts5/xy';
-import * as am5percent from '@amcharts/amcharts5/percent'
-import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
-import { ref, onMounted } from 'vue'
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { ref, onMounted, watch } from 'vue'
 
 const props = defineProps({
   prospectosPorFuenteCalculados:Object,
 });  
 
+let chart = null;
+
+watch(() => props.prospectosPorFuenteCalculados,(nuevosValores) => 
+    { //el whatcher observa el cambio de la data
+         //lo imprime
+         chart.data = nuevosValores;
+     });
+
 onMounted(() => 
 {
-   am5.ready(function() {
-   
-   
-   // Create root element
-   // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-   var root = am5.Root.new("chartdiv2");
-   
-   
-   // Set themes
-   // https://www.amcharts.com/docs/v5/concepts/themes/
-   root.setThemes([
-     am5themes_Animated.new(root)
-   ]);
-   
-   var chart = root.container.children.push(am5percent.PieChart.new(root, {
-     layout: root.verticalLayout,
-     innerRadius: am5.percent(40)
-   }));
-   
-   
-   // Create series
-   // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
-   var series = chart.series.push(am5percent.PieSeries.new(root, {
-     valueField: "value",
-     categoryField: "category",
-     alignLabels: false
-   }));
-   
-   series.labels.template.setAll({
-     //textType: "circular",
-     centerX: 0,
-     centerY: 0
-   });
-   
-   
-   // Set data
-   // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
-   series.data.setAll(
-   /*
-    [
-
-     { value: 10, category: "One" },
-     { value: 9, category: "Two" },
-     { value: 6, category: "Three" },
-     { value: 5, category: "Four" },
-     { value: 4, category: "Five" },
-     { value: 3, category: "Six" },
-     { value: 1, category: "Seven" },
-   ]
-  */
-   props.prospectosPorFuenteCalculados
-  );
-   
-   
-   // Create legend
-   // https://www.amcharts.com/docs/v5/charts/percent-charts/legend-percent-series/
-   var legend = chart.children.push(am5.Legend.new(root, {
-     centerX: am5.percent(50),
-     x: am5.percent(50),
-     marginTop: 15,
-     marginBottom: 15,
-   }));
-   
-   legend.data.setAll(series.dataItems);
-   
-   
-   // Play initial series animation
-   // https://www.amcharts.com/docs/v5/concepts/animations/#Animation_of_series
-   series.appear(1000, 100);
-   
-   
-   }); // end am5.ready()
+  am4core.ready(function() {
+     
+     // Themes begin
+     am4core.useTheme(am4themes_animated);
+     // Themes end
+     
+     // Create chart
+     chart = am4core.create("chartdiv2", am4charts.PieChart);
+     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+     
+     chart.data = props.prospectosPorFuenteCalculados;
+     
+     var series = chart.series.push(new am4charts.PieSeries());
+     series.dataFields.value = "value";
+     series.dataFields.radiusValue = "value";
+     series.dataFields.category = "category";
+     series.slices.template.cornerRadius = 6;
+     series.colors.step = 3;
+     
+     series.hiddenState.properties.endAngle = -90;
+     
+     chart.legend = new am4charts.Legend();
+     
+     }); // end am4core.ready()
 })
 </script>
 <template>

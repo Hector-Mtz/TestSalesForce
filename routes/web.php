@@ -72,8 +72,7 @@ Route::middleware([
         $prospectos_por_fuente = Prospecto::selectRaw(
             'origenes.nombre,COUNT(prospectos.id) as contador')
         ->leftJoin('origenes','prospectos.origen','origenes.id')
-        ->groupBy('prospectos.origen')
-        ->get();
+        ->groupBy('prospectos.origen');
 
         $sedes = Sede::all();
 
@@ -82,16 +81,14 @@ Route::middleware([
         ->selectRaw('COUNT(prospectos.id) as contador')
         ->where('prospectos.tipo_prospecto','=',1)
         ->leftJoin('sedes','prospectos.sede','sedes.id')
-        ->groupBy('sedes.nombre')
-        ->get();
+        ->groupBy('sedes.nombre');
 
         $oportunidadesPorSede = Prospecto::select(
             'sedes.nombre as sede_name')
             ->selectRaw('COUNT(prospectos.id) as contador')
             ->where('prospectos.tipo_prospecto','=',2)
             ->leftJoin('sedes','prospectos.sede','sedes.id')
-            ->groupBy('sedes.nombre')
-            ->get();
+            ->groupBy('sedes.nombre');
 
         $status = StatusProgress::select('status_progress.*')
         ->where('status_progress.tipo_prospecto_status','=',1)
@@ -103,6 +100,9 @@ Route::middleware([
             $oportunidades_ganadas->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
             $oportunidades_perdidas->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
             $prospectosGraph->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
+            $prospectos_por_fuente->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
+            $prospectosPorSede ->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
+            $oportunidadesPorSede ->where('prospectos.created_at','LIKE',"%".$request['fecha']."%");
         }
 
         return Inertia::render('Dashboard',[
@@ -111,11 +111,11 @@ Route::middleware([
             'oportunidades_ganadas' => fn() =>  $oportunidades_ganadas->get(),
             'oportunidades_perdidas' => fn() => $oportunidades_perdidas->get(),
             'origenes' => $origenes,
-            'prospectos_por_fuente' => $prospectos_por_fuente,
+            'prospectos_por_fuente' => fn() => $prospectos_por_fuente->get(),
             'sedes' => $sedes,
             'status' => $status,
-            'prospectosPorSede' => $prospectosPorSede,
-            'oportunidadesPorSede' => $oportunidadesPorSede
+            'prospectosPorSede'  => fn() => $prospectosPorSede->get(),
+            'oportunidadesPorSede' => fn() => $oportunidadesPorSede->get()
         ]);
     })->name('dashboard');
 

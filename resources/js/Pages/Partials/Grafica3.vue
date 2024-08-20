@@ -1,131 +1,88 @@
 <script setup>
-import * as am5 from '@amcharts/amcharts5';
-import * as am5xy from '@amcharts/amcharts5/xy';
-import * as am5percent from '@amcharts/amcharts5/percent'
-import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
-
-import { ref, onMounted } from 'vue'
+import { ref, onMounted,onUpdated, watch } from 'vue'
 
 const props = defineProps({
   prospectosOportinitiesBySede:Object,
 });  
 
+let chart = null;
+
+
+watch(() => props.prospectosOportinitiesBySede,(nuevosValores) => 
+    { //el whatcher observa el cambio de la data
+         //lo imprime
+         chart.data = nuevosValores;
+     });
+
 onMounted(() => 
 {
-  am5.ready(function() {
+  am4core.ready(function() {
 
-    // Create root element
-    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-    var root = am5.Root.new("chartdiv3");
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
     
-    // Set themes
-    // https://www.amcharts.com/docs/v5/concepts/themes/
-    root.setThemes([
-      am5themes_Animated.new(root)
-    ]);
+    // Create chart instance
+    chart = am4core.create("chartdiv3", am4charts.XYChart);
+    chart.scrollbarX = new am4core.Scrollbar();
     
-    // Create chart
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/
-    var chart = root.container.children.push(am5xy.XYChart.new(root, {
-      panX: true,
-      panY: true,
-      wheelX: "panX",
-      wheelY: "zoomX",
-      pinchZoomX: true,
-      paddingLeft:0,
-      paddingRight:1
-    }));
-    
-    // Add cursor
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-    cursor.lineY.set("visible", false);
-    
+    // Add data
+    chart.data = props.prospectosOportinitiesBySede;
     
     // Create axes
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-    var xRenderer = am5xy.AxisRendererX.new(root, { 
-      minGridDistance: 30, 
-      minorGridEnabled: true
-    });
+    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "sede";
+    categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.renderer.minGridDistance = 30;
+    categoryAxis.renderer.labels.template.horizontalCenter = "right";
+    categoryAxis.renderer.labels.template.verticalCenter = "middle";
+    categoryAxis.renderer.labels.template.rotation = 270;
+    categoryAxis.tooltip.disabled = true;
+    categoryAxis.renderer.minHeight = 110;
     
-    xRenderer.labels.template.setAll({
-      rotation: -90,
-      centerY: am5.p50,
-      centerX: am5.p100,
-      paddingRight: 15
-    });
-    
-    xRenderer.grid.template.setAll({
-      location: 1
-    })
-    
-    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-      maxDeviation: 0.3,
-      categoryField: "sede",
-      renderer: xRenderer,
-      tooltip: am5.Tooltip.new(root, {})
-    }));
-    
-    var yRenderer = am5xy.AxisRendererY.new(root, {
-      strokeOpacity: 0.1
-    })
-    
-    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-      maxDeviation: 0.3,
-      renderer: yRenderer
-    }));
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.minWidth = 50;
     
     // Create series
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-
-    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-      name: "Series 1",
-      xAxis: xAxis,
-      yAxis: yAxis,
-      valueYField: "prospectos",
-      sequencedInterpolation: true,
-      categoryXField: "sede",
-      tooltip: am5.Tooltip.new(root, {
-        labelText: "{valueY}"
-      })
-    }));
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.sequencedInterpolation = true;
+    series.dataFields.valueY = "prospectos";
+    series.dataFields.categoryX = "sede";
+    series.tooltipText = "Prospectos: [{categoryX}: bold]{valueY}[/]";
+    series.columns.template.strokeWidth = 0;
     
-    series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
-    series.columns.template.adapters.add("fill", function (fill, target) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
+    series.tooltip.pointerOrientation = "vertical";
+    
+    series.columns.template.column.cornerRadiusTopLeft = 10;
+    series.columns.template.column.cornerRadiusTopRight = 10;
+    series.columns.template.column.fillOpacity = 0.8;
+    
+    // on hover, make corner radiuses bigger
+    var hoverState = series.columns.template.column.states.create("hover");
+    hoverState.properties.cornerRadiusTopLeft = 0;
+    hoverState.properties.cornerRadiusTopRight = 0;
+    hoverState.properties.fillOpacity = 1;
+    
+    series.columns.template.adapter.add("fill", function(fill, target) {
+      return chart.colors.getIndex(target.dataItem.index);
     });
-    
-    series.columns.template.adapters.add("stroke", function (stroke, target) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
 
-
-    var series2 = chart.series.push(am5xy.LineSeries.new(root, {
-       name: "Series 2",
-       xAxis: xAxis,
-       yAxis: yAxis,
-       sequencedInterpolation: true,
-       valueYField: "oportunidades",
-       categoryXField: "sede",
-       tooltip: am5.Tooltip.new(root, {
-         labelText: "{valueY}"
-       }),
-     }));
+    var paretoSeries = chart.series.push(new am4charts.LineSeries())
+    paretoSeries.dataFields.valueY = "oportunidades";
+    paretoSeries.dataFields.categoryX = "sede";
+    paretoSeries.tooltipText = "Oportunidades: {valueY}[/]";
+    paretoSeries.bullets.push(new am4charts.CircleBullet());
+    paretoSeries.strokeWidth = 2;
+    paretoSeries.stroke = new am4core.InterfaceColorSet().getFor("alternativeBackground");
+    paretoSeries.strokeOpacity = 0.5;
+    // Cursor
+    chart.cursor = new am4charts.XYCursor();
     
-    
-    // Set data
-    var data = props.prospectosOportinitiesBySede;
-    xAxis.data.setAll(data);
-    series.data.setAll(data);
-    series2.data.setAll(data);
-   
-    series2.appear(1000,100);
-    series.appear(1000,100);
-    chart.appear(1000, 100);
-    
-    }); // end am5.ready()
+    }); // end am4core.ready()
 })
 </script>
 <template>
