@@ -1,8 +1,10 @@
 <script setup>
-import * as am5 from '@amcharts/amcharts5';
-import * as am5xy from '@amcharts/amcharts5/xy';
-import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
-import { ref, onMounted, watch } from 'vue'
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
+
+import { ref, onMounted,onUpdated, watch } from 'vue'
 
 const props = defineProps({
  prospectosCalculados:Object,
@@ -11,178 +13,69 @@ const props = defineProps({
 
 let chart = null;
 
+am4core.useTheme(am4themes_animated);
+
 watch(() => props.prospectosCalculados,(nuevosValores) => 
     { //el whatcher observa el cambio de la data
          //lo imprime
-        chart.data = nuevosValores;
-        console.log(chart.data)
+         chart.data = nuevosValores;
      });
 
 onMounted(() => 
 {
-  am5.ready(function() {
-  // Create root element
-  // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-  var root = am5.Root.new("chartdiv");
-  
-  
-  // Set themes
-  // https://www.amcharts.com/docs/v5/concepts/themes/
-  root.setThemes([
-    am5themes_Animated.new(root)
-  ]);
-  
-  
-  // Create chart
-  // https://www.amcharts.com/docs/v5/charts/xy-chart/
-    chart = root.container.children.push(am5xy.XYChart.new(root, {
-    panX: false,
-    panY: false,
-    wheelX: "panX",
-    wheelY: "zoomX",
-    paddingLeft: 0,
-    layout: root.verticalLayout
-  }));
-  
-  // Add scrollbar
-  // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-  chart.set("scrollbarX", am5.Scrollbar.new(root, {
-    orientation: "horizontal"
-  }));
-  
-  chart.data = props.prospectosCalculados;
-  /* [{
-    "year": "2021",
-    "europe": 2.5,
-    "namerica": 2.5,
-    "asia": 2.1,
-    "lamerica": 1,
-    "meast": 0.8,
-    "africa": 0.4
-  }, {
-    "year": "2022",
-    "europe": 2.6,
-    "namerica": 2.7,
-    "asia": 2.2,
-    "lamerica": 0.5,
-    "meast": 0.4,
-    "africa": 0.3
-  }, {
-    "year": "2023",
-    "europe": 2.8,
-    "namerica": 2.9,
-    "asia": 2.4,
-    "lamerica": 0.3,
-    "meast": 0.9,
-    "africa": 0.5
-  }] */
-  
-  
-  // Create axes
-  // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-  var xRenderer = am5xy.AxisRendererX.new(root, {
-    minorGridEnabled: true
-  });
-  var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-    categoryField: "year",
-    renderer: xRenderer,
-    tooltip: am5.Tooltip.new(root, {})
-  }));
-  
-  xRenderer.grid.template.setAll({
-    location: 1
-  })
-  
-  xAxis.data.setAll(chart.data);
-  
-  var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-    min: 0,
-    renderer: am5xy.AxisRendererY.new(root, {
-      strokeOpacity: 0.1
-    })
-  }));
-  
-  
-  // Add legend
-  // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
-  var legend = chart.children.push(am5.Legend.new(root, {
-    centerX: am5.p50,
-    x: am5.p50
-  }));
-  
-  
-  // Add series
-  // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-  function makeSeries(name, fieldName) {
-    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-      name: name,
-      stacked: true,
-      xAxis: xAxis,
-      yAxis: yAxis,
-      valueYField: fieldName,
-      categoryXField: "year"
-    }));
-  
-    series.columns.template.setAll({
-      tooltipText: "{name}, {categoryX}: {valueY}",
-      tooltipY: am5.percent(10)
-    });
-    
-    series.data.setAll(chart.data);
-  
-    // Make stuff animate on load
-    // https://www.amcharts.com/docs/v5/concepts/animations/
-    series.appear();
-  
-    series.bullets.push(function () {
-      return am5.Bullet.new(root, {
-        sprite: am5.Label.new(root, {
-          text: "{valueY}",
-          fill: root.interfaceColors.get("alternativeText"),
-          centerY: am5.p50,
-          centerX: am5.p50,
-          populateText: true
-        })
-      });
-    });
-  
-    legend.data.push(series);
-  }
-  
-  /*
-  for (let index = 0; index < props.prospectosCalculados.length; index++) 
-  {
-    const prospecto = props.prospectosCalculados[index];
-    if(props.prospectosCalculados[index] == props.prospectosCalculados[0])
-    {
-       for(let clave in prospecto)
-       {
-          //console.log(clave);
-          if(clave !== 'year')
-          {
-            console.log(clave)
-            makeSeries(clave, clave);
-          }
-       }
-    }
-  }
-  */
+   chart = am4core.create("chartdiv", am4charts.XYChart);
+   
+   
+   // Add data
+   chart.data = props.prospectosCalculados;
+   
+   // Create axes
+   var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+   categoryAxis.dataFields.category = "year";
+   categoryAxis.renderer.grid.template.location = 0;
+   
+   
+   var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+   valueAxis.renderer.inside = true;
+   valueAxis.renderer.labels.template.disabled = true;
+   valueAxis.min = 0;
+   
+   // Create series
+   function createSeries(field, name) {
+     
+     // Set up series
+     var series = chart.series.push(new am4charts.ColumnSeries());
+     series.name = name;
+     series.dataFields.valueY = field;
+     series.dataFields.categoryX = "year";
+     series.sequencedInterpolation = true;
+     
+     // Make it stacked
+     series.stacked = true;
+     
+     // Configure columns
+     series.columns.template.width = am4core.percent(60);
+     series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
+     
+     // Add label
+     var labelBullet = series.bullets.push(new am4charts.LabelBullet());
+     labelBullet.label.text = "{valueY}";
+     labelBullet.locationY = 0.5;
+     labelBullet.label.hideOversized = true;
+     
+     return series;
+   }
 
-  for (let index = 0; index < props.status.length; index++) 
-  {
+   for (let index = 0; index < props.status.length; index++) 
+   {
     const status = props.status[index];
-    makeSeries(status.nombre, status.nombre);
-  }
-
-  //makeSeries("Europe", "europe");
-  
-  
-  // Make stuff animate on load
-  // https://www.amcharts.com/docs/v5/concepts/animations/
-  chart.appear(1000, 100);
-
-  }); // end am5.ready()
+    createSeries(status.nombre, status.nombre);
+   }
+   
+   // Legend
+   chart.legend = new am4charts.Legend();
 })
+
 </script>
 <template>
     <div id="chartdiv"></div>
