@@ -80,7 +80,14 @@ const formEditProspecto = useForm({
        Time_Zone:props.prospecto.Time_Zone,
        City:props.prospecto.City,
        Country:props.prospecto.Country,
-       State:props.prospecto.State
+       State:props.prospecto.State,
+
+       //nuevos campos
+       motivo_de_descarte:'',
+       probabilidad:'',
+       import:'',
+       contratado:0,
+       fecha_de_cierre:''
     });
 
 
@@ -174,7 +181,8 @@ const saveEditForm = () =>
 
 const formEditStatusProspecto = useForm({
    id:props.prospecto.id,
-   status:props.prospecto.status
+   status:props.prospecto.status,
+   motivo:'',
 });
 
 const changeStatus = () => 
@@ -207,7 +215,7 @@ const changeStatus = () =>
             </div>
         </template>
         <div class="p-8 ">
-            <div class="flex flex-row items-center justify-center w-full py-4 my-2 bg-white rounded-lg "> <!--Linea del tiempo-->
+            <div class="flex flex-row items-center justify-center w-full py-4 mt-2 bg-white rounded-lg "> <!--Linea del tiempo-->
                <div class="flex flex-row justify-center ">
                   <div v-for="statue in status_progress" :key="statue.id" @click="()=>{formEditStatusProspecto.status = statue.id}">
                      <div  v-if="statue.id !== formEditStatusProspecto.status"  class="px-4 py-2 text-center bg-gray-200 arrowText arrowRight" >
@@ -229,7 +237,10 @@ const changeStatus = () =>
                   </button>
                </div>
             </div>
-            <div class="flex flex-row">
+            <div v-if="formEditStatusProspecto.status == 2" class="bg-white ">
+               
+            </div>
+            <div class="flex flex-row mt-2">
                 <div class="w-3/4 mx-2 bg-white rounded-lg">
                     <div class="p-4">
                         <h1 class="text-xl font-semibold">Detalles</h1>

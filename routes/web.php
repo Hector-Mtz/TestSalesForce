@@ -20,6 +20,7 @@ use App\Http\Controllers\RuletaSedeController;
 use App\Http\Controllers\SedeController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
+use App\Models\MotivoDescarte;
 use App\Models\Origene;
 use App\Models\Prospecto;
 use App\Models\Sede;
@@ -68,6 +69,7 @@ Route::middleware([
         ->groupBy('FechaString','prospectos.status');
 
         $origenes = Origene::all();
+        $motivos_descarte=MotivoDescarte::all();
 
         $prospectos_por_fuente = Prospecto::selectRaw(
             'origenes.nombre,COUNT(prospectos.id) as contador')
@@ -115,7 +117,8 @@ Route::middleware([
             'sedes' => $sedes,
             'status' => $status,
             'prospectosPorSede'  => fn() => $prospectosPorSede->get(),
-            'oportunidadesPorSede' => fn() => $oportunidadesPorSede->get()
+            'oportunidadesPorSede' => fn() => $oportunidadesPorSede->get(),
+            'motivos_descarte' => $motivos_descarte
         ]);
     })->name('dashboard');
 

@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             InversionAlMesSeeder::class,
             IdiomasSeeder::class,
             StatusSeeder::class,
-            PermisosSeeder::class
+            PermisosSeeder::class,
+            MotivosDescarteSeeder::class
         ]);
     }
 }

@@ -33,7 +33,12 @@ return new class extends Migration
             $table->foreignId('horario_contacto')->nullable()->constrained('horario_contactos');
             $table->foreignId('busqueda_terreno')->nullable()->constrained('busqueda_terrenos');
             $table->foreignId('inversion_al_mes')->nullable()->constrained('inversion_al_mes');
+            $table->foreignId('motivo_de_descarte')->nullable()->constrained('motivo_descartes');
             $table->boolean('visto')->default(0);
+            $table->integer('probabilidad')->nullable();
+            $table->integer('importe')->nullable();
+            $table->boolean('contratado')->default(0);
+            $table->dateTime('fecha_de_cierre')->nullable();
             $table->string('tiempo_inversion')->nullable();
             $table->foreignId('idioma')->nullable()->constrained('idiomas');
             $table->boolean('Estado_de_integración')->default(0);

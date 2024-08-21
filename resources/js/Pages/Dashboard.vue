@@ -21,7 +21,8 @@ const props = defineProps({
  sedes:Object,
  prospectosPorSede:Object,
  oportunidadesPorSede:Object,
- status:Object
+ status:Object,
+ motivos_descarte:Object
 });  
 
 //Filtros
@@ -337,6 +338,23 @@ watch(params, () => {
         preserveState: true,
     });
 });
+
+const oportunidadesPorDescarte = computed(() =>
+{
+   let arrayOpBySede = [];
+   for (let index = 0; index < props.motivos_descarte.length; index++) 
+   {
+    const motivo = props.motivos_descarte[index];
+    let newObj={
+        motivo:props.motivos_descarte[index].nombre,
+        oportunidades:10
+    }
+    arrayOpBySede.push(newObj);
+   }
+
+   return arrayOpBySede;
+})
+
 </script>
 <template>
     <AppLayout title="Dashboard">
@@ -389,7 +407,7 @@ watch(params, () => {
             </div>
             <div class="w-1/4 ">
                 <h1 class="my-2 text-xl font-semibold">Descarte de oportunidades</h1>
-                <Grafica4 />
+                <Grafica4 :oportunidadesPorDescarte="oportunidadesPorDescarte" />
             </div>
         </div>
         <div class="flex flex-row p-8 gap-x-16">
