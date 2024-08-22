@@ -13,6 +13,7 @@ use App\Models\HorarioContacto;
 use App\Models\Idioma;
 use App\Models\InversionAlMe;
 use App\Models\MontoEnganche;
+use App\Models\MotivoDescarte;
 use App\Models\Origene;
 use App\Models\ProductoDeInteres;
 use App\Models\Prospecto;
@@ -144,6 +145,7 @@ class ProspectoController extends Controller
 
     public function viewProspecto (Prospecto $prospecto)
     {
+        $motivos_descarte = MotivoDescarte::all();
         $sedes = Sede::all();
         $asignaciones = Asignacione::all();
         $producto_interes = ProductoDeInteres::all();
@@ -178,7 +180,8 @@ class ProspectoController extends Controller
             'idiomas' => $idiomas,
             'montos_eganche' => $montos_eganche,
             'formas_contacto' => $formas_contacto,
-            'horarios' => $horarios
+            'horarios' => $horarios,
+            'motivos_descarte' =>  $motivos_descarte
         ]);
     }
 
@@ -365,7 +368,8 @@ class ProspectoController extends Controller
            'Time_Zone' => $request['Time_Zone'],
            'City' => $request['City'],
            'Country' => $request['Country'],
-           'State' => $request['State']
+           'State' => $request['State'],
+           'motivo_de_descarte' => $request['motivo_de_descarte']
         ]);
 
       return $this->runRuleta($newProspecto);
@@ -641,6 +645,14 @@ class ProspectoController extends Controller
           ->update([
            'tipo_prospecto' => 2 , //oportunidad
            'status' => 5
+          ]);
+       }
+       else if($request['status'] == 2) //guardado JUNK
+       {
+          Prospecto::where('id','=',$request['id']) 
+          ->update([
+           'status' => $request['status'],
+           'motivo_de_descarte' => $request['motivo']
           ]);
        }
        else if($request['status'] == 9) //se convierte a venta

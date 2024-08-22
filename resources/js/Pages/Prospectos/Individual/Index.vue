@@ -32,7 +32,8 @@ const props = defineProps({
     idiomas:Object,
     montos_eganche:Object,
     formas_contacto:Object,
-    horarios:Object
+    horarios:Object,
+    motivos_descarte:Object
 });
 const page = usePage();
 let showSpin=ref(false);
@@ -83,7 +84,6 @@ const formEditProspecto = useForm({
        State:props.prospecto.State,
 
        //nuevos campos
-       motivo_de_descarte:'',
        probabilidad:'',
        import:'',
        contratado:0,
@@ -182,23 +182,35 @@ const saveEditForm = () =>
 const formEditStatusProspecto = useForm({
    id:props.prospecto.id,
    status:props.prospecto.status,
-   motivo:'',
+   motivo:props.prospecto.motivo_de_descarte,
 });
 
 const changeStatus = () => 
 {
-   formEditStatusProspecto.post(route('editStatus'),
-{
-   preserveScroll:true,
-   preserveState:true,
-   onSuccess:()=>
+   if(formEditStatusProspecto.status == 2 && formEditStatusProspecto.motivo == '')
    {
-      toast.success('Status cambiado correctamente',{
-         "theme": "colored",
-         "type": "success",
-      });
+      toast('Error al actualizar el status del prospecto, marque los motivos',{
+                "theme": "colored",
+                "type": "error",
+                "dangerouslyHTMLString": true
+             });
    }
-});
+   else
+   {
+      formEditStatusProspecto.post(route('editStatus'),
+       {
+          preserveScroll:true,
+          preserveState:true,
+          onSuccess:()=>
+          {
+             toast.success('Status cambiado correctamente',{
+                "theme": "colored",
+                "type": "success",
+             });
+          }
+       });
+   }
+   
 }
 
 </script>
@@ -237,8 +249,13 @@ const changeStatus = () =>
                   </button>
                </div>
             </div>
-            <div v-if="formEditStatusProspecto.status == 2" class="bg-white ">
-               
+            <div v-if="formEditStatusProspecto.status == 2 || formEditStatusProspecto.status == 8" class="p-4 bg-white">
+               <p class="font-semibold">Motivos</p>
+               <Select v-model="formEditStatusProspecto.motivo" class="w-full">
+                  <option v-for="motivo in motivos_descarte" :key="motivo.id" :value="motivo.id">
+                     {{ motivo.nombre }}
+                  </option>
+               </Select>
             </div>
             <div class="flex flex-row mt-2">
                 <div class="w-3/4 mx-2 bg-white rounded-lg">
@@ -330,6 +347,18 @@ const changeStatus = () =>
                                                      </option>
                                                    </Select>
                                                  </div>
+                                                 <div class="my-3" v-if="prospecto.tipo_prospecto == 2" >
+                                                   <h4>Fecha de cierre</h4>
+                                                   <input v-model="formEditProspecto.fecha_de_cierre" type="date"  class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
+                                                 </div>
+                                                 <div class="my-3" v-if="prospecto.tipo_prospecto == 2" >
+                                                   <h4>Probabilidad</h4>
+                                                   <input v-model="formEditProspecto.probabilidad" type="number"  class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
+                                                 </div>
+                                                 <div class="my-3" v-if="prospecto.tipo_prospecto == 2" >
+                                                   <h4>Importe</h4>
+                                                   <input v-model="formEditProspecto.import" type="number"  class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
+                                                 </div>
     <!--Columna 2-->   </div>
                         </div>
                         <h1 class="my-2 font-bold">Información del prospecto</h1>
@@ -370,6 +399,10 @@ const changeStatus = () =>
                                                     <h4>Teléfono</h4>
                                                     <input  v-model="formEditProspecto.telefono" type="text"  class="w-full border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                                                   </div>
+                                                  <div class="my-3" v-if="prospecto.tipo_prospecto == 2" >
+                                                   <h4>Contratado</h4>
+                                                   <input v-model="formEditProspecto.contratado" type="checkbox"  class="p-3 border-gray-300 shadow-sm rounded-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
+                                                 </div>
                                               </div>
                         </div>
                         <h1 class="my-2 font-bold">Información del marketing</h1>
