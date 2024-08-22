@@ -1,30 +1,145 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-const props = defineProps({
+import { reactive, computed, ref, onMounted, watch } from 'vue'
+import { pickBy } from "lodash";
+import { router, usePage } from '@inertiajs/vue3';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+import ShortInput from '@/Components/ShortInput.vue';
 
+const props = defineProps
+({
+   valores:Object
 });
+
+//Filtros
+const params = reactive({
+    date1:null,
+    date1:null,
+    seleccion:'Prospectos',
+    searchs: {
+        'prospectos.nombre': '',
+        'prospectos.apellidos': '',
+        'prospectos.telefono': '',
+        'prospectos.email': '',
+        'users.name':'',
+    },
+});
+
+watch(params, () => {
+    const clearParams = pickBy({ ...params });
+    router.visit(route("reportes"), 
+    {
+        data: clearParams,
+        replace: true,
+        preserveScroll: true,
+        preserveState: true,
+    });
+});
+
 </script>
 <template>
     <AppLayout title="Reportes">
-        <div class="w-2/12 p-2 bg-white shadow-sm ">
-            <div class="flex flex-row justify-evenly">
-                <h1 class="text-xl font-semibold text-center">Reportes</h1>
-                <button class="px-3 text-white bg-blue-500 rounded-full ">
-                    +
-                </button>
+        <div class="flex flex-row">
+            <div class="w-2/12 h-screen p-2 bg-white shadow-sm">
+                <div class="flex flex-row justify-evenly">
+                    <h1 class="text-xl font-semibold text-center">Reportes</h1>
+                    <!--
+                    <button class="px-3 text-white bg-blue-500 rounded-full ">
+                        +
+                    </button>
+                    -->
+                </div>
+                <div class="flex flex-col px-4 my-6 gap-y-4">
+                    <div>
+                        <button @click="params.seleccion='Prospectos'">
+                            Prospectos
+                        </button>
+                    </div>
+                    <div>
+                        <button @click="params.seleccion='Oportunidades'">
+                            Oportunidades
+                        </button>
+                    </div>
+                    <div>
+                        <button @click="params.seleccion='Campañas'">
+                            Campañas
+                        </button>
+                    </div>
+                    <div>
+                        <button @click="params.seleccion='Actividades con prospecto'">
+                            Actividades con prospecto
+                        </button>
+                    </div>
+                    <div>
+                        <button @click="params.seleccion='Conteo motivos de descarte'">
+                            Conteo motivos de descarte
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="px-4 my-4">
-                <div>
-                    Prospectos
+            <div class="w-10/12 p-4" >
+                <div class="flex flex-row my-2 gap-x-4">
+                    <div class="w-48">
+                        <VueDatePicker :placeholder="'Fecha inicial'" v-model="params.date1"  :enable-time-picker="false"></VueDatePicker>
+                    </div>
+                    <div class="w-48">
+                        <VueDatePicker :placeholder="'Fecha final'" v-model="params.date2"  :enable-time-picker="false"></VueDatePicker>
+                    </div>
                 </div>
-                <div>
-                    Oportunidades
-                </div>
-                <div>
-                    Actividades con prospecto
-                </div>
-                <div>
-                    Conteo motivos de descarte
+                <div class="p-4 bg-white rounded-lg">
+                    <h3 class="text-xl italic font-bold">{{ params.seleccion }}</h3>
+                    <table class="w-full" v-if="params.seleccion == 'Prospectos'">
+                        <thead>
+                           <tr>
+                             <th>
+                                <div class="flex flex-col">
+                                    Nombre
+                                    <ShortInput  type="search" v-model="params.searchs['prospectos.nombre']" class="my-1" />
+                                </div>
+                            </th>
+                             <th>
+                                <div class="flex flex-col">
+                                    Apellidos
+                                    <ShortInput  type="search" v-model="params.searchs['prospectos.apellidos']" class="my-1" />
+                                </div>
+                            </th>
+                             <th>
+                                <div class="flex flex-col">
+                                    Email 
+                                    <ShortInput  type="search" v-model="params.searchs['prospectos.email']" class="my-1" />
+                                </div>
+                                </th>
+                             <th>
+                                <div class="flex flex-col">
+                                    Teléfono
+                                    <ShortInput  type="search" v-model="params.searchs['prospectos.telefono']" class="my-1" />
+                                </div>
+                            </th>
+                             <th>
+                                <div class="flex flex-col">
+                                    Origen del prospecto
+                                </div>
+                            </th>
+                             <th>
+                                <div class="flex flex-col">
+                                    Propietario del prospecto
+                                    <ShortInput  type="search" v-model="params.searchs['users.name']" class="my-1" />
+                                </div>
+                            </th>
+                           </tr>
+                        </thead>
+                        <tbody> 
+                            <tr v-for="valor in valores" :key="valor.id">
+                               <td class="text-center">{{valor.nombre}}</td>
+                               <td class="text-center">{{valor.apellidos}}</td>
+                               <td class="text-center">{{valor.email}}</td>
+                               <td class="text-center">{{valor.telefono}}</td>
+                               <td class="text-center">{{valor.origen_name}}</td>
+                               <td class="text-center">{{valor.full_name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
