@@ -23,7 +23,8 @@ class ReportesController extends Controller
                    $valores = Prospecto::select(
                    'prospectos.*',
                    'origenes.nombre as origen_name',
-                   DB::raw("CONCAT(name, ' ', ap_paterno,' ',ap_materno) as full_name")
+                    DB::raw("CONCAT(name, ' ', ap_paterno,' ',ap_materno) as full_name"),
+
                    )
                    ->join('users','prospectos.propietario','users.id')
                    ->leftJoin('origenes','prospectos.origen','origenes.id')
@@ -38,23 +39,58 @@ class ReportesController extends Controller
 
                    if (request()->has('searchs')) 
                    {
-                    $valores->where(function ($query) {
-                        foreach (request('searchs') as $field => $search) {
-                            $searchLike = '%' . strtr($search, array("'" => "\\'", "%" => "\\%")) . '%';
-                            $query->where($field, 'LIKE', $searchLike);
+                    $valores->where(function ($query) 
+                    {
+                        foreach (request('searchs') as $field => $search) 
+                        {
+                            if($field !== 'status_progress.nombre')
+                            {
+                                if($search !== null)
+                                {
+                                    $searchLike = '%' . strtr($search, array("'" => "\\'", "%" => "\\%")) . '%';
+                                    $query->where($field, 'LIKE', $searchLike);
+                                }
+                            }
                         }
                     });
                    }
 
                 break;
             case 'Oportunidades':
-                   $valores = Prospecto::select('prospectos.*')
+                   $valores = Prospecto::select(
+                     'prospectos.*',
+                     'roles.nombre as funcion',
+                     'status_progress.nombre as status_name',
+                     DB::raw("CONCAT(name, ' ', ap_paterno,' ',ap_materno) as full_name"),
+                     DB::raw("SUBSTRING(prospectos.created_at, 1, 10) as date")
+                   )
+                   ->join('users','prospectos.propietario','users.id')
+                   ->join('roles','users.role_id','roles.id')
+                   ->join('status_progress','prospectos.status','status_progress.id')
                    ->where('prospectos.tipo_prospecto','=',2);
+
                    if(request()->has('date1') && request()->has('date2') )
                    { 
                     $date1 = substr($request['date1'], 0,10);
                     $date2 = substr($request['date2'], 0,10);
                     $valores->whereBetween('prospectos.created_at', [$date1, $date2]);
+                   }
+                   if (request()->has('searchs')) 
+                   {
+                    $valores->where(function ($query) 
+                    {
+                        foreach (request('searchs') as $field => $search) 
+                        {
+                            if($field !== 'origenes.nombre')
+                            {
+                                if($search !== null)
+                                {
+                                    $searchLike = '%' . strtr($search, array("'" => "\\'", "%" => "\\%")) . '%';
+                                    $query->where($field, 'LIKE', $searchLike);
+                                }
+                            }  
+                        }
+                    });
                    }
                 break;
             case 'Campañas':
@@ -88,7 +124,7 @@ class ReportesController extends Controller
           }
         }
 
-
+        
 
         return Inertia::render('Reportes/Index', 
         [

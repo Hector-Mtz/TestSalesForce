@@ -6,6 +6,7 @@ import { router, usePage } from '@inertiajs/vue3';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import ShortInput from '@/Components/ShortInput.vue';
+import moment from 'moment';
 
 const props = defineProps
 ({
@@ -18,11 +19,22 @@ const params = reactive({
     date1:null,
     seleccion:'Prospectos',
     searchs: {
+        //Prospectos
         'prospectos.nombre': '',
         'prospectos.apellidos': '',
         'prospectos.telefono': '',
         'prospectos.email': '',
         'users.name':'',
+        'origenes.nombre':'',
+        //Oportunidades
+        'prospectos.created_at': '',
+        'prospectos.fecha_de_cierre':'',
+        'prospectos.probabilidad':'',
+        'prospectos.importe':'',
+        'status_progress.nombre':'',
+        'roles.nombre':'',
+        //Actividades con prospecto
+        
     },
 });
 
@@ -36,6 +48,9 @@ watch(params, () => {
         preserveState: true,
     });
 });
+
+
+let hoy = ref(moment(new Date()));
 
 </script>
 <template>
@@ -119,6 +134,7 @@ watch(params, () => {
                              <th>
                                 <div class="flex flex-col">
                                     Origen del prospecto
+                                    <ShortInput  type="search" v-model="params.searchs['origenes.nombre']" class="my-1" />
                                 </div>
                             </th>
                              <th>
@@ -139,6 +155,98 @@ watch(params, () => {
                                <td class="text-center">{{valor.full_name}}</td>
                             </tr>
                         </tbody>
+                    </table>
+                    <table class="w-full" v-if="params.seleccion == 'Oportunidades'">
+                        <thead>
+                            <tr>
+                              <th>
+                                 <div class="flex flex-col">
+                                     Funcion del propietario
+                                     <ShortInput  type="search" v-model="params.searchs['roles.nombre']" class="my-1" />
+                                 </div>
+                             </th>
+                              <th>
+                                 <div class="flex flex-col">
+                                     Propietario de oportunidad
+                                     <ShortInput  type="search" v-model="params.searchs['users.name']" class="my-1" />
+                                 </div>
+                             </th>
+                              <th>
+                                 <div class="flex flex-col">
+                                     Nombre de la oportunidad
+                                     <ShortInput  type="search" v-model="params.searchs['prospectos.nombre']" class="my-1" />
+                                 </div>
+                                 </th>
+                              <th>
+                                 <div class="flex flex-col">
+                                     Etapa
+                                     <ShortInput  type="search" v-model="params.searchs['status_progress.nombre']" class="my-1" />
+                                 </div>
+                             </th>
+                              <th>
+                                 <div class="flex flex-col">
+                                     Importe
+                                     <ShortInput  type="search" v-model="params.searchs['prospectos.importe']" class="my-1" />
+                                 </div>
+                             </th>
+                              <th>
+                                 <div class="flex flex-col">
+                                     Probabilidad (%)
+                                     <ShortInput  type="search" v-model="params.searchs['prospectos.probabilidad']" class="my-1" />
+                                 </div>
+                             </th>
+                             <th>
+                                <div class="flex flex-col">
+                                    Aniguedad
+                                </div>
+                             </th>
+                             <th>
+                                <div class="flex flex-col">
+                                    Fecha de cierre
+                                    <ShortInput  type="search" v-model="params.searchs['prospectos.fecha_de_cierre']" class="my-1" />
+                                </div>
+                             </th>
+                             <th>
+                                <div class="flex flex-col">
+                                    Fecha de creación
+                                    <ShortInput  type="search" v-model="params.searchs['prospectos.created_at']" class="my-1" />
+                                </div>
+                             </th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <tr v-for="valor in valores" :key="valor.id">
+                                <td class="text-center">{{valor.funcion}}</td>
+                                <td class="text-center">{{valor.full_name}}</td>
+                                <td class="text-center">{{valor.nombre}}</td>
+                                <td class="text-center">{{valor.status_name}}</td>
+                                <td class="text-center">
+                                    <p v-if="valor.importe !== null">
+                                        {{valor.importe}}
+                                    </p>
+                                    <p v-else>
+                                       0
+                                    </p>
+                                </td>
+                                <td class="text-center">
+                                    <p v-if="valor.probabilidad !== null">
+                                        {{valor.probabilidad}}
+                                    </p>
+                                    <p v-else>
+                                       0
+                                    </p>
+                                </td>
+                                <td class="text-center">
+                                    {{  (hoy).diff(moment(valor.date),'days') }} días
+                                </td>
+                                <td class="text-center">
+                                    {{ valor.fecha_de_cierre }}
+                                </td>
+                                <td class="text-center">
+                                    {{ valor.date }}
+                                </td>
+                            </tr>
+                         </tbody>
                     </table>
                 </div>
             </div>
