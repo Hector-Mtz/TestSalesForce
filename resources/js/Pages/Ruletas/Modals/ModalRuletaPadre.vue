@@ -64,7 +64,8 @@ onUpdated(() =>
 const saveEditRuleta = () => 
 {
    showSpin.value = true;
-   formEditRuleta.post(route('updateRuletaPadre'),{
+   formEditRuleta.post(route('updateRuletaPadre'),
+   {
       preserveScroll:true,
       preserveState:true,
       onSuccess:() => 
@@ -88,6 +89,7 @@ const saveEditRuleta = () =>
            </div>
          </template>
          <template #content>
+            {{ formEditRuleta }}
             <div class="flex flex-row items-center p-2 gap-x-6">
                <div class="w-1/2">
                   <div class="my-2">

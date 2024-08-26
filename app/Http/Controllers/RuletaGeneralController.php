@@ -143,6 +143,9 @@ class RuletaGeneralController extends Controller
             'sede' => $request['sede']
         ]);
 
+        $ruleta_padre = RuletaGeneral::select('ruleta_generals.*')
+        ->where('id','=',$request['ruleta_padre'])
+        ->first();
 
         for ($i=0; $i < count($request['ruletas_hijo']) ; $i++) 
         { 
@@ -150,13 +153,14 @@ class RuletaGeneralController extends Controller
            if($ruleta_hijo['incluir'] == true)
            {
               RuletaSede::where('id','=',$ruleta_hijo['id'])
-              ->update(['ruleta_general' => $ruleta_padre]);
+              ->update(['ruleta_general' => $ruleta_padre['id']]);
            }
+           /*
            else
            {
              RuletaSede::where('id','=',$ruleta_hijo['id'])
              ->update(['ruleta_general' => NULL]);
-           }
+           }*/
         }
     }
 

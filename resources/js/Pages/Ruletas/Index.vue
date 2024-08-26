@@ -163,6 +163,7 @@ const closeModalSede = () =>
                 </div>
             </div>
         </div>
+
         <ModalNewRuleta :show="showModalNewRuleta" 
         :sedes="sedes"
         :asignaciones="asignaciones"
