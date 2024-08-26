@@ -19,7 +19,7 @@ class ReportesController extends Controller
         {
           switch ($request['seleccion']) 
           {
-            case 'Prospectos':
+            case 'Prospectos': //correcto
                    $valores = Prospecto::select(
                    'prospectos.*',
                    'origenes.nombre as origen_name',
@@ -56,7 +56,7 @@ class ReportesController extends Controller
                    }
 
                 break;
-            case 'Oportunidades':
+            case 'Oportunidades': //correcto
                    $valores = Prospecto::select(
                      'prospectos.*',
                      'roles.nombre as funcion',
@@ -96,9 +96,14 @@ class ReportesController extends Controller
             case 'Campañas':
                 $valores = CampanaCanal::select('campana_canals.*');
              break; 
-            case 'Actividades con prospecto':
+            case 'Actividades por prospecto':
                 $valores = Prospecto::select('prospectos.*')
-                ->selectRaw('COUNT(prospectos.id) as contador');
+                ->with(['tareas' => function ($query)
+                {
+                   $query->select('tareas.*',
+                   'caregorias_tareas.nombre as categoria_tarea')
+                   ->join('caregorias_tareas','tareas.cat_tareas','caregorias_tareas.id');
+                }]);
 
                 if(request()->has('date1') && request()->has('date2') )
                 { 
@@ -106,6 +111,7 @@ class ReportesController extends Controller
                  $date2 = substr($request['date2'], 0,10);
                  $valores->whereBetween('prospectos.created_at', [$date1, $date2]);
                 }
+
                 break;
             case 'Conteo motivos de descarte':
                  $valores = Prospecto::select('prospectos.*');

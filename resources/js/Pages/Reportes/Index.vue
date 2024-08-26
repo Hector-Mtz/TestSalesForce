@@ -7,6 +7,7 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import ShortInput from '@/Components/ShortInput.vue';
 import moment from 'moment';
+import ModalCheckActivities from './Partials/ModalCheckActivities.vue';
 
 const props = defineProps
 ({
@@ -52,6 +53,20 @@ watch(params, () => {
 
 let hoy = ref(moment(new Date()));
 
+let showModalAct = ref(false);
+let arrayActividades = ref([]);
+const openModalAct  = (actividades) => 
+{
+    arrayActividades.value = actividades;
+    showModalAct.value = true;
+}
+
+const closeModalAct = () => 
+{
+    showModalAct.value = false;
+    arrayActividades.value = [];
+}
+
 </script>
 <template>
     <AppLayout title="Reportes">
@@ -82,8 +97,8 @@ let hoy = ref(moment(new Date()));
                         </button>
                     </div>
                     <div>
-                        <button @click="params.seleccion='Actividades con prospecto'">
-                            Actividades con prospecto
+                        <button @click="params.seleccion='Actividades por prospecto'">
+                            Actividades por prospecto
                         </button>
                     </div>
                     <div>
@@ -218,7 +233,7 @@ let hoy = ref(moment(new Date()));
                             <tr v-for="valor in valores" :key="valor.id">
                                 <td class="text-center">{{valor.funcion}}</td>
                                 <td class="text-center">{{valor.full_name}}</td>
-                                <td class="text-center">{{valor.nombre}}</td>
+                                <td class="text-center">{{valor.nombre + ' ' + valor.apellidos}}</td>
                                 <td class="text-center">{{valor.status_name}}</td>
                                 <td class="text-center">
                                     <p v-if="valor.importe !== null">
@@ -248,8 +263,29 @@ let hoy = ref(moment(new Date()));
                             </tr>
                          </tbody>
                     </table>
+                    <table class="w-full" v-if="params.seleccion == 'Actividades por prospecto'">
+                       <thead>
+                          <tr>
+                            <th>Prospecto</th>
+                            <th>Cantidad de actividades</th>
+                          </tr>
+                       </thead>
+                       <tbody>
+                          <tr v-for="valor in valores" :key="valor.id">
+                             <td class="text-center">
+                                {{valor.nombre + ' ' + valor.apellidos}}
+                            </td>
+                             <td class="text-center">
+                                <button v-if="valor.tareas" @click="openModalAct(valor.tareas)" class="p-2 px-4 text-xl font-semibold text-white bg-blue-600 rounded-full">
+                                    {{valor.tareas.length}}
+                                </button>
+                             </td>
+                          </tr>
+                       </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+        <ModalCheckActivities :show="showModalAct" @close="closeModalAct" :arrayActividades="arrayActividades" />
     </AppLayout>
 </template>
